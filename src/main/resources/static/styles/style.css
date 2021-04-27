@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.main_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 12;
+    background-color: white;
+    height: 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 85px;
+    padding-right: 25px;
+    box-sizing: border-box;
+}
+
+.main_search {
+    margin-left: 90px;
+}
+
+.main_search_line {
+    min-width: 250px;
+    border-radius: 15px;
+}
+
+.side_bar {
+    position: fixed;
+    top: 74px;
+    left: 35px;
+    z-index: 12;
+    /* background-color: red; */
+    /* height: 550px; */
+    width: 200px;
+}
+
+.side_bar_files {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 50px;
+}
+.side_bar_links {
+    color: black;
+    text-decoration: none;
+    background-color: #eee;
+    margin: 10px 30px;
+    border: 1px solid #eee;
+    border-radius: 15px;
+}
+
+.side_bar_links:hover {
+    color: white;
+    background-color: black;
+    border: 1px solid #ccc;
+}
+
+.side_bar_progress {
+    margin-top: 380px;
+}
+
+.side_bar_progress_text {
+    text-align: center;
+    font-size: 0.75em;
+}
+
+.side_bar_top {
+    display: flex;
+    flex-direction: column;
+}
+
+.side_bar_button {
+    margin-top: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.side_bar_buy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.side_bar_link_download_app {
+    padding-top: 15px;
+    font-size: small;
+    text-decoration: none;
+}
+
+.main_app {
+    margin: 0 35px;
+    margin-top: 74px;
+}
+
+.header_title {
+    margin-top: 50px;
+    margin-bottom: 30px;;
+    text-align: center;
+}
+
+.container {
+    max-width: 1140px;
+    margin: 0 auto;
+}
+.container_main {
+    margin-left: 236px;
+}
+
+.main {
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+.main_app_top {
+    margin-left: 10px;
+}
+
+.main_app_folder_name{
+    margin-left: 10px;
+}
+
+.content_item {
+    min-height: 50px;
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #000;
+    margin: 10px;
+}
+
+.footer {
+    margin: 0 auto;
+    max-width: 1140px;
+    margin-top: 30px;
+    padding-bottom: 32px;
+    text-align: right;
+
+}
+
+.footer_text {
+    max-width: 350px;
+    margin: 0 auto;
+}

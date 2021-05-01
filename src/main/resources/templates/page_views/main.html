@@ -92,7 +92,7 @@
                     <p class="name_text">12:07</p>
                 </div>
                 <div class="file_size">
-                    <p class="name_text">[[${file.length()}]]</p>
+                    <p class="name_text" th:unless="${file.isDirectory()}">[[${file.length()}]]</p>
                 </div>
             </div>
         </div>

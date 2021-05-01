@@ -7,427 +7,102 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Cloud Storage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="../../static/styles/style.css" th:href="@{/styles/style.css}">
 </head>
 
 <body>
-    <div class="container_main">
-        <div class="main_header">
-            <div class="spinners">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-border text-danger" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-border text-warning" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+<div class="container_main">
+    <div class="main_header">
+        <div class="spinners">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
-            <div class="main_search">
-                <div class="container-fluid">
-                    <form class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search your files"
-                            aria-label="Search">
-                        <button class="btn btn-outline-danger" type="submit">Search</button>
-                    </form>
-                </div>
-
+            <div class="spinner-border text-danger" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <div class="spinner-border text-warning" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
-        <div class="side_bar">
-            <div class="side_bar_top">
-                <input type="button" class="side_bar_button btn btn-warning" value="UPLOAD">
-                <input type="button" class="side_bar_button btn btn-primary" value="NEW DIRECTORY">
-            </div>
-            <div class="side_bar_files">
-                <a href="#" class="side_bar_links">Files</a>
-                <a href="#" class="side_bar_links">Recycle Bin</a>
-            </div>
-            <div class="side_bar_progress">
-                <p class="side_bar_progress_text">
-                    Free space: 5GiB / 15 GiB
-                </p>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
-                        style="width: 55%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
+        <div class="main_search">
+            <div class="container-fluid">
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search your files"
+                           aria-label="Search">
+                    <button class="btn btn-outline-danger" type="submit">Search</button>
+                </form>
             </div>
 
-            <div class="side_bar_buy">
-                <input type="button" class="side_bar_button btn btn-outline-warning" value="Buy more space" onclick='location.href="https://www.donationalerts.com/"'>
-                <a href="../../static/application/desktop_application.rar"
-                    th:href="@{/application/desktop_application.rar}" class="side_bar_link_download_app">Download PC
-                    application</a>
-            </div>
-
-            <div class="logout">
-                <input class="btn btn-outline-dark" type="button" value="Log Out" onClick='location.href="/"'>
+        </div>
+    </div>
+    <div class="side_bar">
+        <div class="side_bar_top">
+            <input type="button" class="side_bar_button btn btn-warning" value="UPLOAD">
+            <input type="button" class="side_bar_button btn btn-primary" value="NEW DIRECTORY">
+        </div>
+        <div class="side_bar_files">
+            <a href="#" class="side_bar_links">Files</a>
+            <a href="#" class="side_bar_links">Recycle Bin</a>
+        </div>
+        <div class="side_bar_progress">
+            <p class="side_bar_progress_text">
+                Free space: 5GiB / 15 GiB
+            </p>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+                     style="width: 55%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
         </div>
-        <div class="main_app shadow p-3 mb-5 bg-body rounded">
-            <div class="main_app_top">
-                <span>FILES &#8594; FOLDER &#8594; FOLDER</span>
-            </div>
-            <div class="main_app_folder_name">
-                <span> &#8592; THIS FOLDER NAME </span>
-            </div>
-            <div class="main_app_content">
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_folder.png" th:src=@{img/img_folder.png} alt="folder"
-                            class="folder">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">New Folder</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_folder.png" th:src=@{img/img_folder.png} alt="folder"
-                            class="folder">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">New Folder</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_folder.png" th:src=@{img/img_folder.png} alt="folder"
-                            class="folder">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">New Folder</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_folder.png" th:src=@{img/img_folder.png} alt="folder"
-                            class="folder">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">New Folder</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_folder.png" th:src=@{img/img_folder.png} alt="folder"
-                            class="folder">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">New Folder</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
 
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
+        <div class="side_bar_buy">
+            <input type="button" class="side_bar_button btn btn-outline-warning" value="Buy more space"
+                   onclick='location.href="https://www.donationalerts.com/"'>
+            <a href="../../static/application/desktop_application.rar"
+               th:href="@{/application/desktop_application.rar}" class="side_bar_link_download_app">Download PC
+                application</a>
+        </div>
+
+        <div class="logout">
+            <input class="btn btn-outline-dark" type="button" value="Log Out" onClick='location.href="/"'>
+        </div>
+    </div>
+    <div class="main_app shadow p-3 mb-5 bg-body rounded">
+        <div class="main_app_top">
+            <span>FILES &#8594; FOLDER &#8594; FOLDER</span>
+        </div>
+        <div class="main_app_folder_name">
+            <span> &#8592; THIS FOLDER NAME </span>
+        </div>
+        <div class="main_app_content" th:each="file : ${fileslist}">
+            <div class="content_item">
+                <div class="img">
+                    <img src="../../static/img/img_folder.png" th:if="${file.isDirectory()}" th:src=@{img/img_folder.png} alt="folder"
+                         class="folder">
+                    <img src="../../static/img/img_folder.png" th:unless="${file.isDirectory()}" th:src=@{img/img_file.png} alt="folder"
+                         class="folder">
                 </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
+                <div class="file_name">
+                    <p class="name_text">[[${file.name}]]</p>
                 </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
+                <div class="date">
+                    <p class="name_text">19.03.2021</p>
                 </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
+                <div class="date">
+                    <p class="name_text">12:07</p>
                 </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
-                </div>
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_file.png" th:src=@{img/img_file.png} alt="file" class="file">
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">Lorem ipsum dolor.doc</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">19.03.2021</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">12:07</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">441MiB</p>
-                    </div>
+                <div class="file_size">
+                    <p class="name_text">[[${file.length()}]]</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="footer">
-        <div class="footer_text">
-            <h7 class="footer_copy">All rights reserved &copy 2021</h7>
-        </div>
+</div>
+<div class="footer">
+    <div class="footer_text">
+        <h7 class="footer_copy">All rights reserved &copy 2021</h7>
     </div>
+</div>
 </body>
 
 </html>

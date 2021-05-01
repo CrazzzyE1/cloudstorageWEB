@@ -3,8 +3,17 @@ package com.litvak.cloudstorage.controllers;
 import com.litvak.cloudstorage.services.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Arrays;
 
 @Controller
 @RequestMapping("/")
@@ -33,7 +42,26 @@ public class IndexController {
     }
 
     @GetMapping("/auth")
-    public String authPage(){
+     public String authPage(Model model) throws IOException {
+        String fileName = "user_folder";
+        Path path = Paths.get(fileName);
+        if (!Files.exists(path)) {
+            Files.createDirectory(path);
+            System.out.println("Directory is created");
+        } else {
+            System.out.println("Directory Exists");
+        }
+
+        File file = new File(path.toString());
+        File[] files = file.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            BasicFileAttributes attr = Files.readAttributes(files[i].toPath(), BasicFileAttributes.class);
+            System.out.println(files[i].getName() + " - " + files[i].length() + " - " + attr.lastModifiedTime().toString().split("T")[0] + " - "
+                    + attr.isDirectory());
+        }
+
+        model.addAttribute("fileslist", Arrays.asList(files));
+
         return "page_views/main";
     }
 

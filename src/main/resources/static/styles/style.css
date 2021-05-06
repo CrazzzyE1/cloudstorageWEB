@@ -124,10 +124,30 @@
 
 .main_app_top {
     margin-left: 10px;
+    display: flex;
+}
+
+.link_list {
+    margin-right: 5px;
 }
 
 .main_app_folder_name{
     margin-left: 10px;
+    display: flex;
+}
+
+.current_dir {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+    padding-left: 10px;
+}
+
+.back_link {
+    color: black;
+}
+.back_link:hover {
+    color: #aeaeae;
 }
 
 .content_item {
@@ -142,6 +162,19 @@
 
 .content_item:hover {
     opacity: 1;
+}
+
+.but{
+    visibility: hidden;
+    color: #999
+}
+
+.but:hover {
+    color: #555
+}
+
+.content_item:hover .but{
+    visibility: visible
 }
 
 .folder {
@@ -181,3 +214,29 @@
     max-width: 350px;
     margin: 0 auto;
 }
+
+#okno {
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    padding: 15px;
+    display: none;
+    position: absolute;
+    top: 350px;
+    left: 33px;
+    margin: auto;
+    z-index: 15;
+  }
+  #okno:target {display: block;}
+  .close {
+    display: flex;
+    margin: 10px;
+    text-decoration: none;
+    font-size: 14pt;
+    cursor:pointer;
+    color: #999
+  }
+
+  .close:hover {
+      color: black;
+  }

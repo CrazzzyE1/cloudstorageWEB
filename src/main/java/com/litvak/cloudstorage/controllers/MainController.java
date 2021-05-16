@@ -3,11 +3,13 @@ package com.litvak.cloudstorage.controllers;
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
 import com.litvak.cloudstorage.services.AppService;
+import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @RequestMapping("/main")
 public class MainController {
     private AppService appService;
+    // TODO: 13.05.2021 FIX links
     private List<DirApp> links = new ArrayList<>();
 
     @Autowired
@@ -23,8 +26,8 @@ public class MainController {
     }
 
     @GetMapping()
-    public String mainPage(Model model){
-        DirApp dirRoot = appService.getRootDirId(appService.getRootDir());
+    public String mainPage(Model model, Principal principal){
+        DirApp dirRoot = appService.getRootDirId(principal.getName());
         List<FileApp> files = dirRoot.getFiles();
         Long id = dirRoot.getId();
         List<DirApp> dirs = appService.getDirsByDirParentId(Math.toIntExact(id));
@@ -47,6 +50,8 @@ public class MainController {
         } else {
             links.add(dir);
         }
+
+        model.addAttribute("progress", "width: 5%");
         model.addAttribute("space", appService.getFilesSpace(dir.getUser().getId()));
         model.addAttribute("current_dir", dir);
         model.addAttribute("directories", dirs);
@@ -79,8 +84,10 @@ public class MainController {
     }
 
     @GetMapping("/search")
-    public String search(Model model, @RequestParam(value = "search") String filename) {
-        DirApp dirRoot = appService.getRootDirId(appService.getRootDir());
+    public String search(Model model, @RequestParam(value = "search") String filename, Principal principal) {
+        DirApp dirRoot = appService.getRootDirId(principal.getName());
+        // TODO: 14.05.2021 FIX IT id
+
         Long id = dirRoot.getId();
         List<FileApp> files = appService.getFilesByParams(dirRoot.getUser().getId(), filename);
         model.addAttribute("space", appService.getFilesSpace(dirRoot.getUser().getId()));

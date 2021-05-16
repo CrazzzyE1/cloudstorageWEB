@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head>
     <meta charset="UTF-8">
@@ -14,28 +14,26 @@
 <body>
     <div class="container">
         <div class="header">
-            <h3 class="header_title">My Cloud Storage Registration</h3>
+            <h3 class="header_title">Registration</h3>
         </div>
         <div class="main shadow p-3 mb-5 bg-body rounded">
-            <form>
+            <form th:action="@{/reg}" method="post">
+                <div th:unless="${param.isEmpty()}" class="alert alert-danger">
+                    User is already Exists
+                </div>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Login</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                    <label for="login" class="form-label">Login</label>
+                    <input type="text" class="form-control" id="login" name="login" aria-describedby="emailHelp"
                         placeholder="Enter your Login">
                 </div>
                 <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1"
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password"
                         placeholder="Enter your Password">
-                </div>
-                <div class="mb-3">
-                    <label for="exampleInputNickname1" class="form-label">Nickname</label>
-                    <input type="text" class="form-control" id="exampleInputNickname1"
-                        placeholder="Enter your NickName">
                 </div>
                 <input type="button" class="btn btn-outline-danger" onClick='location.href="/"' value="Back">
                 <button type="reset" class="btn btn-outline-warning">Clear</button>
-                <input type="button" class="btn btn-primary" onClick='location.href="/auth"' value="Registration">
+                <button type="submit" class="btn btn-primary">Registration</button>
             </form>
         </div>
     </div>

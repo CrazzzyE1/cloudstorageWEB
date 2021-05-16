@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Setter
 @Getter
@@ -22,27 +23,23 @@ public class FileApp {
     @Column
     private String name;
 
-    @Column
-    private String size;
+    @Column(name = "name_system")
+    private String nameSystem;
 
     @Column
-    private String date;
+    private Long size;
+
+    @Column
+    private String strsize;
 
     @Column
     private String time;
+
+    @Column
+    private String date;
 
     @ManyToOne
     @JoinColumn(name = "dir_id")
     private DirApp dirApp;
 
-    @Override
-    public String toString() {
-        return "FileApp{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", size='" + size + '\'' +
-                ", date='" + date + '\'' +
-                ", time='" + time + '\'' +
-               '}';
-    }
 }

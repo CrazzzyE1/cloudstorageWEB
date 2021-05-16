@@ -17,10 +17,16 @@
             <h3 class="header_title">My Cloud Storage Autorisation</h3>
         </div>
         <div class="main shadow p-3 mb-5 bg-body rounded">
-            <form action="/auth">
+            <form name="f" th:action="@{/login}" method="post">
+                <div th:if="${param.error}" class="alert alert-danger">
+                    Invalid username and password.
+                </div>
+                <div th:if="${param.logout}" class="alert alert-success">
+                    You have been logged out.
+                </div>
                 <div class="mb-3">
-                    <label for="login" class="form-label">Login</label>
-                    <input type="text" class="form-control" id="login" name="login"
+                    <label for="username" class="form-label">Login</label>
+                    <input type="text" class="form-control" id="username" name="username"
                         placeholder="Enter your Login">
                 </div>
                 <div class="mb-3">

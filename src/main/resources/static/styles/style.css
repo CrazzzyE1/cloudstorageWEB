@@ -177,6 +177,23 @@
     visibility: visible
 }
 
+.copy:hover {
+    color: steelblue;
+}
+
+.cut:hover {
+    color: #ffc107;
+}
+
+.download:hover {
+    color: seagreen;
+}
+
+.delete:hover {
+    color: #dc3545;
+}
+
+
 .folder {
     height: 50px;
     margin-left: 10px;

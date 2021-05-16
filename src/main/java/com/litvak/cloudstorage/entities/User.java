@@ -3,10 +3,12 @@ package com.litvak.cloudstorage.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Setter
@@ -20,25 +22,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    private String login;
+    @Column(name = "username")
+    private String userName;
     @Column
     private String password;
     @Column
-    private Integer removed;
+    private boolean enabled;
 
     @OneToMany(mappedBy = "user")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<DirApp> directories;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", removed=" + removed +
-                ", directories=" + directories +
-                '}';
-    }
+    @ManyToMany
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Collection<Role> roles;
 }

@@ -34,13 +34,4 @@ public class DirApp {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<FileApp> files;
 
-    @Override
-    public String toString() {
-        return "DirApp{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", dirId=" + dirId +
-                ", files=" + files +
-                '}';
-    }
 }

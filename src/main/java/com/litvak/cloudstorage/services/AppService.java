@@ -6,11 +6,11 @@ import com.litvak.cloudstorage.entities.User;
 import com.litvak.cloudstorage.repositories.DirAppRepository;
 import com.litvak.cloudstorage.repositories.FileAppRepository;
 import com.litvak.cloudstorage.repositories.UserRepository;
+import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +20,6 @@ public class AppService {
     private UserRepository userRepository;
     private DirAppRepository dirAppRepository;
     private FileAppRepository fileAppRepository;
-    private String rootDir;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -37,26 +36,13 @@ public class AppService {
         this.fileAppRepository = fileAppRepository;
     }
 
-    public String getRootDir() {
-        return rootDir;
-    }
-
-    public void setRootDir(String rootDir) {
-        this.rootDir = rootDir;
-    }
-
     @Transactional
-    public User getUserByLogin(String login) {
-        return userRepository.findUserByLogin(login);
-    }
-
-    @Transactional
-    public DirApp getRootDirId (String login) {
+    public DirApp getRootDirId(String login) {
         return dirAppRepository.findDirAppByName(login);
     }
 
     @Transactional
-    public  List<DirApp> getDirsByDirParentId(Integer id) {
+    public List<DirApp> getDirsByDirParentId(Integer id) {
         return dirAppRepository.findAllByDirId(id);
     }
 
@@ -67,23 +53,14 @@ public class AppService {
 
     @Transactional
     public String getFilesSpace(Long userId) {
-        Integer size = fileAppRepository.findSpaceSize(userId);
-        return size.toString();
-    }
-
-
-    @Transactional
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+        Long size = fileAppRepository.findSpaceSize(userId);
+        if (size == null) size = 0L;
+        return Utilities.formatSize(size);
     }
 
     @Transactional
-    public User getUserById(Long id) {
-        Optional<User> optional = userRepository.findById(id);
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        return null;
+    public User getUserByUsername(String username) {
+        return userRepository.findUserByUserName(username);
     }
 
     @Transactional
@@ -111,17 +88,26 @@ public class AppService {
     }
 
     @Transactional
-    public User saveOrUpdate(User user) {
-        return userRepository.save(user);
+    public User createNewUser(String login, String password) {
+        DirApp dir = new DirApp();
+        User user = new User();
+        user.setUserName(login);
+        user.setEnabled(true);
+        user.setPassword(password);
+        dir.setName(login);
+        dir.setUser(user);
+        userRepository.save(user);
+        dirAppRepository.save(dir);
+        return user;
     }
 
     @Transactional
-    public void removeUserById(Long id) {
-        userRepository.deleteById(id);
+    public void createNewFile(FileApp fileApp){
+        fileAppRepository.save(fileApp);
     }
 
     @Transactional
-    public void removeUser(User user) {
-        userRepository.delete(user);
+    public Optional<FileApp> getFileById(Long id){
+        return fileAppRepository.findById(id);
     }
 }

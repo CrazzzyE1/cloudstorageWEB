@@ -38,7 +38,9 @@
         </div>
         <div class="side_bar">
             <div class="side_bar_top">
-                <input type="button" class="side_bar_button btn btn-warning" value="UPLOAD">
+                <a class="side_bar_button btn btn-warning" th:href="@{/upload(
+                current_dir_id = ${current_dir.id}
+                )}">UPLOAD</a>
                 <a class="side_bar_button btn btn-primary" href="#okno">NEW DIRECTORY</a>
             </div>
             <div class="side_bar_files">
@@ -64,7 +66,7 @@
             </div>
 
             <div class="logout">
-                <input class="btn btn-outline-dark" type="button" value="Log Out" onClick='location.href="/quit"'>
+                <input class="btn btn-outline-dark" type="button" value="Log Out" onClick='location.href="/logout"'>
             </div>
         </div>
         <div class="main_app shadow p-3 mb-5 bg-body rounded">
@@ -87,8 +89,9 @@
                         </a>
                     </div>
                     <div class="copy_cut_buttons">
-                        <a href="#" class="cut but"><i class="far fa-hand-scissors"></i></a>
-                        <a href="#" class="copy but"><i class="far fa-copy"></i></a>
+<!--                        Under construction-->
+<!--                        <a href="#" class="cut but"><i class="far fa-hand-scissors"></i></a>-->
+<!--                        <a href="#" class="copy but"><i class="far fa-copy"></i></a>-->
                         <a th:href="@{/main/delete(
                         id = ${dirs.id},
                         parent_id = ${dirs.dirId}
@@ -98,10 +101,10 @@
                         <p class="name_text">[[${dirs.name}]]</p>
                     </div>
                     <div class="date">
-                        <p class="name_text">19.03.2021</p>
+                        <p class="name_text"> </p>
                     </div>
                     <div class="date">
-                        <p class="name_text">12:07</p>
+                        <p class="name_text"> </p>
                     </div>
                     <div class="file_size">
                         <p class="name_text">DIRECTORY</p>
@@ -116,6 +119,9 @@
                             class="folder">
                     </div>
                     <div class="copy_cut_buttons">
+                        <a th:href="@{/download
+                        (id = ${file.id})}" class="download but">
+                            <i class="far fa-arrow-alt-circle-down"></i></a>
                         <a href="#" class="cut but"><i class="far fa-hand-scissors"></i></a>
                         <a href="#" class="copy but"><i class="far fa-copy"></i></a>
                         <a th:href="@{/main/deletef(
@@ -127,13 +133,13 @@
                         <p class="name_text">[[${file.name}]]</p>
                     </div>
                     <div class="date">
-                        <p class="name_text">19.03.2021</p>
+                        <p class="name_text">[[${file.date}]]</p>
                     </div>
                     <div class="date">
-                        <p class="name_text">12:07</p>
+                        <p class="name_text">[[${file.time}]]</p>
                     </div>
                     <div class="file_size">
-                        <p class="name_text">[[${file.size}]]</p>
+                        <p class="name_text">[[${file.strsize}]]</p>
                     </div>
                 </div>
             </div>

@@ -1,5 +1,6 @@
 package com.litvak.cloudstorage.utils;
 
+import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.services.AppService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,10 +11,40 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 public class Utilities {
+    private static Map<String, List<DirApp>> linksMap = new HashMap<>();
+
+    public static void clearLinks(String login){
+        if(linksMap.get(login) != null) {
+            linksMap.put(login, new ArrayList<>());
+        }
+    }
+
+    public static List<DirApp> getLinks(String login, DirApp dir) {
+        List<DirApp> links;
+        if (dir.getDirId() == null) {
+            links = new ArrayList<>();
+            linksMap.put(login, links);
+            return links;
+        }
+        if (linksMap.get(login) == null) {
+            linksMap.put(login, new ArrayList<>());
+            links = linksMap.get(login);
+        } else {
+            links = linksMap.get(login);
+            for (int i = 0; i < links.size(); i++) {
+                if (links.get(i).getId() == dir.getId()) {
+                    links = links.subList(0, i + 1);
+                    return links;
+                }
+            }
+        }
+        links.add(dir);
+        return links;
+    }
 
     public static String uploadFile(MultipartFile file) {
         if (!file.isEmpty()) {

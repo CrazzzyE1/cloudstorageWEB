@@ -72,11 +72,12 @@
         </div>
         <div class="main_app shadow p-3 mb-5 bg-body rounded">
             <div class="main_app_top">
-                <div class="links_list">MyCloud</div>
-                <div class="links_list" th:each="link : ${links}">&#8594; [[${link.name}]]</div>
+                <div class="links_list"><a class="links_list2" href="/main"> MyCloud</a></div>
+
+                <div class="links_list" th:each="link : ${links}"><a class="links_list2" th:href="@{/main/{id}(id = ${link.id})}"> &#8594; [[${link.name}]]</a></div>
             </div>
             <div class="main_app_folder_name">
-                <a th:href="@{/main/{id}(id=${current_dir.dirId}, back='back')}" class="back_link current_dir">
+                <a th:href="@{/main/{id}(id=${current_dir.dirId})}" class="back_link current_dir">
                     <i class="far fa-hand-point-left"></i></a>
                 <h1 class="current_dir">[[${current_dir.name}]]</h1>
             </div>

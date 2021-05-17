@@ -8,9 +8,11 @@ import com.litvak.cloudstorage.repositories.FileAppRepository;
 import com.litvak.cloudstorage.repositories.UserRepository;
 import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,12 @@ public class AppService {
     private UserRepository userRepository;
     private DirAppRepository dirAppRepository;
     private FileAppRepository fileAppRepository;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -102,12 +110,30 @@ public class AppService {
     }
 
     @Transactional
-    public void createNewFile(FileApp fileApp){
+    public void createNewFile(FileApp fileApp) {
         fileAppRepository.save(fileApp);
     }
 
     @Transactional
-    public Optional<FileApp> getFileById(Long id){
+    public Optional<FileApp> getFileById(Long id) {
         return fileAppRepository.findById(id);
+    }
+
+    @Transactional
+    public void removeAccount(Principal principal) {
+        User user = userRepository.findUserByUserName(principal.getName());
+        user.setEnabled(false);
+        System.out.println(user);
+//        userRepository.save(user);
+    }
+
+    @Transactional
+    public User changePassword(String oldPass, String newPass, Principal principal) {
+        String login = principal.getName();
+        oldPass = passwordEncoder.encode(oldPass);
+        newPass = passwordEncoder.encode(newPass);
+        User user = userRepository.findUserByUserName(login);
+        user.setPassword(newPass);
+        return user;
     }
 }

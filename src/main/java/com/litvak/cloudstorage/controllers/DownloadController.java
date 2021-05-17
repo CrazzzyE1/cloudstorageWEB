@@ -6,6 +6,7 @@ import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -20,7 +21,7 @@ public class DownloadController {
 
     @RequestMapping()
     public void downloadPDFResource(HttpServletResponse response,
-                                    @RequestParam(name = "id") Long id){
-            Utilities.downloadFile(id, appService, response);
+                                    @RequestParam(name = "id") Long id) {
+        Utilities.downloadFile(id, appService, response);
     }
 }

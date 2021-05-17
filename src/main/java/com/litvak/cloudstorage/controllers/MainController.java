@@ -3,7 +3,6 @@ package com.litvak.cloudstorage.controllers;
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
 import com.litvak.cloudstorage.services.AppService;
-import com.sun.xml.bind.v2.TODO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -88,7 +87,7 @@ public class MainController {
         DirApp dirRoot = appService.getRootDirId(principal.getName());
         // TODO: 14.05.2021 FIX IT id
 
-        Long id = dirRoot.getId();
+//        Long id = dirRoot.getId();
         List<FileApp> files = appService.getFilesByParams(dirRoot.getUser().getId(), filename);
         model.addAttribute("space", appService.getFilesSpace(dirRoot.getUser().getId()));
         model.addAttribute("current_dir", dirRoot);

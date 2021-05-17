@@ -140,6 +140,7 @@
 .main_app_folder_name{
     margin-left: 10px;
     display: flex;
+    flex-direction: column;
 }
 
 .current_dir {
@@ -147,6 +148,10 @@
     font-weight: 500;
     line-height: 28px;
     padding-left: 10px;
+}
+
+.current_name_folder {
+    display: flex;
 }
 
 .back_link {

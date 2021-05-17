@@ -77,9 +77,17 @@
                 <div class="links_list" th:each="link : ${links}"><a class="links_list2" th:href="@{/main/{id}(id = ${link.id})}"> &#8594; [[${link.name}]]</a></div>
             </div>
             <div class="main_app_folder_name">
-                <a th:href="@{/main/{id}(id=${current_dir.dirId})}" class="back_link current_dir">
-                    <i class="far fa-hand-point-left"></i></a>
-                <h1 class="current_dir">[[${current_dir.name}]]</h1>
+                <div class="current_name_folder">
+                    <a th:href="@{/main/{id}(id=${current_dir.dirId})}" class="back_link current_dir">
+                        <i class="far fa-hand-point-left"></i></a>
+                    <h1 class="current_dir">[[${current_dir.name}]]</h1>
+                </div>
+                <div th:unless="${copy} == null">
+                    <a class="side_bar_button btn btn-success" th:href="@{/copy/paste(
+                current_dir_id = ${current_dir.id},
+                copy = ${copy}
+                )}">PASTE [[${copy}]]</a>
+                </div>
             </div>
 
             <div class="main_app_content" th:each="dirs : ${directories}">
@@ -121,8 +129,14 @@
                         <a th:href="@{/download
                         (id = ${file.id})}" class="download but">
                             <i class="far fa-arrow-alt-circle-down"></i></a>
-                        <a href="#" class="cut but"><i class="far fa-hand-scissors"></i></a>
-                        <a href="#" class="copy but"><i class="far fa-copy"></i></a>
+                        <a th:href="@{/copy/cut{id}(
+                        id = ${file.id},
+                        current_page = ${current_dir.id}
+                        )}" class="cut but"><i class="far fa-hand-scissors"></i></a>
+                        <a th:href="@{/copy/copy{id}(
+                        id = ${file.id},
+                        current_page = ${current_dir.id}
+                        )}"  class="copy but"><i class="far fa-copy"></i></a>
                         <a th:href="@{/main/deletef(
                         id = ${file.id},
                         parent_id = ${file.dirApp.id}

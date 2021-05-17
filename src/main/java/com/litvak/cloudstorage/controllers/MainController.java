@@ -33,22 +33,28 @@ public class MainController {
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
+        String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
+        model.addAttribute("copy", cutOrCopy);
         return "page_views/main";
     }
 
     @GetMapping("/{id}")
-    public String changeDirectory(Principal principal, @PathVariable(value = "id") Long id,
+    public String changeDirectory(Principal principal,
+                                  @PathVariable(value = "id") Long id,
                                   Model model) {
         DirApp dir = appService.getDirById(id);
         List<FileApp> files = dir.getFiles();
         List<DirApp> dirs = appService.getDirsByDirParentId(Math.toIntExact(id));
         List<DirApp> links = Utilities.getLinks(principal.getName(), dir);
+        String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
+        // TODO: 17.05.2021 FIX progress
         model.addAttribute("progress", "width: 5%");
         model.addAttribute("space", appService.getFilesSpace(dir.getUser().getId()));
         model.addAttribute("current_dir", dir);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
         model.addAttribute("links", links);
+        model.addAttribute("copy", cutOrCopy);
         return "page_views/main";
     }
 

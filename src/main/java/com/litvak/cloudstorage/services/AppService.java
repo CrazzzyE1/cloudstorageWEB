@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,7 +126,6 @@ public class AppService {
         User user = userRepository.findUserByUserName(principal.getName());
         user.setEnabled(false);
         System.out.println(user);
-//        userRepository.save(user);
     }
 
     @Transactional
@@ -135,5 +136,29 @@ public class AppService {
         User user = userRepository.findUserByUserName(login);
         user.setPassword(newPass);
         return user;
+    }
+
+    @Transactional
+    public void cutPasteFile(String login, Long current) {
+        Long fileId = Utilities.getFileId(login);
+        FileApp file = fileAppRepository.findById(fileId).get();
+        DirApp dir = dirAppRepository.findDirAppsById(current);
+        file.setDirApp(dir);
+    }
+
+    @Transactional
+    public void copyPasteFile(String login, Long current) {
+        Long fileId = Utilities.getFileId(login);
+        FileApp tmpFile = fileAppRepository.findById(fileId).get();
+        DirApp dirApp = dirAppRepository.findDirAppsById(current);
+        FileApp file = new FileApp();
+        file.setName(tmpFile.getName());
+        file.setNameSystem(tmpFile.getNameSystem());
+        file.setSize(tmpFile.getSize());
+        file.setStrsize(tmpFile.getStrsize());
+        file.setTime(LocalTime.now().toString().split("\\.")[0]);
+        file.setDate(LocalDate.now().toString());
+        file.setDirApp(dirApp);
+        fileAppRepository.save(file);
     }
 }

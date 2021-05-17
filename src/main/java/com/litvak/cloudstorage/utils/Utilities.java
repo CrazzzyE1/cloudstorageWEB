@@ -16,11 +16,41 @@ import java.util.*;
 @Component
 public class Utilities {
     private static Map<String, List<DirApp>> linksMap = new HashMap<>();
+    private static Map<String, Long> cutMap = new HashMap<>();
+    private static Map<String, Long> copyMap = new HashMap<>();
+
+    public static Long getFileId(String login) {
+        Long id = 0L;
+        if(cutMap.get(login) != null) id = cutMap.get(login);
+        if(copyMap.get(login) != null) id = copyMap.get(login);
+        return id;
+    }
+
+    public static void clearCopyStatus(String login) {
+        cutMap.remove(login);
+        copyMap.remove(login);
+    }
+
+    public static void saveCutFileId(String login, Long id) {
+        copyMap.remove(login);
+        cutMap.put(login, id);
+    }
+
+    public static void saveCopyFileId(String login, Long id) {
+        cutMap.remove(login);
+        copyMap.put(login, id);
+    }
 
     public static void clearLinks(String login){
         if(linksMap.get(login) != null) {
             linksMap.put(login, new ArrayList<>());
         }
+    }
+
+    public static String showCutOrCopy(String login){
+        if(cutMap.get(login) != null) return "cut";
+        if(copyMap.get(login) != null) return "copy";
+        return null;
     }
 
     public static List<DirApp> getLinks(String login, DirApp dir) {

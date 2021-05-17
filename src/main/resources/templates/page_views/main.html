@@ -66,7 +66,8 @@
             </div>
 
             <div class="logout">
-                <input class="btn btn-outline-dark" type="button" value="Log Out" onClick='location.href="/logout"'>
+                <input class="btn btn-danger" type="button" value="Log Out" onClick='location.href="/logout"'>
+                <input class="btn btn-outline-primary" type="button" value="Settings" onClick='location.href="/settings"'>
             </div>
         </div>
         <div class="main_app shadow p-3 mb-5 bg-body rounded">
@@ -89,9 +90,6 @@
                         </a>
                     </div>
                     <div class="copy_cut_buttons">
-<!--                        Under construction-->
-<!--                        <a href="#" class="cut but"><i class="far fa-hand-scissors"></i></a>-->
-<!--                        <a href="#" class="copy but"><i class="far fa-copy"></i></a>-->
                         <a th:href="@{/main/delete(
                         id = ${dirs.id},
                         parent_id = ${dirs.dirId}

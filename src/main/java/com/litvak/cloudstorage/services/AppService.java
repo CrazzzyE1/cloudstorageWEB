@@ -61,13 +61,6 @@ public class AppService {
         return fileAppRepository.findAllByUserIdAndSearchLine(search, userId);
     }
 
-//    @Transactional
-//    public Long getFilesSpace(Long userId) {
-//        Long size = fileAppRepository.findSpaceSize(userId);
-//        if (size == null) size = 0L;
-//        return size;
-//    }
-
     @Transactional
     public Long getFilesSpace(String login) {
         Long size = fileAppRepository.findSpaceSize(login);
@@ -105,16 +98,26 @@ public class AppService {
     }
 
     @Transactional
+    public void removeAll(List<FileApp> files) {
+
+        fileAppRepository.deleteAll(files);
+    }
+
+    @Transactional
     public User createNewUser(String login, String password) {
         DirApp dir = new DirApp();
+        DirApp recycle = new DirApp();
         User user = new User();
         user.setUserName(login);
         user.setEnabled(true);
         user.setPassword(password);
         dir.setName(login);
         dir.setUser(user);
+        recycle.setUser(user);
+        recycle.setName(login.concat("_recycle"));
         userRepository.save(user);
         dirAppRepository.save(dir);
+        dirAppRepository.save(recycle);
         return user;
     }
 
@@ -154,6 +157,12 @@ public class AppService {
     }
 
     @Transactional
+    public void moveFile(Long fileId, DirApp dirTo) {
+        FileApp file = fileAppRepository.findById(fileId).get();
+        file.setDirApp(dirTo);
+    }
+
+    @Transactional
     public void copyPasteFile(String login, Long current) {
         Long fileId = Utilities.getFileId(login);
         FileApp tmpFile = fileAppRepository.findById(fileId).get();
@@ -167,5 +176,10 @@ public class AppService {
         file.setDate(LocalDate.now().toString());
         file.setDirApp(dirApp);
         fileAppRepository.save(file);
+    }
+
+    @Transactional
+    public List<FileApp> getAllFilesByDir(DirApp dirApp) {
+        return fileAppRepository.findAllByDirApp(dirApp);
     }
 }

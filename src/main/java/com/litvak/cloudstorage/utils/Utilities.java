@@ -19,40 +19,74 @@ public class Utilities {
     private static Map<String, Long> cutMap = new HashMap<>();
     private static Map<String, Long> copyMap = new HashMap<>();
 
+    /**
+     * Подготовка данных о проценте заполнения Диска для "Прогресс бара"
+     */
+    public static String getPercentForProgressBar(AppService appService, String login) {
+        Long space = appService.getFilesSpace(login);
+        // TODO: 18.05.2021 Transfer default space to DB
+        // Default: 20 MiB for test
+        Long defaultSpace = 20971520L;
+        space = space * 100 / defaultSpace;
+        if (space > 100L) space = 100L;
+        return space.toString();
+    }
+
+    /**
+     * Получение id файла из Map, готового для копирования или перемещения
+     */
     public static Long getFileId(String login) {
         Long id = 0L;
-        if(cutMap.get(login) != null) id = cutMap.get(login);
-        if(copyMap.get(login) != null) id = copyMap.get(login);
+        if (cutMap.get(login) != null) id = cutMap.get(login);
+        if (copyMap.get(login) != null) id = copyMap.get(login);
         return id;
     }
 
+    /**
+     * Очитска данных о перемещаемом или копируемом файле
+     */
     public static void clearCopyStatus(String login) {
         cutMap.remove(login);
         copyMap.remove(login);
     }
 
+    /**
+     * Сохранение данных о перемещаемом файле
+     */
     public static void saveCutFileId(String login, Long id) {
         copyMap.remove(login);
         cutMap.put(login, id);
     }
 
+    /**
+     * Сохранение данных о копируемом файле
+     */
     public static void saveCopyFileId(String login, Long id) {
         cutMap.remove(login);
         copyMap.put(login, id);
     }
 
-    public static void clearLinks(String login){
-        if(linksMap.get(login) != null) {
+    /**
+     * Очистка данных о ссылках и пути перемещения по каталогам диска
+     */
+    public static void clearLinks(String login) {
+        if (linksMap.get(login) != null) {
             linksMap.put(login, new ArrayList<>());
         }
     }
 
-    public static String showCutOrCopy(String login){
-        if(cutMap.get(login) != null) return "cut";
-        if(copyMap.get(login) != null) return "copy";
+    /**
+     * Определение типа операции Copy или Cut при вставке файла
+     */
+    public static String showCutOrCopy(String login) {
+        if (cutMap.get(login) != null) return "cut";
+        if (copyMap.get(login) != null) return "copy";
         return null;
     }
 
+    /**
+     * Получение списка ссылкок и пути перемещения по каталогам диска
+     */
     public static List<DirApp> getLinks(String login, DirApp dir) {
         List<DirApp> links;
         if (dir.getDirId() == null) {
@@ -76,6 +110,9 @@ public class Utilities {
         return links;
     }
 
+    /**
+     * Загрузка внешнего файла в хранилище
+     */
     public static String uploadFile(MultipartFile file) {
         if (!file.isEmpty()) {
             try {
@@ -103,6 +140,9 @@ public class Utilities {
         }
     }
 
+    /**
+     * Форматирование значения размера файла или дискового пространства в User-friendly формат
+     */
     public static String formatSize(Long sizeInt) {
         String tmp = "";
         Double size = Double.valueOf(sizeInt);
@@ -130,6 +170,9 @@ public class Utilities {
         return tmp;
     }
 
+    /**
+     * Скачивание файла на ПК пользователя с заменой системного имени файла на фактический.
+     */
     public static void downloadFile(Long id, AppService appService, HttpServletResponse response) {
         String fileNameSystem = appService.getFileById(id).get().getNameSystem();
         String fileName = appService.getFileById(id).get().getName();

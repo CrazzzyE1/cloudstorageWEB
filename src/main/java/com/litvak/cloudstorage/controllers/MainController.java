@@ -29,7 +29,6 @@ public class MainController {
         List<FileApp> files = dirRoot.getFiles();
         Long id = dirRoot.getId();
         List<DirApp> dirs = appService.getDirsByDirParentId(Math.toIntExact(id));
-//        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(dirRoot.getUser().getId())));
         model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("directories", dirs);
@@ -49,8 +48,6 @@ public class MainController {
         List<DirApp> dirs = appService.getDirsByDirParentId(Math.toIntExact(id));
         List<DirApp> links = Utilities.getLinks(principal.getName(), dir);
         String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
-        // TODO: 17.05.2021 FIX progress
-//        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(dir.getUser().getId())));
         model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dir);
         model.addAttribute("directories", dirs);
@@ -78,9 +75,11 @@ public class MainController {
     }
 
     @GetMapping("/deletef")
-    public String deleteFile(@RequestParam(value = "id") Long id,
+    public String deleteFile(Principal principal,
+                             @RequestParam(value = "id") Long id,
                              @RequestParam(value = "parent_id") Integer parent_id) {
-        appService.removeFile(id);
+        DirApp dirTo = appService.getRootDirId(principal.getName().concat("_recycle"));
+        appService.moveFile(id, dirTo);
         return "redirect:".concat(parent_id.toString());
     }
 

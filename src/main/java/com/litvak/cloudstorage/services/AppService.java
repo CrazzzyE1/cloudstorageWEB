@@ -61,11 +61,18 @@ public class AppService {
         return fileAppRepository.findAllByUserIdAndSearchLine(search, userId);
     }
 
+//    @Transactional
+//    public Long getFilesSpace(Long userId) {
+//        Long size = fileAppRepository.findSpaceSize(userId);
+//        if (size == null) size = 0L;
+//        return size;
+//    }
+
     @Transactional
-    public String getFilesSpace(Long userId) {
-        Long size = fileAppRepository.findSpaceSize(userId);
+    public Long getFilesSpace(String login) {
+        Long size = fileAppRepository.findSpaceSize(login);
         if (size == null) size = 0L;
-        return Utilities.formatSize(size);
+        return size;
     }
 
     @Transactional

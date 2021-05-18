@@ -29,12 +29,14 @@ public class MainController {
         List<FileApp> files = dirRoot.getFiles();
         Long id = dirRoot.getId();
         List<DirApp> dirs = appService.getDirsByDirParentId(Math.toIntExact(id));
-        model.addAttribute("space", appService.getFilesSpace(dirRoot.getUser().getId()));
+//        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(dirRoot.getUser().getId())));
+        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
         String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
         model.addAttribute("copy", cutOrCopy);
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(appService, principal.getName()));
         return "page_views/main";
     }
 
@@ -48,13 +50,14 @@ public class MainController {
         List<DirApp> links = Utilities.getLinks(principal.getName(), dir);
         String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
         // TODO: 17.05.2021 FIX progress
-        model.addAttribute("progress", "width: 5%");
-        model.addAttribute("space", appService.getFilesSpace(dir.getUser().getId()));
+//        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(dir.getUser().getId())));
+        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dir);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
         model.addAttribute("links", links);
         model.addAttribute("copy", cutOrCopy);
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(appService, principal.getName()));
         return "page_views/main";
     }
 
@@ -87,9 +90,10 @@ public class MainController {
         // TODO: 14.05.2021 FIX IT id
         // TODO: 17.05.2021 FIX back to root after delete file 
         List<FileApp> files = appService.getFilesByParams(dirRoot.getUser().getId(), filename);
-        model.addAttribute("space", appService.getFilesSpace(dirRoot.getUser().getId()));
+        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("files", files);
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(appService, principal.getName()));
         return "page_views/main";
     }
 }

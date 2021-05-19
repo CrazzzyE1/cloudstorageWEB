@@ -12,10 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/upload")
-public class FileController {
+public class UploadController {
 
     AppService appService;
 
@@ -34,7 +35,11 @@ public class FileController {
     public String uploadFile(@RequestParam("file") MultipartFile file,
                              @RequestParam(name = "current_dir_id") Long id ){
         String name = file.getOriginalFilename();
-        String nameSystem = Utilities.uploadFile(file);
+        List<FileApp> files = appService.getAllFilesByDir(appService.getDirById(id));
+        while (Utilities.checkingFileNameForDuplication(name, files)) {
+            name = "COPY - ".concat(name);
+        }
+        String nameSystem = Utilities.uploadFile(file, name);
         if(nameSystem == null) return "redirect:/main/".concat(String.valueOf(id));
         Long size = file.getSize();
         DirApp dirApp = appService.getDirById(id);

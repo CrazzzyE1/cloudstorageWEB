@@ -80,12 +80,15 @@ public class AppService {
     }
 
     @Transactional
-    public DirApp createNewDir(String name, Integer parentId, Integer userId) {
+    public void createNewDir(String name, Integer parentId, Integer userId) {
+        name = name.trim();
+        List<DirApp> folders = dirAppRepository.findAllByDirId(parentId);
+        if(Utilities.checkingFolderNameForDuplication(name, folders)) return;
         DirApp dirApp = new DirApp();
         dirApp.setName(name);
         dirApp.setDirId(parentId);
         dirApp.setUser(userRepository.findById(Long.valueOf(userId)).get());
-        return dirAppRepository.save(dirApp);
+        dirAppRepository.save(dirApp);
     }
 
     @Transactional
@@ -100,7 +103,6 @@ public class AppService {
 
     @Transactional
     public void removeAll(List<FileApp> files) {
-
         fileAppRepository.deleteAll(files);
     }
 
@@ -154,6 +156,7 @@ public class AppService {
         Long fileId = Utilities.getFileId(login);
         FileApp file = fileAppRepository.findById(fileId).get();
         DirApp dir = dirAppRepository.findDirAppsById(current);
+        if(Utilities.checkingFileNameForDuplication(file.getName(), dir.getFiles())) return;
         file.setDirApp(dir);
     }
 
@@ -169,6 +172,7 @@ public class AppService {
         FileApp tmpFile = fileAppRepository.findById(fileId).get();
         DirApp dirApp = dirAppRepository.findDirAppsById(current);
         FileApp file = new FileApp();
+        if(Utilities.checkingFileNameForDuplication(tmpFile.getName(), dirApp.getFiles())) return;
         file.setName(tmpFile.getName());
         file.setNameSystem(tmpFile.getNameSystem());
         file.setSize(tmpFile.getSize());
@@ -182,5 +186,10 @@ public class AppService {
     @Transactional
     public List<FileApp> getAllFilesByDir(DirApp dirApp) {
         return fileAppRepository.findAllByDirApp(dirApp);
+    }
+
+    @Transactional
+    public List<FileApp> getAllFilesByNameSystem(String nameSystem) {
+        return fileAppRepository.findAllByNameSystem(nameSystem);
     }
 }

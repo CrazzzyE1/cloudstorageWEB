@@ -40,15 +40,21 @@ public class RecycleController {
     public String restoreFile(Principal principal,
                               @RequestParam(name = "id") Long id) {
         DirApp dirTo = appService.getRootDirId(principal.getName());
+        FileApp fileApp = appService.getFileById(id).get();
+        if(Utilities.checkingFileNameForDuplication(fileApp.getName(), dirTo.getFiles())) return "redirect:/recycle";
         appService.moveFile(id, dirTo);
         return "redirect:/recycle";
     }
 
     @GetMapping("/delete")
     public String deleteFile(@RequestParam(name = "id") Long id) {
+        String nameSystem = appService.getFileById(id).get().getNameSystem();
         appService.removeFile(id);
+        List<FileApp> files = appService.getAllFilesByNameSystem(nameSystem);
+        if(files.size() == 0) Utilities.removePhysicalFile(nameSystem);
         return "redirect:/recycle";
     }
+
 
     @GetMapping("/restoreall")
     public String restoreAll(Principal principal) {
@@ -57,6 +63,7 @@ public class RecycleController {
         DirApp dirTo = appService.getRootDirId(dirName);
         List<FileApp> files = recycle.getFiles();
         for (int i = 0; i < files.size(); i++) {
+            if(Utilities.checkingFileNameForDuplication(files.get(i).getName(), dirTo.getFiles())) continue;
             appService.moveFile(files.get(i).getId(), dirTo);
         }
         return "redirect:/main";
@@ -68,6 +75,13 @@ public class RecycleController {
         DirApp recycle = appService.getRootDirId(dirName.concat("_recycle"));
         List<FileApp> files = appService.getAllFilesByDir(recycle);
         appService.removeAll(files);
+        List<FileApp> tmp;
+        String nameTmp;
+        for (int i = 0; i < files.size(); i++) {
+            nameTmp = files.get(i).getNameSystem();
+            tmp = appService.getAllFilesByNameSystem(nameTmp);
+            if(tmp.size() == 0) Utilities.removePhysicalFile(nameTmp);
+        }
         return "redirect:/main";
     }
 }

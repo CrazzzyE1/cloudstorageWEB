@@ -42,8 +42,7 @@ public class CopyController {
     }
 
     @GetMapping("/paste")
-    public String paste(Model model,
-                        Principal principal,
+    public String paste(Principal principal,
                         @RequestParam(value = "copy") String copy,
                         @RequestParam(name = "current_dir_id") Long current) {
         String login = principal.getName();

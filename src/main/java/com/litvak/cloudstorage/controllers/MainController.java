@@ -86,8 +86,7 @@ public class MainController {
     @GetMapping("/search")
     public String search(Model model, @RequestParam(value = "search") String filename, Principal principal) {
         DirApp dirRoot = appService.getRootDirId(principal.getName());
-        // TODO: 14.05.2021 FIX IT id
-        // TODO: 17.05.2021 FIX back to root after delete file 
+        // TODO: 17.05.2021 FIX back to root after delete file
         List<FileApp> files = appService.getFilesByParams(dirRoot.getUser().getId(), filename);
         model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dirRoot);

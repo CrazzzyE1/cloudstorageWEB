@@ -16,7 +16,7 @@ public interface FileAppRepository extends JpaRepository<FileApp, Long> {
                     " FROM files as f" +
                     " JOIN directories as d ON f.dir_id = d.id" +
                     " JOIN users as u ON d.user_id = u.id" +
-                    " WHERE u.id = ?2 AND f.name LIKE %?1% ;", nativeQuery = true)
+                    " WHERE u.id = ?2 AND LOWER(f.name) LIKE %?1% ;", nativeQuery = true)
     List<FileApp> findAllByUserIdAndSearchLine(String search, Long userId);
 
     @Query(value =

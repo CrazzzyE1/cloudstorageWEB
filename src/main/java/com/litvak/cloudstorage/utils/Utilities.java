@@ -1,6 +1,7 @@
 package com.litvak.cloudstorage.utils;
 
 import com.litvak.cloudstorage.entities.DirApp;
+import com.litvak.cloudstorage.entities.FileApp;
 import com.litvak.cloudstorage.services.AppService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,6 +19,30 @@ public class Utilities {
     private static Map<String, List<DirApp>> linksMap = new HashMap<>();
     private static Map<String, Long> cutMap = new HashMap<>();
     private static Map<String, Long> copyMap = new HashMap<>();
+
+    /**
+     * Проверка имени папки на дубликат в папке назначения
+     * */
+    public static boolean checkingFolderNameForDuplication(String name, List<DirApp> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Проверка имени файла на дубликат в папке назначения
+     * */
+    public static boolean checkingFileNameForDuplication(String name, List<FileApp> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Подготовка данных о проценте заполнения Диска для "Прогресс бара"
@@ -113,11 +138,11 @@ public class Utilities {
     /**
      * Загрузка внешнего файла в хранилище
      */
-    public static String uploadFile(MultipartFile file) {
+    public static String uploadFile(MultipartFile file, String filename) {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                String name = file.getOriginalFilename();
+                String name = filename;
                 String nameSystem = UUID.randomUUID().toString();
                 nameSystem = nameSystem.concat(".").concat(name);
                 String rootPath = "users_files";
@@ -193,5 +218,16 @@ public class Utilities {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Метод для удаления физического файла.
+     * */
+    public static boolean removePhysicalFile(String nameSystem) {
+        boolean res = false;
+        String rootPath = "users_files";
+        File fileToRemove = new File(rootPath + File.separator + nameSystem);
+        if(fileToRemove.exists()) res = fileToRemove.delete();
+        return res;
     }
 }

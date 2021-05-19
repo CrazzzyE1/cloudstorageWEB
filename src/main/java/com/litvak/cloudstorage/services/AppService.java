@@ -16,6 +16,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -58,7 +59,7 @@ public class AppService {
 
     @Transactional
     public List<FileApp> getFilesByParams(Long userId, String search) {
-        return fileAppRepository.findAllByUserIdAndSearchLine(search, userId);
+        return fileAppRepository.findAllByUserIdAndSearchLine(search.toLowerCase(Locale.ROOT), userId);
     }
 
     @Transactional

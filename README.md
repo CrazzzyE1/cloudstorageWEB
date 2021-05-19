@@ -17,6 +17,7 @@
 - HTML + CSS
 
 ### Как запустить
+#### `Внимание! В системе создан User: Login - login, Password - pass.`
 - Скачать https://github.com/CrazzzyE1/cloudstorageWEB/archive/refs/heads/master.zip
 - Настроить в pom.xml
 ```

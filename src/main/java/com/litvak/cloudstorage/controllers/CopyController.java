@@ -4,7 +4,6 @@ import com.litvak.cloudstorage.services.AppService;
 import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +23,7 @@ public class CopyController {
     }
 
     @GetMapping("/copy{id}")
-    public String copyFile(Model model,
-                           Principal principal,
+    public String copyFile(Principal principal,
                            @PathVariable(value = "id") Long id,
                            @RequestParam(name = "current_page") Long current) {
         Utilities.saveCopyFileId(principal.getName(), id);
@@ -33,8 +31,7 @@ public class CopyController {
     }
 
     @GetMapping("/cut{id}")
-    public String cutFile(Model model,
-                          Principal principal,
+    public String cutFile(Principal principal,
                           @PathVariable(value = "id") Long id,
                           @RequestParam(name = "current_page") Long current) {
         Utilities.saveCutFileId(principal.getName(), id);

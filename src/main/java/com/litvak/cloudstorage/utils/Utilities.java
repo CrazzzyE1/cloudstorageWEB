@@ -51,7 +51,7 @@ public class Utilities {
         Long space = appService.getFilesSpace(login);
         // TODO: 18.05.2021 Transfer default space to DB
         // Default: 20 MiB for test
-        Long defaultSpace = 20971520L;
+        long defaultSpace = 20971520L;
         space = space * 100 / defaultSpace;
         if (space > 100L) space = 100L;
         return space.toString();
@@ -142,9 +142,8 @@ public class Utilities {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
-                String name = filename;
                 String nameSystem = UUID.randomUUID().toString();
-                nameSystem = nameSystem.concat(".").concat(name);
+                nameSystem = nameSystem.concat(".").concat(filename);
                 String rootPath = "users_files";
                 File dir = new File(rootPath);
                 if (!dir.exists()) {

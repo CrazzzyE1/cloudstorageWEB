@@ -25,9 +25,9 @@ public class RecycleController {
     }
 
     @GetMapping
-    public String showRecycleBin(Model model, Principal principal) {
-
-        DirApp dirRoot = appService.getRootDirId(principal.getName().concat("_recycle"));
+    public String showRecycleBin(Model model,
+                                 Principal principal) {
+        DirApp dirRoot = appService.getRootDir(principal.getName().concat("_recycle"));
         List<FileApp> files = dirRoot.getFiles();
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(appService, principal.getName()));
@@ -39,7 +39,7 @@ public class RecycleController {
     @GetMapping("/restore")
     public String restoreFile(Principal principal,
                               @RequestParam(name = "id") Long id) {
-        DirApp dirTo = appService.getRootDirId(principal.getName());
+        DirApp dirTo = appService.getRootDir(principal.getName());
         FileApp fileApp = appService.getFileById(id).get();
         if(Utilities.checkingFileNameForDuplication(fileApp.getName(), dirTo.getFiles())) return "redirect:/recycle";
         appService.moveFile(id, dirTo);
@@ -59,8 +59,8 @@ public class RecycleController {
     @GetMapping("/restoreall")
     public String restoreAll(Principal principal) {
         String dirName = principal.getName();
-        DirApp recycle = appService.getRootDirId(dirName.concat("_recycle"));
-        DirApp dirTo = appService.getRootDirId(dirName);
+        DirApp recycle = appService.getRootDir(dirName.concat("_recycle"));
+        DirApp dirTo = appService.getRootDir(dirName);
         List<FileApp> files = recycle.getFiles();
         for (int i = 0; i < files.size(); i++) {
             if(Utilities.checkingFileNameForDuplication(files.get(i).getName(), dirTo.getFiles())) continue;
@@ -72,7 +72,7 @@ public class RecycleController {
     @GetMapping("/deleteall")
     public String deleteAll(Principal principal) {
         String dirName = principal.getName();
-        DirApp recycle = appService.getRootDirId(dirName.concat("_recycle"));
+        DirApp recycle = appService.getRootDir(dirName.concat("_recycle"));
         List<FileApp> files = appService.getAllFilesByDir(recycle);
         appService.removeAll(files);
         List<FileApp> tmp;

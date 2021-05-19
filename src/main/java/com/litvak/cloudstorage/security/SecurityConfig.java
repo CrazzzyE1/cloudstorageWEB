@@ -29,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/upload/**").authenticated()
                 .antMatchers("/download/**").authenticated()
                 .antMatchers("/settings/**").authenticated()
+                .antMatchers("/recycle/**").authenticated()
+                .antMatchers("/copy/**").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -40,8 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public JdbcUserDetailsManager users(DataSource dataSource) {
-        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-        return jdbcUserDetailsManager;
+        return new JdbcUserDetailsManager(dataSource);
     }
 
     @Bean

@@ -35,6 +35,7 @@ public class UploadController {
     public String uploadFile(@RequestParam("file") MultipartFile file,
                              @RequestParam(name = "current_dir_id") Long id ){
         String name = file.getOriginalFilename();
+        if(name == null || name.isEmpty()) return "redirect:/main/".concat(String.valueOf(id));
         List<FileApp> files = appService.getAllFilesByDir(appService.getDirById(id));
         while (Utilities.checkingFileNameForDuplication(name, files)) {
             name = "COPY - ".concat(name);

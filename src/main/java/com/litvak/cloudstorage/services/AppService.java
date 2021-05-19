@@ -48,7 +48,7 @@ public class AppService {
     }
 
     @Transactional
-    public DirApp getRootDirId(String login) {
+    public DirApp getRootDir(String login) {
         return dirAppRepository.findDirAppByName(login);
     }
 

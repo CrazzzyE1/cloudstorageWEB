@@ -25,7 +25,7 @@ public class MainController {
     @GetMapping()
     public String mainPage(Model model, Principal principal) {
         Utilities.clearLinks(principal.getName());
-        DirApp dirRoot = appService.getRootDirId(principal.getName());
+        DirApp dirRoot = appService.getRootDir(principal.getName());
         List<FileApp> files = dirRoot.getFiles();
         Long id = dirRoot.getId();
         List<DirApp> dirs = appService.getDirsByDirParentId(Math.toIntExact(id));
@@ -78,15 +78,14 @@ public class MainController {
     public String deleteFile(Principal principal,
                              @RequestParam(value = "id") Long id,
                              @RequestParam(value = "parent_id") Integer parent_id) {
-        DirApp dirTo = appService.getRootDirId(principal.getName().concat("_recycle"));
+        DirApp dirTo = appService.getRootDir(principal.getName().concat("_recycle"));
         appService.moveFile(id, dirTo);
         return "redirect:".concat(parent_id.toString());
     }
 
     @GetMapping("/search")
     public String search(Model model, @RequestParam(value = "search") String filename, Principal principal) {
-        DirApp dirRoot = appService.getRootDirId(principal.getName());
-        // TODO: 17.05.2021 FIX back to root after delete file
+        DirApp dirRoot = appService.getRootDir(principal.getName());
         List<FileApp> files = appService.getFilesByParams(dirRoot.getUser().getId(), filename);
         model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dirRoot);

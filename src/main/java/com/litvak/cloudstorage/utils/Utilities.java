@@ -22,10 +22,10 @@ public class Utilities {
 
     /**
      * Проверка имени папки на дубликат в папке назначения
-     * */
+     */
     public static boolean checkingFolderNameForDuplication(String name, List<DirApp> list) {
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
+            if (list.get(i).getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
                 return true;
             }
         }
@@ -34,10 +34,10 @@ public class Utilities {
 
     /**
      * Проверка имени файла на дубликат в папке назначения
-     * */
+     */
     public static boolean checkingFileNameForDuplication(String name, List<FileApp> list) {
         for (int i = 0; i < list.size(); i++) {
-            if(list.get(i).getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
+            if (list.get(i).getName().toLowerCase(Locale.ROOT).equals(name.toLowerCase(Locale.ROOT))) {
                 return true;
             }
         }
@@ -125,7 +125,7 @@ public class Utilities {
         } else {
             links = linksMap.get(login);
             for (int i = 0; i < links.size(); i++) {
-                if (links.get(i).getId() == dir.getId()) {
+                if (links.get(i).getId().equals(dir.getId())) {
                     links = links.subList(0, i + 1);
                     return links;
                 }
@@ -221,12 +221,12 @@ public class Utilities {
 
     /**
      * Метод для удаления физического файла.
-     * */
+     */
     public static boolean removePhysicalFile(String nameSystem) {
         boolean res = false;
         String rootPath = "users_files";
         File fileToRemove = new File(rootPath + File.separator + nameSystem);
-        if(fileToRemove.exists()) res = fileToRemove.delete();
+        if (fileToRemove.exists()) res = fileToRemove.delete();
         return res;
     }
 }

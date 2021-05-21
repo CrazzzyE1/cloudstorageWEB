@@ -10,23 +10,35 @@
     right: 0;
     z-index: 12;
     background-color: white;
-    height: 64px;
+    min-height: 64px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 85px;
+    padding-left: 50px;
     padding-right: 25px;
     box-sizing: border-box;
+    padding-top: 15px;
+}
+
+.logo {
+    display: flex;
+}
+
+.logo_img {
+    height: 50px;
+    padding-right: 20px;
 }
 
 .main_search {
     margin-left: 90px;
+    display: flex;
 }
 
 .main_search_line {
     min-width: 250px;
     border-radius: 15px;
 }
+
 
 .side_bar {
     position: fixed;
@@ -58,7 +70,7 @@
 }
 
 .side_bar_progress {
-    margin-top: 380px;
+    margin-top: 420px;
 }
 
 .side_bar_progress_text {
@@ -82,7 +94,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 20px;
 }
 
 .side_bar_link_download_app {
@@ -93,10 +104,37 @@
 
 .logout {
     display: flex;
-    /*flex-direction: column;*/
     justify-content: space-around;
     align-items: center;
     margin-top: 15px;
+}
+
+
+.logout_button_div {
+    margin-right: 15px;
+    display: flex;
+}
+
+.logout_button {
+    margin-left: 15px;
+    text-decoration: none;
+    color: #dc3545;
+    font-size: 2rem;
+    opacity: 0.75;
+    line-height: 2rem;
+}
+
+.logout_button:hover {
+    color: #dc3545;
+    opacity: 1;
+}
+
+.settings_button {
+    color: grey;
+}
+
+.settings_button:hover {
+    color: grey;
 }
 
 .main_app {
@@ -140,7 +178,10 @@
 .main_app_folder_name{
     margin-left: 10px;
     display: flex;
-    flex-direction: column;
+}
+
+.paste_button {
+    margin-left: 25px;
 }
 
 .current_dir {
@@ -164,7 +205,6 @@
 .content_item {
     min-height: 50px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: #fafafa;
     margin: 10px;
@@ -173,6 +213,37 @@
 
 .content_item:hover {
     opacity: 1;
+}
+
+.img {
+    width: 60px;
+}
+
+.copy_cut_buttons {
+    margin-left: 15px;
+    width: 110px;
+}
+
+.file_name {
+    margin-left: 15px;
+    width: 90%;
+}
+
+.date {
+    margin-left: 15px;
+    width: 130px;
+}
+
+.time{
+    margin-left: 15px;
+    width: 90px;
+}
+
+.file_size {
+    margin-left: 15px;
+    width: 120px;
+    text-align: right;
+    margin-right: 15px;
 }
 
 .but{
@@ -219,15 +290,14 @@
 .file_name {
     margin-left: 10px;
     margin-right: 10px;
-    min-width: 500px;
-    max-width: 800px;
+    min-width: 300px;
 }
 
-.name_text {
-    margin-left: 15px;
-    margin-right: 15px;
+/* .name_text {
+    margin-left: 5px;
+    margin-right: 5px;
     font-size: 1.2em;
-}
+} */
 
 .footer {
     margin: 0 auto;
@@ -324,5 +394,9 @@
   .tabs>input[type="radio"]:checked+label {
     background-color: #fff;
     border-bottom: 1px solid #fff;
+  }
+
+  .login_buttons{
+    text-align: center;
   }
 

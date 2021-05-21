@@ -50,8 +50,8 @@ public class Utilities {
     public static String getPercentForProgressBar(AppService appService, String login) {
         Long space = appService.getFilesSpace(login);
         // TODO: 18.05.2021 Transfer default space to DB
-        // Default: 20 MiB for test
-        long defaultSpace = 20971520L;
+        // Default: 200 MiB for test
+        long defaultSpace = 209715200L;
         space = space * 100 / defaultSpace;
         if (space > 100L) space = 100L;
         return space.toString();

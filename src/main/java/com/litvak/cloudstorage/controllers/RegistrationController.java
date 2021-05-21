@@ -40,10 +40,11 @@ public class RegistrationController {
         password = passwordEncoder.encode(password);
         try{
             appService.createNewUser(login, password);
+            model.addAttribute("success", "success");
+            return "page_views/login";
         } catch (Exception e) {
             model.addAttribute("error", "error");
             return "page_views/registration";
         }
-        return "redirect:/";
     }
 }

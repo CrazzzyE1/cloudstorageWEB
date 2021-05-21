@@ -14,26 +14,30 @@
 <body>
     <div class="container_main">
         <div class="main_header">
-            <div class="spinners">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-border text-danger" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <div class="spinner-border text-warning" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
+            <div class="logo">
+                <a href="/main">
+                    <img src="../../static/img/logo.png" th:src=@{../img/logo.png} alt="logo" class="logo_img">
+                </a>
+                <h1 class="logo_title">My Cloud Storage</h1>
             </div>
-            <div class="main_search">
-                <div class="container-fluid">
-                    <form method="get" action="/main/search" class="d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search your files"
-                            aria-label="Search" name="search" id="search">
-                        <button class="btn btn-outline-danger" type="submit">Search</button>
-                    </form>
-                </div>
+            <div class="head_form_right">
+                <div class="main_search">
+                    <div class="container-fluid">
+                        <form method="get" action="/main/search" class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search your files"
+                                aria-label="Search" name="search" id="search">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="logout_button_div">
+                        <div>
+                            <a href="/settings" class="logout_button settings_button">
+                                <i class="fas fa-users-cog"></i></a>
+                        </div>
+                        <div><a href="/logout" class="logout_button"><i class="fas fa-sign-out-alt"></i></a></div>
 
+                    </div>
+                </div>
             </div>
         </div>
         <div class="side_bar">
@@ -49,41 +53,41 @@
             </div>
             <div class="side_bar_progress">
                 <p class="side_bar_progress_text">
-                    Cloud space: [[${space}]] / 20 MiB
+                    Cloud space: [[${space}]] / 200 MiB
                 </p>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
-                         th:style = "'width:' + ${percent}+'%'" th:attr = "aria-valuenow = ${percent}" aria-valuemin="0" aria-valuemax="100"></div>
+                        th:style="'width:' + ${percent}+'%'" th:attr="aria-valuenow = ${percent}" aria-valuemin="0"
+                        aria-valuemax="100"></div>
                 </div>
             </div>
 
             <div class="side_bar_buy">
-                <a target="_blank" class="side_bar_button btn btn-outline-warning"
-                   href="https://www.donationalerts.com/">Buy more space</a>
+                <div class="logout">
+                    <a target="_blank" class="side_bar_button btn btn-outline-warning"
+                        href="https://www.donationalerts.com/">Buy more space</a>
+                </div>
                 <a href="../../static/application/desktop_application.rar"
                     th:href="@{/application/desktop_application.rar}" class="side_bar_link_download_app">Download PC
                     application</a>
-            </div>
 
-            <div class="logout">
-                <input class="btn btn-danger" type="button" value="Log Out" onClick='location.href="/logout"'>
-                <input class="btn btn-outline-primary" type="button" value="Settings" onClick='location.href="/settings"'>
             </div>
         </div>
         <div class="main_app shadow p-3 mb-5 bg-body rounded">
             <div class="main_app_top">
                 <div class="links_list"><a class="links_list2" href="/main"> MyCloud</a></div>
 
-                <div class="links_list" th:each="link : ${links}"><a class="links_list2" th:href="@{/main/{id}(id = ${link.id})}"> &#8594; [[${link.name}]]</a></div>
+                <div class="links_list" th:each="link : ${links}"><a class="links_list2"
+                        th:href="@{/main/{id}(id = ${link.id})}"> &#8594; [[${link.name}]]</a></div>
             </div>
             <div class="main_app_folder_name">
                 <div class="current_name_folder">
                     <a th:href="@{/main/{id}(id=${current_dir.dirId})}" class="back_link current_dir">
-                        <i class="far fa-hand-point-left"></i></a>
+                        <i class="fas fa-arrow-left"></i></a>
                     <h1 class="current_dir">[[${current_dir.name}]]</h1>
                 </div>
                 <div th:unless="${copy} == null">
-                    <a class="side_bar_button btn btn-success" th:href="@{/copy/paste(
+                    <a class="btn btn-success paste_button" th:href="@{/copy/paste(
                 current_dir_id = ${current_dir.id},
                 copy = ${copy}
                 )}">PASTE</a>
@@ -110,7 +114,7 @@
                     <div class="date">
                         <p class="name_text"> </p>
                     </div>
-                    <div class="date">
+                    <div class="time">
                         <p class="name_text"> </p>
                     </div>
                     <div class="file_size">
@@ -122,7 +126,7 @@
             <div class="main_app_content" th:each="file : ${files}">
                 <div class="content_item">
                     <div class="img">
-                        <img src="../../static/img/img_folder.png" th:src=@{../img/img_file.png} alt="file"
+                        <img src="../../static/img/img_file.png" th:src=@{../img/img_file.png} alt="file"
                             class="folder">
                     </div>
                     <div class="copy_cut_buttons">
@@ -136,7 +140,7 @@
                         <a th:href="@{/copy/copy{id}(
                         id = ${file.id},
                         current_page = ${current_dir.id}
-                        )}"  class="copy but"><i class="far fa-copy"></i></a>
+                        )}" class="copy but"><i class="far fa-copy"></i></a>
                         <a th:href="@{/main/deletef(
                         id = ${file.id},
                         parent_id = ${file.dirApp.id}
@@ -148,7 +152,7 @@
                     <div class="date">
                         <p class="name_text">[[${file.date}]]</p>
                     </div>
-                    <div class="date">
+                    <div class="time">
                         <p class="name_text">[[${file.time}]]</p>
                     </div>
                     <div class="file_size">

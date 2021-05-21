@@ -25,7 +25,7 @@
             <label for="tab-btn-2">Remove account</label>
 
             <div id="content-1" class="shadow ">
-                <div class="main p-3 mb-5 bg-body rounded">
+                <div class="main p-3 bg-body rounded">
                     <form name="f" th:action="@{/settings/change}" method="post">
                         <div class="mb-3 pass1">
                             <label for="password1" class="form-label">Old password</label>
@@ -37,23 +37,27 @@
                             <input type="password" class="form-control pass2" id="pass2" name="newpassword"
                                 placeholder="Enter NEW password">
                         </div>
+                        <div class="login_buttons">
                         <input type="button" class="btn btn-outline-warning" value="Back"
                             onclick='location.href="/main"'>
                         <button type="submit" class="btn btn-primary">Change</button>
+                    </div>
                     </form>
                 </div>
             </div>
             <div id="content-2" class="shadow ">
-                <div class="main p-3 mb-5 bg-body rounded">
+                <div class="main p-3 bg-body rounded">
                     <form name="f" th:action="@{/settings/delete}" method="post">
                         <div class="mb-3 pass1">
                             <label for="password1" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password1" name="password"
                                 placeholder="Enter your password">
                         </div>
+                        <div class="login_buttons">
                         <input type="button" class="btn btn-outline-warning" value="Back"
                             onclick='location.href="/main"'>
                         <button type="submit" class="btn btn-danger">REMOVE</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -169,27 +169,26 @@ public class Utilities {
      */
     public static String formatSize(Long sizeInt) {
         String tmp = "";
+        int count = 0;
         Double size = Double.valueOf(sizeInt);
-        if (size > 1023) {
-            size = size / 1024;
-            if (size > 1023) {
-                size /= 1024;
-                if (size > 1023) {
-                    size /= 1024;
-                    if (size > 1023) {
-                        size /= 1024;
-                        tmp = tmp.concat(String.format("%.2f", (size))).concat(" ").concat("TiB");
-                    } else {
-                        tmp = tmp.concat(String.format("%.2f", (size))).concat(" ").concat("GiB");
-                    }
-                } else {
-                    tmp = tmp.concat(String.format("%.2f", (size))).concat(" ").concat("MiB");
-                }
-            } else {
-                tmp = tmp.concat(String.format("%.2f", (size))).concat(" ").concat("KiB");
-            }
-        } else {
-            tmp = tmp.concat(String.format("%.2f", (size))).concat(" ").concat("B");
+        while (size / 1024 >= 1) {
+            size /= 1024;
+            count++;
+        }
+        tmp = tmp.concat(String.format("%.2f", (size))).concat(" ");
+        switch (count) {
+            case 0:
+                tmp = tmp.concat("B");
+                break;
+            case 1:
+                tmp = tmp.concat("KiB");
+                break;
+            case 2:
+                tmp = tmp.concat("MiB");
+                break;
+            case 3:
+                tmp = tmp.concat("GiB");
+                break;
         }
         return tmp;
     }

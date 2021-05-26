@@ -44,14 +44,9 @@ public class UploadController {
         if(nameSystem == null) return "redirect:/main/".concat(String.valueOf(id));
         Long size = file.getSize();
         DirApp dirApp = appService.getDirById(id);
-        FileApp fileApp = new FileApp();
-        fileApp.setName(name);
-        fileApp.setNameSystem(nameSystem);
-        fileApp.setSize(size);
-        fileApp.setStrsize(Utilities.formatSize(size));
-        fileApp.setTime(LocalTime.now().toString().split("\\.")[0]);
-        fileApp.setDate(LocalDate.now().toString());
-        fileApp.setDirApp(dirApp);
+        FileApp fileApp = new FileApp(null, name, nameSystem, size,
+                Utilities.formatSize(size), LocalTime.now().toString().split("\\.")[0],
+                LocalDate.now().toString(), dirApp);
         appService.createNewFile(fileApp);
         return "redirect:/main/".concat(String.valueOf(id));
     }

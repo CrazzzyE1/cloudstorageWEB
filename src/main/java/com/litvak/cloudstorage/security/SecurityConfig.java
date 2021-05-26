@@ -31,12 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/settings/**").authenticated()
                 .antMatchers("/recycle/**").authenticated()
                 .antMatchers("/copy/**").authenticated()
+                .antMatchers("/admins/**").hasRole("ADMIN")
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/main", true)
                 .and()
                 .logout()
+                .logoutSuccessUrl("/")
                 .permitAll();
     }
 

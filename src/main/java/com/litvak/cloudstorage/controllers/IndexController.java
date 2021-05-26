@@ -11,7 +11,12 @@ public class IndexController {
 
     @GetMapping
     public String indexPage() {
-        return "redirect:/login";
+        return "page_views/index";
+    }
+
+    @GetMapping("/admins")
+    public String adminsPage() {
+        return "page_views/admins";
     }
 
     @GetMapping("/login")

@@ -22,6 +22,7 @@
 - Flyway 
 - PostgreSQL 
 - Thymeleaf
+- JavaScript
 - BootStrap
 - HTML + CSS
 

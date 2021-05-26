@@ -69,8 +69,6 @@ public class MainController {
     @GetMapping("/delete")
     public String deleteDir(@RequestParam(value = "id") Long id,
                             @RequestParam(value = "parent_id") Integer parent_id) {
-        System.out.println(id.toString());
-        System.out.println(parent_id);
         appService.removeDir(id);
         return "redirect:".concat(parent_id.toString());
     }

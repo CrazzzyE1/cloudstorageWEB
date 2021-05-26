@@ -1,16 +1,12 @@
 package com.litvak.cloudstorage.entities;
 
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import javax.persistence.*;
-import java.util.Date;
 
 @Setter
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 
 @Entity
 @Table(name = "files")

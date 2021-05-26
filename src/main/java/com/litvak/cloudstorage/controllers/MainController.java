@@ -63,13 +63,14 @@ public class MainController {
                                @RequestParam(value = "parent_id") Integer parent_id,
                                @RequestParam(value = "id") Integer id) {
         appService.createNewDir(name, parent_id, id);
-        String tmp = "redirect:".concat(parent_id.toString());
-        return tmp;
+        return "redirect:".concat(parent_id.toString());
     }
 
     @GetMapping("/delete")
     public String deleteDir(@RequestParam(value = "id") Long id,
                             @RequestParam(value = "parent_id") Integer parent_id) {
+        System.out.println(id.toString());
+        System.out.println(parent_id);
         appService.removeDir(id);
         return "redirect:".concat(parent_id.toString());
     }

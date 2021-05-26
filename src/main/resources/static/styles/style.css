@@ -314,23 +314,48 @@
 }
 
 #okno {
-    width: 200px;
-    height: 50px;
-    text-align: center;
-    padding: 15px;
+    background: white;
+    width: 350px;
+    height: 220px;
+    text-align: right;
+    padding: 15px 40px;
     display: none;
     position: absolute;
-    top: 350px;
-    left: 33px;
-    margin: auto;
-    z-index: 15;
+    top: 30vh;
+    left: 40vw;
   }
-  #okno:target {display: block;}
-  .close {
+
+#okno:target {
+    display: block;
+    z-index: 15;
+}
+
+
+/* .active_menu:focus ~ .menu,
+.active_menu:active ~ .menu, */
+
+.p_text {
+    text-align: center;
+    font-size: 20px;
+}
+  .folder_name {
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+
+  .folder_name_button {
     display: flex;
-    margin: 10px;
+    justify-content: space-around;
+  }
+
+
+
+  .close {
+    margin-top: 20px;
+    margin: 20px;
+    margin-bottom: 25px;
     text-decoration: none;
-    font-size: 14pt;
+    font-size: 20pt;
     cursor:pointer;
     color: #999
   }

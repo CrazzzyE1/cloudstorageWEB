@@ -47,7 +47,7 @@ public class UploadController {
         FileApp fileApp = new FileApp(null, name, nameSystem, size,
                 Utilities.formatSize(size), LocalTime.now().toString().split("\\.")[0],
                 LocalDate.now().toString(), dirApp);
-        appService.createNewFile(fileApp);
+        appService.saveFile(fileApp);
         return "redirect:/main/".concat(String.valueOf(id));
     }
 }

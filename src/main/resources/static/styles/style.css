@@ -175,6 +175,11 @@
     text-decoration: none;
 }
 
+.links_list2:hover {
+    color:rgb(104, 104, 104);
+    text-decoration: none;
+}
+
 .main_app_folder_name{
     margin-left: 10px;
     display: flex;
@@ -225,6 +230,7 @@
 }
 
 .file_name {
+    display: flex;
     margin-left: 15px;
     width: 90%;
 }
@@ -293,19 +299,12 @@
     min-width: 300px;
 }
 
-/* .name_text {
-    margin-left: 5px;
-    margin-right: 5px;
-    font-size: 1.2em;
-} */
-
 .footer {
     margin: 0 auto;
     max-width: 1140px;
     margin-top: 30px;
     padding-bottom: 32px;
     text-align: right;
-
 }
 
 .footer_text {
@@ -324,15 +323,6 @@
     top: 30vh;
     left: 40vw;
   }
-
-/* #okno:target {
-    display: block;
-    z-index: 15;
-} */
-
-
-/* .active_menu:focus ~ .menu,
-.active_menu:active ~ .menu, */
 
 .p_text {
     text-align: center;
@@ -426,4 +416,6 @@
   .login_buttons{
     text-align: center;
   }
+
+
 

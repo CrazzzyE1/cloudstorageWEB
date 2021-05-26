@@ -45,7 +45,8 @@
             <a class="side_bar_button btn btn-warning" th:href="@{/upload(
                 current_dir_id = ${current_dir.id}
                 )}">UPLOAD</a>
-            <a class="side_bar_button btn btn-primary" href="#okno">NEW DIRECTORY</a>
+            <a class="side_bar_button btn btn-primary" PopUpShowNewFolder href="javascript:PopUpShowNewFolder()">NEW
+                DIRECTORY</a>
         </div>
         <div class="side_bar_files">
             <a href="/main" class="side_bar_links">Files</a>
@@ -104,10 +105,8 @@
                     </a>
                 </div>
                 <div class="copy_cut_buttons">
-                    <a th:href="@{/main/delete(
-                        id = ${dirs.id},
-                        parent_id = ${dirs.dirId}
-                        )}" class="delete but"><i class="far fa-trash-alt"></i></a>
+                    <a class="delete but" th:onclick="'javascript:deleteFolder(\'' + ${dirs.id} +'\');'">
+                        <i class="far fa-trash-alt"></i></a>
                 </div>
                 <div class="file_name">
                     <p class="name_text">[[${dirs.name}]]</p>
@@ -142,10 +141,8 @@
                         id = ${file.id},
                         current_page = ${current_dir.id}
                         )}" class="copy but"><i class="far fa-copy"></i></a>
-                    <a th:href="@{/main/deletef(
-                        id = ${file.id},
-                        parent_id = ${file.dirApp.id}
-                        )}" class="delete but"><i class="far fa-trash-alt"></i></a>
+                    <a class="delete but" th:onclick="'javascript:deleteFile(\'' + ${file.id} +'\');'">
+                        <i class="far fa-trash-alt"></i></a>
                 </div>
                 <div class="file_name">
                     <p class="name_text">[[${file.name}]]</p>
@@ -162,8 +159,8 @@
             </div>
         </div>
     </div>
-    <div id="okno" class="shadow">
-        <a href="#" class="close"><i class="fas fa-times"></i></a>
+    <div id="okno" class="shadow okno">
+        <a href="javascript:PopUpHide()" class="close"><i class="fas fa-times"></i></a>
         <form action="/main/new">
             <div class="mb-3" style="display: none">
                 <input type="text" class="form-control" id="id" name="id" placeholder="Enter your Login"
@@ -181,6 +178,45 @@
             </div>
         </form>
     </div>
+
+
+    <div id="delete_folder" class="shadow okno">
+        <form action="/main/delete">
+            <div class="mb-3" style="display: none">
+                <input type="text" class="form-control" name="parent_id" id="delete_parent_id"
+                       th:value="${current_dir.getId()}">
+            </div>
+            <div class="mb-3" style="display: none">
+                <input type="text" class="form-control" name="id" id="delete_id">
+            </div>
+            <div class="mb-3">
+                <p class="p_text">Delete ??</p>
+            </div>
+            <div class="folder_name_button">
+                <a href="javascript:PopUpHide()" class="btn btn-outline-warning">Cancel</i></a>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="delete_file" class="shadow okno">
+        <form action="/main/deletef">
+            <div class="mb-3" style="display: none">
+                <input type="text" class="form-control" name="parent_id" id="deletef_parent_id"
+                       th:value="${current_dir.getId()}">
+            </div>
+            <div class="mb-3" style="display: none">
+                <input type="text" class="form-control" name="id" id="deletef_id">
+            </div>
+            <div class="mb-3">
+                <p class="p_text">Delete File ??</p>
+            </div>
+            <div class="folder_name_button">
+                <a href="javascript:PopUpHide()" class="btn btn-outline-warning">Cancel</i></a>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+        </form>
+    </div>
 </div>
 <div class="footer">
     <div class="footer_text">
@@ -188,6 +224,8 @@
     </div>
 </div>
 <script src="https://kit.fontawesome.com/e8cd5e0a28.js" crossorigin="anonymous"></script>
+<script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+<script src="../../static/js/scripts.js" th:src="@{/js/scripts.js}"></script>
 </body>
 
 </html>

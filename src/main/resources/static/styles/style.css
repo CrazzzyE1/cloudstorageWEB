@@ -313,22 +313,22 @@
     margin: 0 auto;
 }
 
-#okno {
+.okno {
     background: white;
     width: 350px;
     height: 220px;
     text-align: right;
     padding: 15px 40px;
-    display: none;
+    /* display: none; */
     position: absolute;
     top: 30vh;
     left: 40vw;
   }
 
-#okno:target {
+/* #okno:target {
     display: block;
     z-index: 15;
-}
+} */
 
 
 /* .active_menu:focus ~ .menu,
@@ -348,7 +348,9 @@
     justify-content: space-around;
   }
 
-
+  a {
+    cursor:pointer;
+  }
 
   .close {
     margin-top: 20px;

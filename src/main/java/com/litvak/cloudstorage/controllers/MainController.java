@@ -92,4 +92,36 @@ public class MainController {
         model.addAttribute("percent", Utilities.getPercentForProgressBar(appService, principal.getName()));
         return "page_views/main";
     }
+
+    @GetMapping("/rename")
+    public String rename(@RequestParam(value = "name") String name,
+                         @RequestParam(value = "id") Long id,
+                         @RequestParam(value = "current_dir") Integer current_dir) {
+
+        if(!name.isEmpty()) {
+            DirApp dir = appService.getDirById(id);
+            if(!Utilities.checkingFolderNameForDuplication(name, appService.getDirsByDirParentId(current_dir))){
+                dir.setName(name);
+                appService.saveDir(dir);
+            }
+        }
+        return "redirect:/main/".concat(current_dir.toString());
+    }
+
+    @GetMapping("/renamef")
+    public String renamef(@RequestParam(value = "name") String name,
+                         @RequestParam(value = "id") Long id,
+                         @RequestParam(value = "current_dir") Integer current_dir) {
+
+        if(!name.isEmpty() && !Utilities.checkingFileNameForDuplication(name,
+                appService.getAllFilesByDir(appService.getDirById(current_dir.longValue())))) {
+//            DirApp dir = appService.getDirById(current_dir.longValue());
+            FileApp file = appService.getFileById(id).get();
+//            if(!Utilities.checkingFileNameForDuplication(name, appService.getAllFilesByDir(dir))){
+                file.setName(name);
+                appService.saveFile(file);
+//            }
+        }
+        return "redirect:/main/".concat(current_dir.toString());
+    }
 }

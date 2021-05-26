@@ -125,7 +125,7 @@ public class AppService {
     }
 
     @Transactional
-    public void createNewFile(FileApp fileApp) {
+    public void saveFile(FileApp fileApp) {
         fileAppRepository.save(fileApp);
     }
 
@@ -191,5 +191,10 @@ public class AppService {
     @Transactional
     public List<FileApp> getAllFilesByNameSystem(String nameSystem) {
         return fileAppRepository.findAllByNameSystem(nameSystem);
+    }
+
+    @Transactional
+    public DirApp saveDir(DirApp dir) {
+        return dirAppRepository.save(dir);
     }
 }

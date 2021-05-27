@@ -1,6 +1,6 @@
 package com.litvak.cloudstorage.controllers;
 
-import com.litvak.cloudstorage.services.AppService;
+import com.litvak.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,12 +14,11 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/settings")
 public class SettingsController {
-    AppService appService;
-
+    private UserService userService;
 
     @Autowired
-    public void setAppService(AppService appService) {
-        this.appService = appService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping
@@ -32,7 +31,7 @@ public class SettingsController {
     public String removeAccount(
             Principal principal,
             @RequestParam(name = "password", required = false) String password) {
-        appService.removeAccount(principal);
+        userService.removeAccount(principal);
         return "redirect:/logout";
     }
 
@@ -42,7 +41,7 @@ public class SettingsController {
             Principal principal,
             @RequestParam(name = "oldpassword") String oldPass,
             @RequestParam(name = "newpassword") String newPass) {
-            appService.changePassword(oldPass, newPass, principal);
+            userService.changePassword(oldPass, newPass, principal);
         return "redirect:/main";
     }
 }

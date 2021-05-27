@@ -2,7 +2,8 @@ package com.litvak.cloudstorage.controllers;
 
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
-import com.litvak.cloudstorage.services.AppService;
+import com.litvak.cloudstorage.services.DirAppService;
+import com.litvak.cloudstorage.services.FileAppService;
 import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,27 +16,33 @@ import java.util.List;
 @Controller
 @RequestMapping("/main")
 public class MainController {
-    private AppService appService;
+    private FileAppService fileAppService;
+    private DirAppService dirAppService;
 
     @Autowired
-    public void setAppService(AppService appService) {
-        this.appService = appService;
+    public void setDirAppService(DirAppService dirAppService) {
+        this.dirAppService = dirAppService;
+    }
+
+    @Autowired
+    public void setFileAppService(FileAppService fileAppService) {
+        this.fileAppService = fileAppService;
     }
 
     @GetMapping()
     public String mainPage(Model model, Principal principal) {
         Utilities.clearLinks(principal.getName());
-        DirApp dirRoot = appService.getRootDir(principal.getName());
+        DirApp dirRoot = dirAppService.getRootDir(principal.getName());
         List<FileApp> files = dirRoot.getFiles();
         Long id = dirRoot.getId();
-        List<DirApp> dirs = appService.getDirsByDirParentId(Math.toIntExact(id));
-        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
+        List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(id));
+        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
         String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
         model.addAttribute("copy", cutOrCopy);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(appService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
         return "page_views/main";
     }
 
@@ -43,18 +50,18 @@ public class MainController {
     public String changeDirectory(Principal principal,
                                   @PathVariable(value = "id") Long id,
                                   Model model) {
-        DirApp dir = appService.getDirById(id);
+        DirApp dir = dirAppService.getDirById(id);
         List<FileApp> files = dir.getFiles();
-        List<DirApp> dirs = appService.getDirsByDirParentId(Math.toIntExact(id));
+        List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(id));
         List<DirApp> links = Utilities.getLinks(principal.getName(), dir);
         String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
-        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
+        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dir);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
         model.addAttribute("links", links);
         model.addAttribute("copy", cutOrCopy);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(appService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
         return "page_views/main";
     }
 
@@ -62,14 +69,14 @@ public class MainController {
     public String createNewDir(@RequestParam(value = "name") String name,
                                @RequestParam(value = "parent_id") Integer parent_id,
                                @RequestParam(value = "id") Integer id) {
-        appService.createNewDir(name, parent_id, id);
+        dirAppService.createNewDir(name, parent_id, id);
         return "redirect:".concat(parent_id.toString());
     }
 
     @GetMapping("/delete")
     public String deleteDir(@RequestParam(value = "id") Long id,
                             @RequestParam(value = "parent_id") Integer parent_id) {
-        appService.removeDir(id);
+        dirAppService.removeDir(id);
         return "redirect:".concat(parent_id.toString());
     }
 
@@ -77,19 +84,19 @@ public class MainController {
     public String deleteFile(Principal principal,
                              @RequestParam(value = "id") Long id,
                              @RequestParam(value = "parent_id") Integer parent_id) {
-        DirApp dirTo = appService.getRootDir(principal.getName().concat("_recycle"));
-        appService.moveFile(id, dirTo);
+        DirApp dirTo = dirAppService.getRootDir(principal.getName().concat("_recycle"));
+        fileAppService.moveFile(id, dirTo);
         return "redirect:".concat(parent_id.toString());
     }
 
     @GetMapping("/search")
     public String search(Model model, @RequestParam(value = "search") String filename, Principal principal) {
-        DirApp dirRoot = appService.getRootDir(principal.getName());
-        List<FileApp> files = appService.getFilesByParams(dirRoot.getUser().getId(), filename);
-        model.addAttribute("space", Utilities.formatSize(appService.getFilesSpace(principal.getName())));
+        DirApp dirRoot = dirAppService.getRootDir(principal.getName());
+        List<FileApp> files = fileAppService.getFilesByParams(dirRoot.getUser().getId(), filename);
+        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("files", files);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(appService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
         return "page_views/main";
     }
 
@@ -98,11 +105,11 @@ public class MainController {
                          @RequestParam(value = "id") Long id,
                          @RequestParam(value = "current_dir") Integer current_dir) {
 
-        if(!name.isEmpty()) {
-            DirApp dir = appService.getDirById(id);
-            if(!Utilities.checkingFolderNameForDuplication(name, appService.getDirsByDirParentId(current_dir))){
+        if (!name.isEmpty()) {
+            DirApp dir = dirAppService.getDirById(id);
+            if (!Utilities.checkingFolderNameForDuplication(name, dirAppService.getDirsByDirParentId(current_dir))) {
                 dir.setName(name);
-                appService.saveDir(dir);
+                dirAppService.saveDir(dir);
             }
         }
         return "redirect:/main/".concat(current_dir.toString());
@@ -110,17 +117,14 @@ public class MainController {
 
     @GetMapping("/renamef")
     public String renamef(@RequestParam(value = "name") String name,
-                         @RequestParam(value = "id") Long id,
-                         @RequestParam(value = "current_dir") Integer current_dir) {
+                          @RequestParam(value = "id") Long id,
+                          @RequestParam(value = "current_dir") Integer current_dir) {
 
-        if(!name.isEmpty() && !Utilities.checkingFileNameForDuplication(name,
-                appService.getAllFilesByDir(appService.getDirById(current_dir.longValue())))) {
-//            DirApp dir = appService.getDirById(current_dir.longValue());
-            FileApp file = appService.getFileById(id).get();
-//            if(!Utilities.checkingFileNameForDuplication(name, appService.getAllFilesByDir(dir))){
-                file.setName(name);
-                appService.saveFile(file);
-//            }
+        if (!name.isEmpty() && !Utilities.checkingFileNameForDuplication(name,
+                fileAppService.getAllFilesByDir(dirAppService.getDirById(current_dir.longValue())))) {
+            FileApp file = fileAppService.getFileById(id).get();
+            file.setName(name);
+            fileAppService.saveFile(file);
         }
         return "redirect:/main/".concat(current_dir.toString());
     }

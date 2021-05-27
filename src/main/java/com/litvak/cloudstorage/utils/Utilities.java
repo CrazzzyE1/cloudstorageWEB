@@ -2,7 +2,7 @@ package com.litvak.cloudstorage.utils;
 
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
-import com.litvak.cloudstorage.services.AppService;
+import com.litvak.cloudstorage.services.FileAppService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,8 +47,8 @@ public class Utilities {
     /**
      * Подготовка данных о проценте заполнения Диска для "Прогресс бара"
      */
-    public static String getPercentForProgressBar(AppService appService, String login) {
-        Long space = appService.getFilesSpace(login);
+    public static String getPercentForProgressBar(FileAppService fileAppService, String login) {
+        Long space = fileAppService.getFilesSpace(login);
         // TODO: 18.05.2021 Transfer default space to DB
         // Default: 200 MiB for test
         long defaultSpace = 209715200L;
@@ -196,9 +196,9 @@ public class Utilities {
     /**
      * Скачивание файла на ПК пользователя с заменой системного имени файла на фактический.
      */
-    public static void downloadFile(Long id, AppService appService, HttpServletResponse response) {
-        String fileNameSystem = appService.getFileById(id).get().getNameSystem();
-        String fileName = appService.getFileById(id).get().getName();
+    public static void downloadFile(Long id, FileAppService fileAppService, HttpServletResponse response) {
+        String fileNameSystem = fileAppService.getFileById(id).get().getNameSystem();
+        String fileName = fileAppService.getFileById(id).get().getName();
 
         String dataDirectory = ("users_files");
         Path file = Paths.get(dataDirectory, fileNameSystem);

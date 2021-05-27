@@ -1,6 +1,6 @@
 package com.litvak.cloudstorage.controllers;
 
-import com.litvak.cloudstorage.services.AppService;
+import com.litvak.cloudstorage.services.FileAppService;
 import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,11 +15,11 @@ import java.security.Principal;
 @RequestMapping("/copy")
 public class CopyController {
 
-    AppService appService;
+    private FileAppService fileAppService;
 
     @Autowired
-    public void setAppService(AppService appService) {
-        this.appService = appService;
+    public void setFileAppService(FileAppService fileAppService) {
+        this.fileAppService = fileAppService;
     }
 
     @GetMapping("/copy{id}")
@@ -44,10 +44,10 @@ public class CopyController {
                         @RequestParam(name = "current_dir_id") Long current) {
         String login = principal.getName();
         if (copy.equals("cut")) {
-            appService.cutPasteFile(login, current);
+            fileAppService.cutPasteFile(login, current);
         }
         if (copy.equals("copy")) {
-            appService.copyPasteFile(login, current);
+            fileAppService.copyPasteFile(login, current);
         }
         Utilities.clearCopyStatus(login);
         return "redirect:/main/".concat(current.toString());

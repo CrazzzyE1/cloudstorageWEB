@@ -1,6 +1,6 @@
 package com.litvak.cloudstorage.controllers;
 
-import com.litvak.cloudstorage.services.AppService;
+import com.litvak.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/reg")
 public class RegistrationController {
-    AppService appService;
+    private UserService userService;
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Autowired
-    public void setAppService(AppService appService) {
-        this.appService = appService;
-    }
-
     @GetMapping
     public String registrationPage(Model model,
-                                   @RequestParam(name = "error", required = false) String error ) {
+                                   @RequestParam(name = "error", required = false) String error) {
         model.addAttribute("error", error);
         return "page_views/registration";
     }
@@ -38,8 +38,8 @@ public class RegistrationController {
     public String registration(Model model, @Param("login") String login,
                                @Param("password") String password) {
         password = passwordEncoder.encode(password);
-        try{
-            appService.createNewUser(login, password);
+        try {
+            userService.createNewUser(login, password);
             model.addAttribute("success", "success");
             return "page_views/login";
         } catch (Exception e) {

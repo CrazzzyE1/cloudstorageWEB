@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService{
     }
     @Override
     public User getUserByUsername(String username) {
-        return userRepository.findUserByUserName(username);
+        return userRepository.findUserByUserName(username).get();
     }
 
     @Override
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void removeAccount(Principal principal) {
-        User user = userRepository.findUserByUserName(principal.getName());
+        User user = userRepository.findUserByUserName(principal.getName()).get();
         user.setEnabled(false);
     }
 }

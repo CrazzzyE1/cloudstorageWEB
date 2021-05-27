@@ -67,7 +67,7 @@ public class FileAppServiceImpl implements FileAppService {
     public void cutPasteFile(String login, Long current) {
         Long fileId = Utilities.getFileId(login);
         FileApp file = fileAppRepository.findById(fileId).get();
-        DirApp dir = dirAppRepository.findDirAppsById(current);
+        DirApp dir = dirAppRepository.findDirAppsById(current).get();
         if (Utilities.checkingFileNameForDuplication(file.getName(), dir.getFiles())) return;
         file.setDirApp(dir);
     }
@@ -84,7 +84,7 @@ public class FileAppServiceImpl implements FileAppService {
     public void copyPasteFile(String login, Long current) {
         Long fileId = Utilities.getFileId(login);
         FileApp tmpFile = fileAppRepository.findById(fileId).get();
-        DirApp dirApp = dirAppRepository.findDirAppsById(current);
+        DirApp dirApp = dirAppRepository.findDirAppsById(current).get();
         FileApp file = new FileApp();
         if (Utilities.checkingFileNameForDuplication(tmpFile.getName(), dirApp.getFiles())) return;
         file.setName(tmpFile.getName());

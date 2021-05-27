@@ -5,10 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DirAppRepository extends JpaRepository<DirApp, Long> {
-    DirApp findDirAppByName(String name);
+    Optional<DirApp> findDirAppByName(String name);
     List<DirApp> findAllByDirId(Integer dir_id);
-    DirApp findDirAppsById(Long id);
+    Optional<DirApp> findDirAppsById(Long id);
 }

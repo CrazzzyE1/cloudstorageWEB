@@ -76,7 +76,6 @@ public class FileAppServiceImpl implements FileAppService {
     @Override
     public void moveFile(Long fileId, DirApp dirTo) {
         FileApp file = fileAppRepository.findById(fileId).get();
-        System.out.println(file);
         file.setDirApp(dirTo);
     }
 

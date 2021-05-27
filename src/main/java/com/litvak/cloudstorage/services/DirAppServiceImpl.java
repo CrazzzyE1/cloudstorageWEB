@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DirAppServiceImpl implements DirAppService {
@@ -26,12 +27,13 @@ public class DirAppServiceImpl implements DirAppService {
 
     @Override
     public DirApp saveDir(DirApp dir) {
+        dirAppRepository.save(dir);
         return dirAppRepository.save(dir);
     }
 
     @Override
     public DirApp getRootDir(String login) {
-        return dirAppRepository.findDirAppByName(login);
+        return dirAppRepository.findDirAppByName(login).get();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class DirAppServiceImpl implements DirAppService {
 
     @Override
     public DirApp getDirById(Long id) {
-        return dirAppRepository.findDirAppsById(id);
+        return dirAppRepository.findDirAppsById(id).get();
     }
 
     @Override

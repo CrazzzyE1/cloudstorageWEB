@@ -149,6 +149,12 @@ public class FileAppServiceImpl implements FileAppService {
 
     @Override
     @Transactional
+    public void deleteByNameAndDirApp(String name, DirApp dir) {
+        fileAppRepository.deleteByNameAndDirApp(name, dir);
+    }
+
+    @Override
+    @Transactional
     public void replacement(String login, String copy, Long current) {
         Long fileId = Utilities.getFileId(login);
         FileApp file = fileAppRepository.findById(fileId).get();

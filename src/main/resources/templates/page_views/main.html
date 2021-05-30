@@ -110,12 +110,12 @@
                     <div class="copy_cut_buttons">
                         <a class="delete but" th:onclick="'javascript:deleteFolder(\'' + ${dirs.id} +'\');'">
                             <i class="far fa-trash-alt"></i></a>
+                        <a class="edit but" th:onclick="'javascript:rename(\'' + ${dirs.id} +'\');'">
+                            <i class="far fa-edit"></i></i></a>
                     </div>
                     <div class="file_name">
                         <p class="name_text">
-                            <a class="links_list2" th:onclick="'javascript:rename(\'' + ${dirs.id} +'\');'">
                                 [[${dirs.name}]]
-                            </a>
                         </p>
                     </div>
                     <div class="date">
@@ -150,12 +150,12 @@
                         )}" class="copy but"><i class="far fa-copy"></i></a>
                         <a class="delete but" th:onclick="'javascript:deleteFile(\'' + ${file.id} +'\');'">
                             <i class="far fa-trash-alt"></i></a>
+                        <a class="edit but" th:onclick="'javascript:renamef(\'' + ${file.id} + '\');'">
+                            <i class="far fa-edit"></i></i></a>
                     </div>
                     <div class="file_name">
                         <p class="name_text">
-                            <a class="links_list2" th:onclick="'javascript:renamef(\'' + ${file.id} + '\');'">
                                 [[${file.name}]]
-                            </a>
                         </p>
                     </div>
                     <div class="date">
@@ -276,8 +276,7 @@
         <div th:if="${duplicate}" id="duplicate" class="shadow okno">
             <form th:action="@{/copy/replacement}">
                 <div class="mb-3" style="display: none">
-                    <input type="text" class="form-control" name="current_dir_id"
-                           th:value="${current_dir.getId()}">
+                    <input type="text" class="form-control" name="current_dir_id" th:value="${current_dir.getId()}">
                 </div>
                 <div class="mb-3" style="display: none">
                     <input type="text" class="form-control" name="copy" th:value="${copy}">

@@ -2,7 +2,6 @@ package com.litvak.cloudstorage.utils;
 
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
-import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +19,7 @@ public class Utilities {
     private static Map<String, List<DirApp>> linksMap = new HashMap<>();
     private static Map<String, Long> cutMap = new HashMap<>();
     private static Map<String, Long> copyMap = new HashMap<>();
+    private static Map<String, MultipartFile> multi = new HashMap<>();
 
     /**
      * Проверка имени папки на дубликат в папке назначения
@@ -200,7 +200,6 @@ public class Utilities {
     public static void downloadFile(Long id, FileAppService fileAppService, HttpServletResponse response) {
         String fileNameSystem = fileAppService.getFileById(id).get().getNameSystem();
         String fileName = fileAppService.getFileById(id).get().getName();
-
         String dataDirectory = ("users_files");
         Path file = Paths.get(dataDirectory, fileNameSystem);
         if (Files.exists(file)) {
@@ -231,10 +230,18 @@ public class Utilities {
     }
 
     // TODO: 28.05.2021 FIX -1L 
-    public static Long getOldFile(String nameNewFile, List<FileApp> files){
+    public static Long getOldFile(String nameNewFile, List<FileApp> files) {
         for (int i = 0; i < files.size(); i++) {
-            if(files.get(i).getName().equals(nameNewFile)) return files.get(i).getId();
+            if (files.get(i).getName().equals(nameNewFile)) return files.get(i).getId();
         }
         return -1L;
+    }
+
+    public static void saveMulti(String login, MultipartFile file) {
+        multi.put(login, file);
+    }
+
+    public static MultipartFile getMulti(String login) {
+        return multi.get(login);
     }
 }

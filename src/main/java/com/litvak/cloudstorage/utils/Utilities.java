@@ -2,6 +2,7 @@ package com.litvak.cloudstorage.utils;
 
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
+import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -227,5 +228,13 @@ public class Utilities {
         File fileToRemove = new File(rootPath + File.separator + nameSystem);
         if (fileToRemove.exists()) res = fileToRemove.delete();
         return res;
+    }
+
+    // TODO: 28.05.2021 FIX -1L 
+    public static Long getOldFile(String nameNewFile, List<FileApp> files){
+        for (int i = 0; i < files.size(); i++) {
+            if(files.get(i).getName().equals(nameNewFile)) return files.get(i).getId();
+        }
+        return -1L;
     }
 }

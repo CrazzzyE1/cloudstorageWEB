@@ -37,5 +37,4 @@ public class FileApp {
     @ManyToOne
     @JoinColumn(name = "dir_id")
     private DirApp dirApp;
-
 }

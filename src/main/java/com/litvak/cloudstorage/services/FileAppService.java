@@ -19,13 +19,17 @@ public interface FileAppService {
 
     Optional<FileApp> getFileById(Long id);
 
-    void cutPasteFile(String login, Long current);
+    boolean cutPasteFile(String login, Long current);
+//    void cutPasteFile(String login, Long current);
 
     void moveFile(Long fileId, DirApp dirTo);
 
-    void copyPasteFile(String login, Long current);
+    boolean copyPasteFile(String login, Long current);
+//    void copyPasteFile(String login, Long current);
 
     List<FileApp> getAllFilesByDir(DirApp dirApp);
 
     List<FileApp> getAllFilesByNameSystem(String nameSystem);
+
+    void replacement(String login, String copy, Long current);
 }

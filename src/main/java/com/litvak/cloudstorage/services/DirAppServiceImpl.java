@@ -6,6 +6,7 @@ import com.litvak.cloudstorage.repositories.UserRepository;
 import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,27 +26,32 @@ public class DirAppServiceImpl implements DirAppService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     @Override
     public DirApp saveDir(DirApp dir) {
         dirAppRepository.save(dir);
         return dirAppRepository.save(dir);
     }
 
+    @Transactional
     @Override
     public DirApp getRootDir(String login) {
         return dirAppRepository.findDirAppByName(login).get();
     }
 
+    @Transactional
     @Override
     public List<DirApp> getDirsByDirParentId(Integer id) {
         return dirAppRepository.findAllByDirId(id);
     }
 
+    @Transactional
     @Override
     public DirApp getDirById(Long id) {
         return dirAppRepository.findDirAppsById(id).get();
     }
 
+    @Transactional
     @Override
     public void createNewDir(String name, Integer parentId, Integer userId) {
         name = name.trim();
@@ -58,6 +64,7 @@ public class DirAppServiceImpl implements DirAppService {
         dirAppRepository.save(dirApp);
     }
 
+    @Transactional
     @Override
     public void removeDir(Long id) {
         dirAppRepository.deleteById(id);

@@ -30,7 +30,9 @@ public class MainController {
     }
 
     @GetMapping()
-    public String mainPage(Model model, Principal principal) {
+    public String mainPage(Model model, Principal principal,
+                           @PathVariable(value = "duplicate", required = false) boolean duplicate
+    ) {
         Utilities.clearLinks(principal.getName());
         DirApp dirRoot = dirAppService.getRootDir(principal.getName());
         List<FileApp> files = dirRoot.getFiles();
@@ -49,6 +51,7 @@ public class MainController {
     @GetMapping("/{id}")
     public String changeDirectory(Principal principal,
                                   @PathVariable(value = "id") Long id,
+                                  @PathVariable(value = "duplicate", required = false) boolean duplicate,
                                   Model model) {
         DirApp dir = dirAppService.getDirById(id);
         List<FileApp> files = dir.getFiles();

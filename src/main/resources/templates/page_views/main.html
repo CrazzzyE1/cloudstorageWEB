@@ -276,6 +276,25 @@
             </form>
         </div>
 
+        <div th:if="${duplicate}" id="duplicate" class="shadow okno">
+            <form th:action="@{/copy/replacement}">
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="current_dir_id"
+                           th:value="${current_dir.getId()}">
+                </div>
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="copy" th:value="${copy}">
+                </div>
+                <div class="mb-3">
+                    <p class="p_text">Do you really want to delete the file?</p>
+                </div>
+                <div class="folder_name_button">
+                    <a th:href="@{/main/{id} (id = ${current_dir.id})}" class="btn btn-outline-warning">Cancel</i></a>
+                    <button type="submit" class="btn btn-danger">Replace</button>
+                </div>
+            </form>
+        </div>
+
     </div>
     <div class="footer">
         <div class="footer_text">

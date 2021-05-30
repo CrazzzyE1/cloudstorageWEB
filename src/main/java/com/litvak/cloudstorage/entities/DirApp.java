@@ -33,5 +33,4 @@ public class DirApp {
     @OneToMany(mappedBy = "dirApp")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<FileApp> files;
-
 }

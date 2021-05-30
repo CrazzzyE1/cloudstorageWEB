@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -153,15 +154,14 @@ public class FileAppServiceImpl implements FileAppService {
         FileApp file = fileAppRepository.findById(fileId).get();
         String name = file.getName();
         DirApp dir = dirAppRepository.findDirAppsById(current).get();
+        if(Objects.equals(dir, file.getDirApp())) return;
         fileAppRepository.deleteByNameAndDirApp(name, dir);
         if("cut".equals(copy)) {
             file.setDirApp(dir);
             fileAppRepository.save(file);
             return;
         }
-        System.out.println(copy);
         if("copy".equals(copy)) {
-            System.out.println("Herr");
             FileApp fileNew = new FileApp();
             fileNew.setName(name);
             fileNew.setNameSystem(file.getNameSystem());

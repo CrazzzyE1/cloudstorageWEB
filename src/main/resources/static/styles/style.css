@@ -175,17 +175,6 @@
     text-decoration: none;
 }
 
-.links_list2:hover {
-    color:rgb(104, 104, 104);
-    cursor: pointer;
-
-}
-
-.links_list2:hover::before {
-    color: #0d6efd;
-    content: 'Rename >> ';
-}
-
 .main_app_folder_name{
     margin-left: 10px;
     display: flex;

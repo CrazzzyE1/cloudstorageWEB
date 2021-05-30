@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface FileAppRepository extends JpaRepository<FileApp, Long> {
@@ -30,6 +29,5 @@ public interface FileAppRepository extends JpaRepository<FileApp, Long> {
 
     List<FileApp> findAllByDirApp(DirApp dirApp);
     List<FileApp> findAllByNameSystem(String nameSystem);
-//    Optional<FileApp> findByName(String name);
     void deleteByNameAndDirApp(String name, DirApp dir);
 }

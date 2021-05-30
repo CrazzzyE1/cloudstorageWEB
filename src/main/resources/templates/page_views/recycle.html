@@ -7,109 +7,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recycle - My Cloud Storage</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="../../static/styles/style.css" th:href="@{/styles/style.css}">
 </head>
 
 <body>
-    <div class="container_main">
-        <div class="main_header">
-            <div class="logo">
-                <a href="/main">
-                    <img src="../../static/img/logo.png" th:src=@{../img/logo.png} alt="logo" class="logo_img">
-                </a>
-                <h1 class="logo_title">My Cloud Storage</h1>
-            </div>
-            <div class="head_form_right">
-                <div class="main_search">
-                    <div class="logout_button_div">
-                        <div>
-                            <a href="/settings" class="logout_button settings_button">
-                                <i class="fas fa-users-cog"></i></a>
-                        </div>
-                        <div><a href="/logout" class="logout_button"><i class="fas fa-sign-out-alt"></i></a></div>
-
+<div class="container_main">
+    <div class="main_header">
+        <div class="logo">
+            <a href="/main">
+                <img src="../../static/img/logo.png" th:src=@{../img/logo.png} alt="logo" class="logo_img">
+            </a>
+            <h1 class="logo_title">My Cloud Storage</h1>
+        </div>
+        <div class="head_form_right">
+            <div class="main_search">
+                <div class="logout_button_div">
+                    <div>
+                        <a href="/settings" class="logout_button settings_button">
+                            <i class="fas fa-users-cog"></i></a>
                     </div>
+                    <div><a href="/logout" class="logout_button"><i class="fas fa-sign-out-alt"></i></a></div>
+
                 </div>
             </div>
         </div>
-        <div class="side_bar">
-            <div class="side_bar_top">
-                <a class="side_bar_button btn btn-outline-danger" th:href="@{/recycle/deleteall}">EMPTY</a>
-            </div>
-            <div class="side_bar_top">
-                <a class="side_bar_button btn btn-primary" th:href="@{/recycle/restoreall}">RESTORE</a>
-            </div>
-            <div class="side_bar_files">
-                <a href="/main" class="side_bar_links">Files</a>
-                <a href="/recycle" class="side_bar_links">Recycle Bin</a>
-            </div>
-            <div class="side_bar_progress">
-                <p class="side_bar_progress_text">
-                    Cloud space: [[${space}]] / 200 MiB
-                </p>
-                <div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
-                         th:style = "'width:' + ${percent}+'%'" th:attr = "aria-valuenow = ${percent}" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
-            </div>
-            <div class="side_bar_buy">
-                <div class="logout">
-                    <a target="_blank" class="side_bar_button btn btn-outline-warning"
-                        href="https://www.donationalerts.com/">Buy more space</a>
-                </div>
-                <a href="../../static/application/desktop_application.rar"
-                    th:href="@{/application/desktop_application.rar}" class="side_bar_link_download_app">Download PC
-                    application</a>
-
+    </div>
+    <div class="side_bar">
+        <div class="side_bar_top">
+            <a class="side_bar_button btn btn-outline-danger" th:href="@{/recycle/deleteAllQuestion}">EMPTY</a>
+        </div>
+        <div class="side_bar_top">
+            <a class="side_bar_button btn btn-primary" th:href="@{/recycle/restoreall}">RESTORE</a>
+        </div>
+        <div class="side_bar_files">
+            <a href="/main" class="side_bar_links">Files</a>
+            <a href="/recycle" class="side_bar_links">Recycle Bin</a>
+        </div>
+        <div class="side_bar_progress">
+            <p class="side_bar_progress_text">
+                Cloud space: [[${space}]] / 200 MiB
+            </p>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+                     th:style="'width:' + ${percent}+'%'" th:attr="aria-valuenow = ${percent}" aria-valuemin="0"
+                     aria-valuemax="100"></div>
             </div>
         </div>
-        <div class="main_app shadow p-3 mb-5 bg-body rounded">
-            <div class="main_app_top">
-                <div class="main_app_folder_name">
-                    <div class="current_name_folder">
-                        <a href="/main" class="back_link current_dir">
-                            <i class="fas fa-arrow-left"></i></a>
-                        <h1 class="current_dir">Recycle Bin</h1>
-                    </div>
+        <div class="side_bar_buy">
+            <div class="logout">
+                <a target="_blank" class="side_bar_button btn btn-outline-warning"
+                   href="https://www.donationalerts.com/">Buy more space</a>
+            </div>
+            <a href="../../static/application/desktop_application.rar"
+               th:href="@{/application/desktop_application.rar}" class="side_bar_link_download_app">Download PC
+                application</a>
+
+        </div>
+    </div>
+    <div class="main_app shadow p-3 mb-5 bg-body rounded">
+        <div class="main_app_top">
+            <div class="main_app_folder_name">
+                <div class="current_name_folder">
+                    <a href="/main" class="back_link current_dir">
+                        <i class="fas fa-arrow-left"></i></a>
+                    <h1 class="current_dir">Recycle Bin</h1>
                 </div>
             </div>
-            <div class="main_app_content" th:each="file : ${files}">
-                <div class="content_item">
-                    <div class="img">
-                        <img src="../../static/img/img_folder.png" th:src=@{../img/img_file.png} alt="file"
-                            class="folder">
-                    </div>
-                    <div class="copy_cut_buttons">
-                        <a th:href="@{/recycle/restore
+        </div>
+        <div class="main_app_content" th:each="file : ${files}">
+            <div class="content_item">
+                <div class="img">
+                    <img src="../../static/img/img_folder.png" th:src=@{../img/img_file.png} alt="file"
+                         class="folder">
+                </div>
+                <div class="copy_cut_buttons">
+                    <a th:href="@{/recycle/restore
                         (id = ${file.id})}" class="download but">
-                            <i class="far fa-plus-square"></i></a>
-                        <a th:href="@{/recycle/delete(
+                        <i class="far fa-plus-square"></i></a>
+                    <a th:href="@{/recycle/deleteQuestion(
                         id = ${file.id}
                         )}" class="delete but"><i class="far fa-trash-alt"></i></a>
-                    </div>
-                    <div class="file_name">
-                        <p class="name_text">[[${file.name}]]</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">[[${file.date}]]</p>
-                    </div>
-                    <div class="date">
-                        <p class="name_text">[[${file.time}]]</p>
-                    </div>
-                    <div class="file_size">
-                        <p class="name_text">[[${file.strsize}]]</p>
-                    </div>
+                </div>
+                <div class="file_name">
+                    <p class="name_text">[[${file.name}]]</p>
+                </div>
+                <div class="date">
+                    <p class="name_text">[[${file.date}]]</p>
+                </div>
+                <div class="date">
+                    <p class="name_text">[[${file.time}]]</p>
+                </div>
+                <div class="file_size">
+                    <p class="name_text">[[${file.strsize}]]</p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="footer">
-        <div class="footer_text">
-            <h6 class="footer_copy">All rights reserved &copy 2021</h6>
-        </div>
-    </div>
-    <script src="https://kit.fontawesome.com/e8cd5e0a28.js" crossorigin="anonymous"></script>
-</body>
+</div>
 
+<div th:if="${duplicate}" id="duplicate" class="shadow okno">
+    <form th:action="@{/recycle/restoreFile}">
+        <div class="mb-3" style="display: none">
+            <input type="text" class="form-control" name="id" th:value="${id}">
+        </div>
+        <div class="mb-3">
+            <p class="p_text">A file with this name already exists. Replace it?</p>
+        </div>
+        <div class="folder_name_button">
+            <a th:href="@{/recycle}" class="btn btn-outline-warning">Cancel</i></a>
+            <button type="submit" class="btn btn-danger">Replace</button>
+        </div>
+    </form>
+</div>
+
+<div th:if="${duplicate2}" id="duplicate2" class="shadow okno">
+    <form th:action="@{/recycle/restoreAllFile}">
+        <div class="mb-3">
+            <p class="p_text">Files with these names already exist. Replace them?</p>
+        </div>
+        <div class="folder_name_button">
+            <a th:href="@{/recycle}" class="btn btn-outline-warning">Cancel</i></a>
+            <button type="submit" class="btn btn-danger">Replace</button>
+        </div>
+    </form>
+</div>
+
+<div th:if="${deleteall}" id="deleteall" class="shadow okno">
+    <form th:action="@{/recycle/deleteall}">
+        <div class="mb-3">
+            <p class="p_text">Do you really want to delete your files permanently?</p>
+        </div>
+        <div class="folder_name_button">
+            <a th:href="@{/recycle}" class="btn btn-outline-warning">Cancel</i></a>
+            <button type="submit" class="btn btn-danger">Delete All</button>
+        </div>
+    </form>
+</div>
+
+<div th:if="${delete}" id="delete" class="shadow okno">
+    <form th:action="@{/recycle/delete}">
+        <div class="mb-3" style="display: none">
+            <input type="text" class="form-control" name="id" th:value="${id}">
+        </div>
+        <div class="mb-3">
+            <p class="p_text">Do you really want to delete this file permanently?</p>
+        </div>
+        <div class="folder_name_button">
+            <a th:href="@{/recycle}" class="btn btn-outline-warning">Cancel</i></a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+    </form>
+</div>
+
+<div class="footer">
+    <div class="footer_text">
+        <h6 class="footer_copy">All rights reserved &copy 2021</h6>
+    </div>
+</div>
+<script src="https://kit.fontawesome.com/e8cd5e0a28.js" crossorigin="anonymous"></script>
+</body>
 </html>

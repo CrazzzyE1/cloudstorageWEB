@@ -42,6 +42,7 @@ public class UserServiceImpl implements UserService{
         user.setUserName(login);
         user.setEnabled(true);
         user.setPassword(password);
+        user.setSpace(209715200L);
         user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         dir.setName(login);
         dir.setUser(user);
@@ -53,7 +54,6 @@ public class UserServiceImpl implements UserService{
         return user;
     }
 
-    // TODO: 27.05.2021 FIX IT
     @Override
     @Transactional
     public void changePassword(String newPass, User user) {
@@ -64,5 +64,10 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public void removeAccount(User user) {
         user.setEnabled(false);
+    }
+
+    @Override
+    public Long getStorage(String username) {
+       return userRepository.findUserByUserName(username).get().getSpace();
     }
 }

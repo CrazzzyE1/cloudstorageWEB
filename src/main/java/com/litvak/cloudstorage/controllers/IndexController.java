@@ -14,11 +14,6 @@ public class IndexController {
         return "page_views/index";
     }
 
-    @GetMapping("/admins")
-    public String adminsPage() {
-        return "page_views/admins";
-    }
-
     @GetMapping("/login")
     public String loginPage() {
         return "page_views/login";

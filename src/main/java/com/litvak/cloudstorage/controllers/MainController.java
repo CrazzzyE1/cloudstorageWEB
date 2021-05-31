@@ -38,8 +38,12 @@ public class MainController {
 
     @GetMapping()
     public String mainPage(Model model, Principal principal,
-                           @PathVariable(value = "duplicate", required = false) boolean duplicate
-    ) {
+                           @PathVariable(value = "duplicate", required = false) boolean duplicate) {
+        if (userService.getUserByUsername(principal.getName()).getRoles()
+                .stream().filter(e -> e.getName().equals("ROLE_ADMIN")).findFirst().isPresent()){
+            return "redirect:/admins";
+        }
+
         Utilities.clearLinks(principal.getName());
         DirApp dirRoot = dirAppService.getRootDir(principal.getName());
         List<FileApp> files = dirRoot.getFiles();
@@ -81,7 +85,7 @@ public class MainController {
     public String createNewDir(@RequestParam(value = "name") String name,
                                @RequestParam(value = "parent_id") Integer parent_id,
                                @RequestParam(value = "id") Integer id) {
-        if(name.trim().isEmpty())  return "redirect:".concat(parent_id.toString());
+        if (name.trim().isEmpty()) return "redirect:".concat(parent_id.toString());
         name = name.trim();
         dirAppService.createNewDir(name, parent_id, id);
         return "redirect:".concat(parent_id.toString());

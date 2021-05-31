@@ -29,6 +29,12 @@
     padding-right: 20px;
 }
 
+.logo_img2 {
+    height: 40px;
+    padding-right: 20px;
+    color: #eee;
+}
+
 .main_search {
     margin-left: 90px;
     display: flex;
@@ -412,5 +418,17 @@
     text-align: center;
   }
 
+.navbar {
+    justify-content: space-between;
+    padding-right: 15px;
+    padding-left: 15px;
+    box-sizing: border-box;
+}
 
+.users_table_div {
+    margin: 15px 100px;
+}
 
+.but2{
+    color: #555;
+}

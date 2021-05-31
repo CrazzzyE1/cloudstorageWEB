@@ -62,12 +62,34 @@ public class UserServiceImpl implements UserService{
 
     @Override
     @Transactional
+    public void changeSpace(Long space, User user) {
+        user.setSpace(space);
+    }
+
+    @Override
+    @Transactional
     public void removeAccount(User user) {
         user.setEnabled(false);
     }
 
     @Override
+    @Transactional
+    public void activateAccount(User user) {
+        user.setEnabled(true);
+    }
+
+    @Override
     public Long getStorage(String username) {
        return userRepository.findUserByUserName(username).get().getSpace();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
     }
 }

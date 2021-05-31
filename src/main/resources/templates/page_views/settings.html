@@ -17,13 +17,14 @@
         <div class="header">
             <h3 class="header_title">Settings</h3>
         </div>
-
+        <div th:if="${password}" class="alert alert-danger">
+            <p>The password doesn't match. Try again.</p>
+        </div>
         <div class="tabs">
             <input type="radio" name="tab-btn" id="tab-btn-1" value="" checked>
             <label for="tab-btn-1">Change Password</label>
             <input type="radio" name="tab-btn" id="tab-btn-2" value="">
             <label for="tab-btn-2">Remove account</label>
-
             <div id="content-1" class="shadow ">
                 <div class="main p-3 bg-body rounded">
                     <form name="f" th:action="@{/settings/change}" method="post">
@@ -49,8 +50,8 @@
                 <div class="main p-3 bg-body rounded">
                     <form name="f" th:action="@{/settings/delete}" method="post">
                         <div class="mb-3 pass1">
-                            <label for="password1" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password1" name="password"
+                            <label for="password3" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password3" name="password"
                                 placeholder="Enter your password">
                         </div>
                         <div class="login_buttons">
@@ -62,15 +63,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
-
     </div>
     <div class="footer">
         <div class="footer_text">

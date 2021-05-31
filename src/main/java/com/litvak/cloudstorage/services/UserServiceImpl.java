@@ -1,12 +1,18 @@
 package com.litvak.cloudstorage.services;
 import com.litvak.cloudstorage.entities.DirApp;
+import com.litvak.cloudstorage.entities.Role;
 import com.litvak.cloudstorage.entities.User;
 import com.litvak.cloudstorage.repositories.DirAppRepository;
 import com.litvak.cloudstorage.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -36,6 +42,7 @@ public class UserServiceImpl implements UserService{
         user.setUserName(login);
         user.setEnabled(true);
         user.setPassword(password);
+        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
         dir.setName(login);
         dir.setUser(user);
         recycle.setUser(user);
@@ -48,13 +55,14 @@ public class UserServiceImpl implements UserService{
 
     // TODO: 27.05.2021 FIX IT
     @Override
-    public User changePassword(String oldPass, String newPass, Principal principal) {
-        return new User();
+    @Transactional
+    public void changePassword(String newPass, User user) {
+        user.setPassword(newPass);
     }
 
     @Override
-    public void removeAccount(Principal principal) {
-        User user = userRepository.findUserByUserName(principal.getName()).get();
+    @Transactional
+    public void removeAccount(User user) {
         user.setEnabled(false);
     }
 }

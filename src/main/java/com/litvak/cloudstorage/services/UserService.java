@@ -9,7 +9,7 @@ public interface UserService {
 
     User createNewUser(String login, String password);
 
-    User changePassword(String oldPass, String newPass, Principal principal);
+    void changePassword(String newPass, User user);
 
-    void removeAccount(Principal principal);
+    void removeAccount(User user);
 }

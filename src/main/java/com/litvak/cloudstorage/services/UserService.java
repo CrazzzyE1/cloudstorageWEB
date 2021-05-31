@@ -2,6 +2,8 @@ package com.litvak.cloudstorage.services;
 
 import com.litvak.cloudstorage.entities.User;
 
+import java.util.List;
+
 public interface UserService {
     User getUserByUsername(String username);
 
@@ -13,4 +15,11 @@ public interface UserService {
 
     Long getStorage(String username);
 
+    List<User> getAllUsers();
+
+    User getUserById(Long id);
+
+    void activateAccount(User user);
+
+    void changeSpace(Long space, User user);
 }

@@ -4,7 +4,8 @@ CREATE TABLE users
     id       SERIAL PRIMARY KEY,
     username VARCHAR(255) UNIQUE,
     password VARCHAR(255),
-    enabled  BOOLEAN DEFAULT TRUE
+    enabled  BOOLEAN DEFAULT TRUE,
+    space    BIGINT
 );
 
 DROP TABLE IF EXISTS directories;
@@ -48,18 +49,4 @@ CREATE TABLE users_roles
     FOREIGN KEY (role_id) references roles (id)
 );
 
-INSERT INTO roles (name)
-VALUES ('ROLE_USER'),
-       ('ROLE_ADMIN');
-
-INSERT INTO users (username, password)
-VALUES ('login', '$2y$12$TlvcG75oVt/DYhBqIWwVZuSQP.4gKAgLKBLLlfpF5duLPT1cA7qB.');
-
-INSERT INTO users_roles (user_id, role_id)
-VALUES ('1', '1');
-
-
-INSERT INTO directories (name, user_id)
-VALUES ('login', 1),
-       ('login_recycle', 1);
 

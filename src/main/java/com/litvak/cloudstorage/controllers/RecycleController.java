@@ -4,6 +4,7 @@ import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
 import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;
+import com.litvak.cloudstorage.services.UserService;
 import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,12 @@ public class RecycleController {
 
     private FileAppService fileAppService;
     private DirAppService dirAppService;
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setDirAppService(DirAppService dirAppService) {
@@ -58,6 +65,7 @@ public class RecycleController {
             model.addAttribute("current_dir", dirRoot);
             model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
             model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
+            model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
             model.addAttribute("files", files);
             return "page_views/recycle";
         }
@@ -86,6 +94,7 @@ public class RecycleController {
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
         model.addAttribute("files", files);
         return "page_views/recycle";
     }
@@ -99,6 +108,7 @@ public class RecycleController {
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
         model.addAttribute("files", files);
         return "page_views/recycle";
     }
@@ -133,6 +143,7 @@ public class RecycleController {
             model.addAttribute("current_dir", recycle);
             model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
             model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
+            model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
             model.addAttribute("files", files);
             return "page_views/recycle";
         }

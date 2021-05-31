@@ -2,8 +2,6 @@ package com.litvak.cloudstorage.services;
 
 import com.litvak.cloudstorage.entities.User;
 
-import java.security.Principal;
-
 public interface UserService {
     User getUserByUsername(String username);
 
@@ -12,4 +10,7 @@ public interface UserService {
     void changePassword(String newPass, User user);
 
     void removeAccount(User user);
+
+    Long getStorage(String username);
+
 }

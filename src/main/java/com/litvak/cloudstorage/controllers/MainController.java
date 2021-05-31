@@ -4,6 +4,7 @@ import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
 import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;
+import com.litvak.cloudstorage.services.UserService;
 import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,12 @@ import java.util.List;
 public class MainController {
     private FileAppService fileAppService;
     private DirAppService dirAppService;
+    private UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setDirAppService(DirAppService dirAppService) {
@@ -39,6 +46,7 @@ public class MainController {
         Long id = dirRoot.getId();
         List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(id));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
@@ -59,6 +67,7 @@ public class MainController {
         List<DirApp> links = Utilities.getLinks(principal.getName(), dir);
         String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
         model.addAttribute("current_dir", dir);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
@@ -97,6 +106,7 @@ public class MainController {
         DirApp dirRoot = dirAppService.getRootDir(principal.getName());
         List<FileApp> files = fileAppService.getFilesByParams(dirRoot.getUser().getId(), filename);
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("files", files);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));

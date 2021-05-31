@@ -26,6 +26,8 @@ public class User {
     private String password;
     @Column
     private boolean enabled;
+    @Column
+    private Long space;
 
     @OneToMany(mappedBy = "user")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)

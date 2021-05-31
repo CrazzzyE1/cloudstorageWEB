@@ -52,7 +52,7 @@ public class MainController {
         model.addAttribute("files", files);
         String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
         model.addAttribute("copy", cutOrCopy);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
         return "page_views/main";
     }
 
@@ -73,7 +73,7 @@ public class MainController {
         model.addAttribute("files", files);
         model.addAttribute("links", links);
         model.addAttribute("copy", cutOrCopy);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
         return "page_views/main";
     }
 
@@ -109,7 +109,7 @@ public class MainController {
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("files", files);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
         return "page_views/main";
     }
 

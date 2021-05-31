@@ -3,6 +3,7 @@ package com.litvak.cloudstorage.utils;
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
 import com.litvak.cloudstorage.services.FileAppService;
+import com.litvak.cloudstorage.services.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,11 +49,9 @@ public class Utilities {
     /**
      * Подготовка данных о проценте заполнения Диска для "Прогресс бара"
      */
-    public static String getPercentForProgressBar(FileAppService fileAppService, String login) {
+    public static String getPercentForProgressBar(FileAppService fileAppService, UserService userService, String login) {
         Long space = fileAppService.getFilesSpace(login);
-        // TODO: 18.05.2021 Transfer default space to DB
-        // Default: 200 MiB for test
-        long defaultSpace = 209715200L;
+        long defaultSpace = userService.getStorage(login);
         space = space * 100 / defaultSpace;
         if (space > 100L) space = 100L;
         return space.toString();

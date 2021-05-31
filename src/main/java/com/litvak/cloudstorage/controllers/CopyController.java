@@ -78,6 +78,11 @@ public class CopyController {
                         @RequestParam(value = "copy") String copy,
                         @RequestParam(name = "current_dir_id") Long current) {
         String login = principal.getName();
+        if(userService.getStorage(login) - fileAppService.getFilesSpace(login)
+                - fileAppService.getFileById(Utilities.getFileId(login)).get().getSize() <= 0 && copy.equals("copy")) {
+            Utilities.clearCopyStatus(login);
+            return "redirect:/main/".concat(String.valueOf(current));
+        }
         boolean flag = false;
         if (copy.equals("cut")) {
             flag = fileAppService.cutPasteFile(login, current);
@@ -102,7 +107,7 @@ public class CopyController {
         model.addAttribute("links", links);
         model.addAttribute("copy", cutOrCopy);
         model.addAttribute("duplicate", true);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
         return "page_views/main";
     }
 

@@ -45,7 +45,7 @@ public class RecycleController {
         DirApp dirRoot = dirAppService.getRootDir(principal.getName().concat("_recycle"));
         List<FileApp> files = dirRoot.getFiles();
         model.addAttribute("current_dir", dirRoot);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
         model.addAttribute("files", files);
         return "page_views/recycle";
@@ -63,7 +63,7 @@ public class RecycleController {
             DirApp dirRoot = dirAppService.getRootDir(principal.getName().concat("_recycle"));
             List<FileApp> files = dirRoot.getFiles();
             model.addAttribute("current_dir", dirRoot);
-            model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+            model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
             model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
             model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
             model.addAttribute("files", files);
@@ -92,7 +92,7 @@ public class RecycleController {
         DirApp dirRoot = dirAppService.getRootDir(principal.getName().concat("_recycle"));
         List<FileApp> files = dirRoot.getFiles();
         model.addAttribute("current_dir", dirRoot);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
         model.addAttribute("files", files);
@@ -106,7 +106,7 @@ public class RecycleController {
         DirApp dirRoot = dirAppService.getRootDir(principal.getName().concat("_recycle"));
         List<FileApp> files = dirRoot.getFiles();
         model.addAttribute("current_dir", dirRoot);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
         model.addAttribute("files", files);
@@ -141,7 +141,7 @@ public class RecycleController {
             model.addAttribute("duplicate2", true);
             files = recycle.getFiles();
             model.addAttribute("current_dir", recycle);
-            model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, principal.getName()));
+            model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
             model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
             model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
             model.addAttribute("files", files);

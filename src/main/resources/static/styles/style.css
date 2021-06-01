@@ -24,6 +24,10 @@
     display: flex;
 }
 
+.logo_title_adm {
+    color: red;
+}
+
 .logo_img {
     height: 50px;
     padding-right: 20px;
@@ -431,4 +435,15 @@
 
 .but2{
     color: #555;
+}
+
+.select {
+    width: 180px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    background: #eaeaea;
+}
+
+.m_p {
+    margin-top: 16px;
 }

@@ -16,24 +16,24 @@
 <script src="https://kit.fontawesome.com/e8cd5e0a28.js" crossorigin="anonymous"></script>
 <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
 <script src="../../static/js/scripts.js" th:src="@{/js/scripts.js}"></script>
-
-<div class="container">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container-fluid">
-            <a href="/"><img src="../../static/img/logo2.png" th:src=@{../img/logo2.png} alt="logo"
-                             class="logo_img2"></a>
-            <a class="navbar-brand" href="/">My Cloud Storage</a>
-            <div class="collapse navbar-collapse navbar" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" href="/admins">Users settings</a>
-                    <a class="nav-link" href="/admins/files">Files</a>
-                </div>
-                <div class="navbar-nav">
-                    <a class="nav-link" href="/logout">Log out</a>
-                </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a href="/"><img src="../../static/img/logo2.png" th:src=@{../img/logo2.png} alt="logo"
+                         class="logo_img2"></a>
+        <a class="navbar-brand" href="/">My Cloud Storage</a>
+        <div class="collapse navbar-collapse navbar" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" href="/admins">Users settings</a>
+                <a class="nav-link" href="/admins/files">Files</a>
+            </div>
+            <div class="navbar-nav">
+                <a class="nav-link" href="/logout">Log out</a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
+<div class="container">
+
     <div class="users_table_div">
         <table class="table table-striped">
             <thead>

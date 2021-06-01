@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cloud Storage</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../static/styles/style.css" th:href="@{/styles/style.css}">
+</head>
+
+<body>
+    <script src="https://kit.fontawesome.com/e8cd5e0a28.js" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+    <script src="../../static/js/scripts.js" th:src="@{/js/scripts.js}"></script>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a href="/"><img src="../../static/img/logo2.png" th:src=@{../img/logo2.png} alt="logo"
+                             class="logo_img2"></a>
+            <a class="navbar-brand" href="/">My Cloud Storage</a>
+            <div class="collapse navbar-collapse navbar" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/admins">Users settings</a>
+                    <a class="nav-link active" href="/admins/files">Files</a>
+                </div>
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/logout">Log out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container_main">
+        <div class="side_bar">
+            <div class="side_bar_top">
+                <a class="side_bar_button btn btn-warning" th:href="@{/upload(
+                current_dir_id = ${current_dir.id}
+                )}">UPLOAD</a>
+                <a class="side_bar_button btn btn-primary" href="javascript:PopUpShowNewFolder()">NEW
+                    DIRECTORY</a>
+            </div>
+            <div class="side_bar_files">
+                <a href="/main" class="side_bar_links">Files</a>
+                <a href="/recycle" class="side_bar_links">Recycle Bin</a>
+            </div>
+            <div class="side_bar_progress">
+                <p class="side_bar_progress_text">
+                    Cloud space: [[${space}]] / [[${storage}]]
+                </p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
+                        th:style="'width:' + ${percent}+'%'" th:attr="aria-valuenow = ${percent}" aria-valuemin="0"
+                        aria-valuemax="100"></div>
+                </div>
+            </div>
+
+            <div class="side_bar_buy">
+                <div class="logout">
+                    <a target="_blank" class="side_bar_button btn btn-outline-warning"
+                        href="https://www.donationalerts.com/">Buy more space</a>
+                </div>
+                <a href="../../static/application/desktop_application.rar"
+                    th:href="@{/application/desktop_application.rar}" class="side_bar_link_download_app">Download PC
+                    application</a>
+
+            </div>
+        </div>
+        <div class="main_app m_p shadow p-3 mb-5 bg-body rounded">
+
+            <select class="form-select select" aria-label="Default select example">
+                <option selected>Choose user...</option>
+                <option th:each="user: ${users}" th:value="${user.userName}" th:text="${user.userName}"></option>
+            </select>
+
+            <div class="main_app_folder_name">
+                <div class="current_name_folder">
+                    <a th:href="@{/main/{id}(id=${current_dir.dirId})}" class="back_link current_dir">
+                        <i class="fas fa-arrow-left"></i></a>
+                    <h1 class="current_dir">[[${current_dir.name}]]</h1>
+                </div>
+                <div th:unless="${copy} == null">
+                    <a class="btn btn-success paste_button" th:href="@{/copy/paste(
+                current_dir_id = ${current_dir.id},
+                copy = ${copy}
+                )}">PASTE</a>
+                </div>
+            </div>
+
+            <div class="main_app_content" th:each="dirs : ${directories}">
+                <div class="content_item">
+                    <div class="img">
+                        <a th:href="@{/main/{id}(id = ${dirs.id})}" class="folder_link">
+                            <img src="../../static/img/img_folder.png" th:src=@{../img/img_folder.png} alt="folder"
+                                class="folder">
+                        </a>
+                    </div>
+                    <div class="copy_cut_buttons">
+                        <a class="delete but" th:onclick="'javascript:deleteFolder(\'' + ${dirs.id} +'\');'">
+                            <i class="far fa-trash-alt"></i></a>
+                        <a class="edit but" th:onclick="'javascript:rename(\'' + ${dirs.id} +'\');'">
+                            <i class="far fa-edit"></i></i></a>
+                    </div>
+                    <div class="file_name">
+                        <p class="name_text">
+                                [[${dirs.name}]]
+                        </p>
+                    </div>
+                    <div class="date">
+                        <p class="name_text"></p>
+                    </div>
+                    <div class="time">
+                        <p class="name_text"></p>
+                    </div>
+                    <div class="file_size">
+                        <p class="name_text">DIRECTORY</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main_app_content" th:each="file : ${files}">
+                <div class="content_item">
+                    <div class="img">
+                        <img src="../../static/img/img_file.png" th:src=@{../img/img_file.png} alt="file"
+                            class="folder">
+                    </div>
+                    <div class="copy_cut_buttons">
+                        <a th:href="@{/download
+                        (id = ${file.id})}" class="download but">
+                            <i class="far fa-arrow-alt-circle-down"></i></a>
+                        <a th:href="@{/copy/cut{id}(
+                        id = ${file.id},
+                        current_page = ${current_dir.id}
+                        )}" class="cut but"><i class="far fa-hand-scissors"></i></a>
+                        <a th:href="@{/copy/copy{id}(
+                        id = ${file.id},
+                        current_page = ${current_dir.id}
+                        )}" class="copy but"><i class="far fa-copy"></i></a>
+                        <a class="delete but" th:onclick="'javascript:deleteFile(\'' + ${file.id} +'\');'">
+                            <i class="far fa-trash-alt"></i></a>
+                        <a class="edit but" th:onclick="'javascript:renamef(\'' + ${file.id} + '\');'">
+                            <i class="far fa-edit"></i></i></a>
+                    </div>
+                    <div class="file_name">
+                        <p class="name_text">
+                                [[${file.name}]]
+                        </p>
+                    </div>
+                    <div class="date">
+                        <p class="name_text">[[${file.date}]]</p>
+                    </div>
+                    <div class="time">
+                        <p class="name_text">[[${file.time}]]</p>
+                    </div>
+                    <div class="file_size">
+                        <p class="name_text">[[${file.strsize}]]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="okno" class="shadow okno">
+            <a href="javascript:PopUpHide()" class="close"><i class="fas fa-times"></i></a>
+            <form action="/main/new">
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" id="id" name="id" placeholder="Enter your Login"
+                        th:value="${current_dir.getUser().getId()}">
+                </div>
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" id="parent_id" name="parent_id"
+                        placeholder="Enter your Password" th:value="${current_dir.getId()}">
+                </div>
+                <div class="folder_name">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter folder name">
+                </div>
+                <div class="folder_name_button">
+                    <button type="submit" class="btn btn-warning">CREATE FOLDER</button>
+                </div>
+            </form>
+        </div>
+
+
+        <div id="delete_folder" class="shadow okno">
+            <form action="/main/delete">
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="parent_id" id="delete_parent_id"
+                        th:value="${current_dir.getId()}">
+                </div>
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="id" id="delete_id">
+                </div>
+                <div class="mb-3">
+                    <p class="p_text">Do you really want to delete the folder?</p>
+                </div>
+                <div class="folder_name_button">
+                    <a href="javascript:PopUpHide()" class="btn btn-outline-warning">Cancel</i></a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="delete_file" class="shadow okno">
+            <form action="/main/deletef">
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="parent_id" id="deletef_parent_id"
+                        th:value="${current_dir.getId()}">
+                </div>
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="id" id="deletef_id">
+                </div>
+                <div class="mb-3">
+                    <p class="p_text">Do you really want to delete the file?</p>
+                </div>
+                <div class="folder_name_button">
+                    <a href="javascript:PopUpHide()" class="btn btn-outline-warning">Cancel</i></a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="rename_folder" class="shadow okno">
+            <form action="/main/rename">
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="current_dir" id="rename_current_folder_id"
+                        th:value="${current_dir.getId()}">
+                </div>
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="id" id="rename_folder_id">
+                </div>
+                <div class="mb-3">
+                    <p class="p_text">Enter new folder name</p>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="name" id="new_folder_name">
+                </div>
+                <div class="folder_name_button">
+                    <a href="javascript:PopUpHide()" class="btn btn-outline-warning">Cancel</i></a>
+                    <button type="submit" class="btn btn-danger">Rename</button>
+                </div>
+            </form>
+        </div>
+
+        <div id="rename_file" class="shadow okno">
+            <form action="/main/renamef">
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="current_dir" id="rename_current_file_id"
+                        th:value="${current_dir.getId()}">
+                </div>
+                <div class="mb-3" style="display: none">
+                    <input type="text" class="form-control" name="id" id="rename_file_id">
+                </div>
+                <div class="mb-3">
+                    <p class="p_text">Enter new file name</p>
+                </div>
+                <div class="mb-3">
+                    <input type="text" class="form-control" name="name" id="new_file_name">
+                </div>
+                <div class="folder_name_button">
+                    <a href="javascript:PopUpHide()" class="btn btn-outline-warning">Cancel</i></a>
+                    <button type="submit" class="btn btn-danger">Rename</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer_text">
+            <h6 class="footer_copy">All rights reserved &copy 2021</h6>
+        </div>
+    </div>
+</body>
+</html>

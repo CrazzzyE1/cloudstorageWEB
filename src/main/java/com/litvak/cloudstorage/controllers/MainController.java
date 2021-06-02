@@ -2,6 +2,7 @@ package com.litvak.cloudstorage.controllers;
 
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
+import com.litvak.cloudstorage.entities.User;
 import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;
 import com.litvak.cloudstorage.services.UserService;
@@ -37,47 +38,70 @@ public class MainController {
     }
 
     @GetMapping()
-    public String mainPage(Model model, Principal principal,
-                           @PathVariable(value = "duplicate", required = false) boolean duplicate) {
-        if (userService.getUserByUsername(principal.getName()).getRoles()
-                .stream().filter(e -> e.getName().equals("ROLE_ADMIN")).findFirst().isPresent()){
-            return "redirect:/admins";
-        }
+    public String mainPage(Model model,
+                           Principal principal,
+                           @RequestParam(name = "login", required = false) String login) {
 
-        Utilities.clearLinks(principal.getName());
-        DirApp dirRoot = dirAppService.getRootDir(principal.getName());
-        List<FileApp> files = dirRoot.getFiles();
+        if (login == null) {
+            if (Utilities.getSelect(principal.getName()) != null) {
+                login = Utilities.getSelect(principal.getName());
+            } else {
+                login = principal.getName();
+            }
+        }
+        Utilities.saveSelect(principal.getName(), login);
+        Utilities.clearLinks(login);
+        DirApp dirRoot = dirAppService.getRootDir(login);
         Long id = dirRoot.getId();
+        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+        List<FileApp> files = dirRoot.getFiles();
         List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(id));
-        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
-        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
+        String cutOrCopy = Utilities.showCutOrCopy(login);
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
-        String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
         model.addAttribute("copy", cutOrCopy);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
+        model.addAttribute("role", role);
+        model.addAttribute("login", login);
+        model.addAttribute("users", users);
         return "page_views/main";
     }
 
     @GetMapping("/{id}")
     public String changeDirectory(Principal principal,
                                   @PathVariable(value = "id") Long id,
-                                  @PathVariable(value = "duplicate", required = false) boolean duplicate,
+                                  @RequestParam(name = "login", required = false) String login,
                                   Model model) {
+        if (login == null) {
+            if (Utilities.getSelect(principal.getName()) != null) {
+                login = Utilities.getSelect(principal.getName());
+            } else {
+                login = principal.getName();
+            }
+        }
+        Utilities.saveSelect(principal.getName(), login);
         DirApp dir = dirAppService.getDirById(id);
         List<FileApp> files = dir.getFiles();
         List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(id));
-        List<DirApp> links = Utilities.getLinks(principal.getName(), dir);
-        String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
-        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
-        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
+        List<DirApp> links = Utilities.getLinks(login, dir);
+        String cutOrCopy = Utilities.showCutOrCopy(login);
+        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+        List<User> users = userService.getAllUsers();
+        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
         model.addAttribute("current_dir", dir);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
         model.addAttribute("links", links);
         model.addAttribute("copy", cutOrCopy);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
+        model.addAttribute("login", login);
+        model.addAttribute("role", role);
+        model.addAttribute("users", users);
         return "page_views/main";
     }
 
@@ -102,20 +126,29 @@ public class MainController {
     public String deleteFile(Principal principal,
                              @RequestParam(value = "id") Long id,
                              @RequestParam(value = "parent_id") Integer parent_id) {
-        DirApp dirTo = dirAppService.getRootDir(principal.getName().concat("_recycle"));
+        String login = Utilities.getSelect(principal.getName());
+        DirApp dirTo = dirAppService.getRootDir(login.concat("_recycle"));
         fileAppService.moveFile(id, dirTo);
         return "redirect:".concat(parent_id.toString());
     }
 
     @GetMapping("/search")
-    public String search(Model model, @RequestParam(value = "search") String filename, Principal principal) {
-        DirApp dirRoot = dirAppService.getRootDir(principal.getName());
-        List<FileApp> files = fileAppService.getFilesByParams(dirRoot.getUser().getId(), filename);
-        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
-        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
-        model.addAttribute("current_dir", dirRoot);
+    public String search(Model model,
+                         @RequestParam(value = "search") String filename,
+                         @RequestParam(value = "login") String login,
+                         Principal principal) {
+        DirApp dir = dirAppService.getRootDir(login);
+        List<FileApp> files = fileAppService.getFilesByParams(dir.getUser().getId(), filename);
+        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+        List<User> users = userService.getAllUsers();
         model.addAttribute("files", files);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
+        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
+        model.addAttribute("current_dir", dir);
+        model.addAttribute("role", role);
+        model.addAttribute("login", login);
+        model.addAttribute("users", users);
         return "page_views/main";
     }
 
@@ -123,7 +156,6 @@ public class MainController {
     public String rename(@RequestParam(value = "name") String name,
                          @RequestParam(value = "id") Long id,
                          @RequestParam(value = "current_dir") Integer current_dir) {
-
         if (!name.isEmpty()) {
             DirApp dir = dirAppService.getDirById(id);
             if (!Utilities.checkingFolderNameForDuplication(name, dirAppService.getDirsByDirParentId(current_dir))) {

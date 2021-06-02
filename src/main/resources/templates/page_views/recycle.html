@@ -12,8 +12,35 @@
 </head>
 
 <body>
+
+<div class="admin_header">
+    <nav th:if="${role.equals('ROLE_ADMIN')}" class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a href="/"><img src="../../static/img/logo2.png" th:src=@{../img/logo2.png} alt="logo"
+                             class="logo_img2"></a>
+            <a class="navbar-brand" href="/">My Cloud Storage</a>
+            <div class="collapse navbar-collapse navbar" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/admins">Users settings</a>
+                    <a class="nav-link active" href="/main">Files</a>
+                </div>
+                <div class="navbar-nav">
+                    <form th:action="@{/main}" method="get" class="select_form">
+                        <select name="login" class="form-select select" aria-label="Default select example">
+                            <option th:each="user: ${users}" th:selected="${user.userName} == ${login}"
+                                    th:value="${user.userName}" th:text="${user.userName}"></option>
+                        </select>
+                        <button type="submit" class="go btn btn-outline-warning">Change</button>
+                    </form>
+                    <a class="logout_button logout_button2" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
 <div class="container_main">
-    <div class="main_header">
+    <div class="main_header" th:if="${role.equals('ROLE_USER')}">
         <div class="logo">
             <a href="/main">
                 <img src="../../static/img/logo.png" th:src=@{../img/logo.png} alt="logo" class="logo_img">
@@ -35,10 +62,10 @@
     </div>
     <div class="side_bar">
         <div class="side_bar_top">
-            <a class="side_bar_button btn btn-outline-danger" th:href="@{/recycle/deleteAllQuestion}">EMPTY</a>
+            <a class="side_bar_button btn btn-outline-danger" th:href="@{/recycle/deleteAllQuestion(login = ${login})}">EMPTY</a>
         </div>
         <div class="side_bar_top">
-            <a class="side_bar_button btn btn-primary" th:href="@{/recycle/restoreall}">RESTORE</a>
+            <a class="side_bar_button btn btn-primary" th:href="@{/recycle/restoreall(login = ${login})}">RESTORE</a>
         </div>
         <div class="side_bar_files">
             <a href="/main" class="side_bar_links">Files</a>
@@ -46,7 +73,7 @@
         </div>
         <div class="side_bar_progress">
             <p class="side_bar_progress_text">
-                Cloud space: [[${space}]] / 200 MiB
+                Cloud space: [[${space}]] / [[${storage}]]
             </p>
             <div class="progress">
                 <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar"
@@ -83,10 +110,13 @@
                 </div>
                 <div class="copy_cut_buttons">
                     <a th:href="@{/recycle/restore
-                        (id = ${file.id})}" class="download but">
+                        (id = ${file.id},
+                        login = ${login}
+                        )}" class="download but">
                         <i class="far fa-plus-square"></i></a>
                     <a th:href="@{/recycle/deleteQuestion(
-                        id = ${file.id}
+                        id = ${file.id},
+                        login = ${login}
                         )}" class="delete but"><i class="far fa-trash-alt"></i></a>
                 </div>
                 <div class="file_name">
@@ -111,6 +141,9 @@
         <div class="mb-3" style="display: none">
             <input type="text" class="form-control" name="id" th:value="${id}">
         </div>
+        <div class="mb-3" style="display: none">
+            <input type="text" class="form-control" name="login" th:value="${login}">
+        </div>
         <div class="mb-3">
             <p class="p_text">A file with this name already exists. Replace it?</p>
         </div>
@@ -122,7 +155,7 @@
 </div>
 
 <div th:if="${duplicate2}" id="duplicate2" class="shadow okno">
-    <form th:action="@{/recycle/restoreAllFile}">
+    <form th:action="@{/recycle/restoreAllFile(login = ${login})}">
         <div class="mb-3">
             <p class="p_text">Files with these names already exist. Replace them?</p>
         </div>
@@ -135,6 +168,9 @@
 
 <div th:if="${deleteall}" id="deleteall" class="shadow okno">
     <form th:action="@{/recycle/deleteall}">
+        <div class="mb-3" style="display: none">
+            <input type="text" style="display: none" class="form-control" name="login" th:value="${login}">
+        </div>
         <div class="mb-3">
             <p class="p_text">Do you really want to delete your files permanently?</p>
         </div>

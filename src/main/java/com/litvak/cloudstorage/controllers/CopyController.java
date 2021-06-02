@@ -41,43 +41,28 @@ public class CopyController {
     }
 
     @GetMapping("/copy{id}")
-    public String copyFile(Principal principal,
-                           @PathVariable(value = "id") Long id,
+    public String copyFile(@PathVariable(value = "id") Long id,
+                           @RequestParam(name = "login") String login,
                            @RequestParam(name = "current_page") Long current) {
-        Utilities.saveCopyFileId(principal.getName(), id);
+        Utilities.saveCopyFileId(login, id);
         return "redirect:/main/".concat(current.toString());
     }
 
     @GetMapping("/cut{id}")
-    public String cutFile(Principal principal,
-                          @PathVariable(value = "id") Long id,
+    public String cutFile(@PathVariable(value = "id") Long id,
+                          @RequestParam(name = "login") String login,
                           @RequestParam(name = "current_page") Long current) {
-        Utilities.saveCutFileId(principal.getName(), id);
+        Utilities.saveCutFileId(login, id);
         return "redirect:/main/".concat(current.toString());
     }
-
-//    @GetMapping("/paste")
-//    public String paste(Model model,
-//            Principal principal,
-//                        @RequestParam(value = "copy") String copy,
-//                        @RequestParam(name = "current_dir_id") Long current) {
-//        String login = principal.getName();
-//        if (copy.equals("cut")) {
-//            fileAppService.cutPasteFile(login, current);
-//        }
-//        if (copy.equals("copy")) {
-//            fileAppService.copyPasteFile(login, current);
-//        }
-//        Utilities.clearCopyStatus(login);
-//        return "redirect:/main/".concat(current.toString());
-//    }
 
     @GetMapping("/paste")
     public String paste(Model model,
                         Principal principal,
                         @RequestParam(value = "copy") String copy,
+                        @RequestParam(name = "login") String login,
                         @RequestParam(name = "current_dir_id") Long current) {
-        String login = principal.getName();
+
         if(userService.getStorage(login) - fileAppService.getFilesSpace(login)
                 - fileAppService.getFileById(Utilities.getFileId(login)).get().getSize() <= 0 && copy.equals("copy")) {
             Utilities.clearCopyStatus(login);
@@ -97,25 +82,27 @@ public class CopyController {
         DirApp dir = dirAppService.getDirById(current);
         List<FileApp> files = dir.getFiles();
         List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(current));
-        List<DirApp> links = Utilities.getLinks(principal.getName(), dir);
-        String cutOrCopy = Utilities.showCutOrCopy(principal.getName());
-        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(principal.getName())));
-        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(principal.getName())));
+        List<DirApp> links = Utilities.getLinks(login, dir);
+        String cutOrCopy = Utilities.showCutOrCopy(login);
+        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
+        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
         model.addAttribute("current_dir", dir);
         model.addAttribute("directories", dirs);
         model.addAttribute("files", files);
         model.addAttribute("links", links);
         model.addAttribute("copy", cutOrCopy);
         model.addAttribute("duplicate", true);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, principal.getName()));
+        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
+        model.addAttribute("login", login);
+        model.addAttribute("role", role);
         return "page_views/main";
     }
 
     @GetMapping("/replacement")
-    public String paste(Principal principal,
-                        @RequestParam(value = "copy") String copy,
+    public String paste(@RequestParam(value = "copy") String copy,
+                        @RequestParam(name = "login") String login,
                         @RequestParam(name = "current_dir_id") Long current) {
-        String login = principal.getName();
         fileAppService.replacement(login, copy, current);
         Utilities.clearCopyStatus(login);
         return "redirect:/main/".concat(current.toString());

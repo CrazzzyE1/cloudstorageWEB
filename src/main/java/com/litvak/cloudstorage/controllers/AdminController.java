@@ -92,30 +92,4 @@ public class AdminController {
         }
         return "redirect:/admins";
     }
-
-    @GetMapping("/files")
-    public String showFiles(Model model,
-                            Principal principal,
-                            @RequestParam(name = "login", required = false) String login) {
-        if (login == null) login = principal.getName();
-        Utilities.clearLinks(login);
-        DirApp dirRoot = dirAppService.getRootDir(login);
-        List<FileApp> files = dirRoot.getFiles();
-        Long id = dirRoot.getId();
-        List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(id));
-        List<DirApp> links = Utilities.getLinks(login, dirRoot);
-        String cutOrCopy = Utilities.showCutOrCopy(login);
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
-        model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
-        model.addAttribute("current_dir", dirRoot);
-        model.addAttribute("directories", dirs);
-        model.addAttribute("files", files);
-        model.addAttribute("links", links);
-        model.addAttribute("copy", cutOrCopy);
-        model.addAttribute("login", login);
-        model.addAttribute("users", users);
-        model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
-        return "page_views/files";
-    }
 }

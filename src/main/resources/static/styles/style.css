@@ -20,6 +20,15 @@
     padding-top: 15px;
 }
 
+.admin_header {
+    min-height: 64px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 12;
+}
+
 .logo {
     display: flex;
 }
@@ -133,6 +142,9 @@
     opacity: 0.75;
     line-height: 2rem;
 }
+.logout_button2 {
+    color: white;
+}
 
 .logout_button:hover {
     color: #dc3545;
@@ -149,7 +161,7 @@
 
 .main_app {
     margin: 0 35px;
-    margin-top: 74px;
+    margin-top: 88px;
 }
 
 .header_title {

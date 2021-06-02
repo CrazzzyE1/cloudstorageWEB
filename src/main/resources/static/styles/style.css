@@ -447,3 +447,11 @@
 .m_p {
     margin-top: 16px;
 }
+
+.select_form {
+    display: flex;
+}
+.go {
+    height: 38px;
+    margin-left: 10px;
+}

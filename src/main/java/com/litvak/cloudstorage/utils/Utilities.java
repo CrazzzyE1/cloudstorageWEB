@@ -19,8 +19,8 @@ import java.util.*;
 public class Utilities {
     private static Map<String, List<DirApp>> linksMap = new HashMap<>();
     private static Map<String, Long> cutMap = new HashMap<>();
+    private static Map<String, String> selectMap = new HashMap<>();
     private static Map<String, Long> copyMap = new HashMap<>();
-    private static Map<String, MultipartFile> multi = new HashMap<>();
 
     /**
      * Проверка имени папки на дубликат в папке назначения
@@ -236,11 +236,11 @@ public class Utilities {
         return -1L;
     }
 
-    public static void saveMulti(String login, MultipartFile file) {
-        multi.put(login, file);
+    public static void saveSelect(String name, String login) {
+        selectMap.put(name, login);
     }
 
-    public static MultipartFile getMulti(String login) {
-        return multi.get(login);
+    public static String getSelect(String name) {
+        return selectMap.get(name);
     }
 }

@@ -67,12 +67,12 @@
             </div>
         </div>
         <div class="main_app m_p shadow p-3 mb-5 bg-body rounded">
-
-            <select class="form-select select" aria-label="Default select example">
-                <option selected>Choose user...</option>
-                <option th:each="user: ${users}" th:value="${user.userName}" th:text="${user.userName}"></option>
+            <form th:action="@{/admins/files}" method="get" class="select_form">
+            <select name="login" class="form-select select" aria-label="Default select example">
+                <option th:each="user: ${users}" th:selected="${user.userName} == ${login}" th:value="${user.userName}" th:text="${user.userName}"></option>
             </select>
-
+            <button type="submit" class="go btn btn-outline-warning">Go</button>
+            </form>
             <div class="main_app_folder_name">
                 <div class="current_name_folder">
                     <a th:href="@{/main/{id}(id=${current_dir.dirId})}" class="back_link current_dir">

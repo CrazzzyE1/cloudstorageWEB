@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -91,5 +88,40 @@ public class UserServiceImpl implements UserService{
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id).get();
+    }
+
+    @Override
+    public List<User> getAllRemovedUsers() {
+        return userRepository.findAllByEnabledAndRoles(false, new Role(1L, "ROLE_USER"));
+    }
+
+    @Override
+    public List<User> getAllActiveUsers() {
+        return userRepository.findAllByEnabledAndRoles(true, new Role(1L, "ROLE_USER"));
+    }
+
+    @Override
+    public List<User> getAllActiveAdmins() {
+        return userRepository.findAllByEnabledAndRoles(true, new Role(2L, "ROLE_ADMIN"));
+    }
+
+    @Override
+    public List<User> getAllRemovedAdmins() {
+        return userRepository.findAllByEnabledAndRoles(false, new Role(2L, "ROLE_ADMIN"));
+    }
+
+    @Transactional
+    @Override
+    public void upUser(Long id) {
+        User user = userRepository.findById(id).get();
+        user.setRoles(Collections.singleton(new Role(2L, "ROLE_ADMIN")));
+
+    }
+
+    @Transactional
+    @Override
+    public void downAdmin(Long id) {
+        User user = userRepository.findById(id).get();
+        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
     }
 }

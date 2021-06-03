@@ -442,7 +442,7 @@
 }
 
 .users_table_div {
-    margin: 15px 100px;
+    margin: 0px 100px 35px 100px;
 }
 
 .but2{
@@ -466,4 +466,17 @@
 .go {
     height: 38px;
     margin-left: 10px;
+}
+
+.admins_buttons {
+    box-sizing: border-box;
+    text-align: end;
+    padding-right: 90px;
+}
+
+.foo {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    box-sizing: border-box;
 }

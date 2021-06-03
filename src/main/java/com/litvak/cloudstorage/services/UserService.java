@@ -22,4 +22,13 @@ public interface UserService {
     void activateAccount(User user);
 
     void changeSpace(Long space, User user);
+
+    List<User> getAllRemovedUsers();
+
+    List<User> getAllActiveUsers();
+
+    List<User> getAllActiveAdmins();
+    List<User> getAllRemovedAdmins();
+    void upUser(Long id);
+    void downAdmin(Long id);
 }

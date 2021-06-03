@@ -155,9 +155,12 @@
 </div>
 
 <div th:if="${duplicate2}" id="duplicate2" class="shadow okno">
-    <form th:action="@{/recycle/restoreAllFile(login = ${login})}">
+    <form th:action="@{/recycle/restoreAllFile}">
         <div class="mb-3">
             <p class="p_text">Files with these names already exist. Replace them?</p>
+        </div>
+        <div class="mb-3" style="display: none">
+            <input type="text" class="form-control" name="login" th:value="${login}">
         </div>
         <div class="folder_name_button">
             <a th:href="@{/recycle}" class="btn btn-outline-warning">Cancel</i></a>

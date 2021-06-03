@@ -20,7 +20,7 @@
         <div class="container-fluid">
             <a href="/"><img src="../../static/img/logo2.png" th:src=@{../img/logo2.png} alt="logo"
                              class="logo_img2"></a>
-            <a class="navbar-brand" href="/">My Cloud Storage</a>
+            <a class="navbar-brand" href="/">Administrator Mode</a>
             <div class="collapse navbar-collapse navbar" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-link" href="/admins">Users settings</a>
@@ -335,7 +335,7 @@
                 <input type="text" class="form-control" name="login" th:value="${login}">
             </div>
             <div class="mb-3">
-                <p class="p_text">Do you really want to delete the file?</p>
+                <p class="p_text">Do you really want to replace the file?</p>
             </div>
             <div class="folder_name_button">
                 <a th:href="@{/main/{id} (id = ${current_dir.id})}" class="btn btn-outline-warning">Cancel</i></a>

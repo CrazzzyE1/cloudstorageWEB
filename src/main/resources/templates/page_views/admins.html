@@ -72,40 +72,6 @@
                 </table>
             </div>
 
-            <div th:unless="${removedadmins.isEmpty()}" class="users_table_div">
-                <h3>Removed administrators</h3>
-                <table class="table table-striped">
-
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Active</th>
-                            <th scope="col">Cloud Space</th>
-                            <th scope="col">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="user : ${removedadmins}">
-                            <th scope="row">[[${user.id}]]</th>
-                            <td>[[${user.userName}]]</td>
-                            <td>[[${user.enabled}]]</td>
-                            <td>[[${user.space}]]</td>
-                            <td>
-                                <a th:if="${user.isEnabled()}" class="delete but2"
-                                    th:onclick="'javascript:deleteFile(\'' + ${user.id} +'\');'"><i
-                                        class="far fa-trash-alt"></i></a>
-                                <a th:unless="${user.isEnabled()}" class="download but2"
-                                    th:href="@{/admins/activate(id = ${user.id})}"><i
-                                        class="far fa-plus-square"></i></a>
-                                <a class="edit but2" th:href="@{/admins/edit(id = ${user.id})}">
-                                    <i class="far fa-edit"></i></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
             <div th:unless="${users.isEmpty()}" class="users_table_div">
                 <h3>Active users</h3>
                 <table class="table table-striped">
@@ -128,6 +94,40 @@
                             <td>
                                 <a class="download but2" th:href="@{/admins/up(id = ${user.id})}">
                                     <i class="far fa-thumbs-up"></i></a>
+                                <a th:if="${user.isEnabled()}" class="delete but2"
+                                    th:onclick="'javascript:deleteFile(\'' + ${user.id} +'\');'"><i
+                                        class="far fa-trash-alt"></i></a>
+                                <a th:unless="${user.isEnabled()}" class="download but2"
+                                    th:href="@{/admins/activate(id = ${user.id})}"><i
+                                        class="far fa-plus-square"></i></a>
+                                <a class="edit but2" th:href="@{/admins/edit(id = ${user.id})}">
+                                    <i class="far fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:unless="${removedadmins.isEmpty()}" class="users_table_div">
+                <h3>Removed administrators</h3>
+                <table class="table table-striped">
+
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Active</th>
+                            <th scope="col">Cloud Space</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${removedadmins}">
+                            <th scope="row">[[${user.id}]]</th>
+                            <td>[[${user.userName}]]</td>
+                            <td>[[${user.enabled}]]</td>
+                            <td>[[${user.space}]]</td>
+                            <td>
                                 <a th:if="${user.isEnabled()}" class="delete but2"
                                     th:onclick="'javascript:deleteFile(\'' + ${user.id} +'\');'"><i
                                         class="far fa-trash-alt"></i></a>

@@ -480,3 +480,26 @@
     padding-bottom: 25px;
     box-sizing: border-box;
 }
+
+.container2 {
+    padding-top: 25vh;
+    height: 100vh;
+    background-color: #e0e0e0;
+    margin: 0 auto;
+}
+.bgimg {
+    margin: 0 auto;
+    background-color: #fff;
+    width: 500px;
+    padding: 25px 25px;
+
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.index_img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 400px;
+}
+

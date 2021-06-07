@@ -1,6 +1,5 @@
 package com.litvak.cloudstorage.controllers;
 
-import com.litvak.cloudstorage.entities.Role;
 import com.litvak.cloudstorage.entities.User;
 import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;

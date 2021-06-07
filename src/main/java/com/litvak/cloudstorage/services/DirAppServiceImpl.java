@@ -69,4 +69,12 @@ public class DirAppServiceImpl implements DirAppService {
     public void removeDir(Long id) {
         dirAppRepository.deleteById(id);
     }
+
+    @Transactional
+    @Override
+    public DirApp getDirByNameAndDirApp(String name, Integer dirId) {
+        Optional<DirApp> dir = dirAppRepository.findByNameAndDirId(name, dirId);
+        if (dir.isPresent()) return dir.get();
+        return null;
+    }
 }

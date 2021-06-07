@@ -16,4 +16,6 @@ public interface DirAppService {
     void createNewDir(String name, Integer parentId, Integer userId);
 
     void removeDir(Long id);
+
+    DirApp getDirByNameAndDirApp(String name, Integer dirId);
 }

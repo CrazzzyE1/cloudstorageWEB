@@ -34,15 +34,21 @@ public class DesktopServiceImpl implements DesktopService{
             case ("reg"):
                 msg = commandController.reg(query);
                 break;
-//            case ("mkdir"):
-//                msg = commandController.mkdir(command);
-//                break;
-//            case ("rm"):
-//                msg = commandController.rm(command);
-//                break;
+            case ("mkdir"):
+                msg = commandController.mkdir(query);
+                break;
+            case ("rm"):
+                msg = commandController.rm(query);
+                break;
+            case ("rmf"):
+                msg = commandController.rmf(query);
+                break;
             case ("cd"):
                 msg = commandController.cd(query);
                 break;
+//                case ("remove"):
+//                msg = commandController.remove(command);
+//                break;
 //            case ("copy"):
 //            case ("cut"):
 //                msg = commandController.copyOrCut(command);
@@ -75,9 +81,6 @@ public class DesktopServiceImpl implements DesktopService{
 //                break;
 //            case ("change"):
 //                msg = commandController.changePassword(command);
-//                break;
-//            case ("remove"):
-//                msg = commandController.remove(command);
 //                break;
             default:
                 System.out.println("Unknown command");

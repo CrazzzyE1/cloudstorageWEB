@@ -179,4 +179,9 @@ public class FileAppServiceImpl implements FileAppService {
             fileAppRepository.save(fileNew);
         }
     }
+
+    @Override
+    public FileApp getFileByNameAndDirApp(String name, DirApp dir) {
+       return fileAppRepository.findByNameAndAndDirApp(name, dir).get();
+    }
 }

@@ -6,6 +6,7 @@ import com.litvak.cloudstorage.entities.User;
 import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;
 import com.litvak.cloudstorage.services.UserService;
+import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -67,7 +68,6 @@ public class CommandController {
             sb.append(f.getName().replace(" ", "??")).append(" ");
         }
         if (sb.length() < 1) sb.append("Empty");
-        System.out.println("FILES FROM LS COMMAND: " + sb);
         return sb.toString();
     }
 
@@ -103,5 +103,35 @@ public class CommandController {
             currentDir = dir.getId().toString();
         }
         return "success ".concat(currentDir);
+    }
+
+    public String mkdir(String query) {
+        String folderName = query.split(" ")[1].replace("??", " ");
+        Long id = Long.valueOf(query.split(" ")[2]);
+        if(Utilities.checkingFolderNameForDuplication(folderName,
+                dirAppService.getDirsByDirParentId(Math.toIntExact(id)))) {
+            return "dirFail";
+        }
+        dirAppService.createNewDir(folderName, Math.toIntExact(id),
+                Math.toIntExact(dirAppService.getDirById(id).getUser().getId()));
+        return "dirSuccess";
+    }
+
+    public String rm(String query){
+        String name = query.split(" ")[1].replace("??", " ");
+        Long id = Long.valueOf(query.split(" ")[2]);
+        DirApp dir = dirAppService.getDirByNameAndDirApp(name, Math.toIntExact(id));
+        if(dir == null) return "rmFail";
+        dirAppService.removeDir(dir.getId());
+        return "rmSuccess";
+    }
+
+    public String rmf(String query) {
+        String name = query.split(" ")[1].replace("??", " ");
+        Long id = Long.valueOf(query.split(" ")[2]);
+        FileApp file = fileAppService.getFileByNameAndDirApp(name, dirAppService.getDirById(id));
+        if(file == null) return "rmFail";
+        fileAppService.removeFile(file.getId());
+        return "rmSuccess";
     }
 }

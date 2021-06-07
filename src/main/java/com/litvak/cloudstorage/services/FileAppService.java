@@ -32,4 +32,6 @@ public interface FileAppService {
     void replacement(String login, String copy, Long current);
 
     void deleteByNameAndDirApp(String name, DirApp dir);
+
+    FileApp getFileByNameAndDirApp(String name,DirApp dir);
 }

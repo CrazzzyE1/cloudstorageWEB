@@ -29,7 +29,7 @@ public class DesktopServiceImpl implements DesktopService{
                 msg = commandController.checkSpace(query.split(" ")[1]);
                 break;
             case ("getAddress"):
-                msg = commandController.getAddress();
+                msg = commandController.getAddress(query);
                 break;
             case ("reg"):
                 msg = commandController.reg(query);
@@ -46,18 +46,22 @@ public class DesktopServiceImpl implements DesktopService{
             case ("cd"):
                 msg = commandController.cd(query);
                 break;
-//                case ("remove"):
-//                msg = commandController.remove(command);
-//                break;
+            case ("search"):
+                msg = commandController.search(query);
+                break;
+            case ("change"):
+                msg = commandController.changePassword(query);
+                break;
+            case ("remove"):
+                msg = commandController.remove(query);
+                break;
+            case ("paste"):
+                msg = commandController.paste(query);
+                break;
+
 //            case ("copy"):
 //            case ("cut"):
-//                msg = commandController.copyOrCut(command);
-//                break;
-//            case ("paste"):
-//                msg = commandController.paste();
-//                break;
-//            case ("search"):
-//                msg = commandController.search(command);
+//                msg = commandController.copyOrCut(query);
 //                break;
 //            case ("download"):
 //                msg = commandController.download(command);
@@ -79,9 +83,7 @@ public class DesktopServiceImpl implements DesktopService{
 //            case ("restore"):
 //                msg = commandController.restore();
 //                break;
-//            case ("change"):
-//                msg = commandController.changePassword(command);
-//                break;
+
             default:
                 System.out.println("Unknown command");
                 break;

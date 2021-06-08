@@ -137,6 +137,21 @@ public class FileAppServiceImpl implements FileAppService {
 
     @Transactional
     @Override
+    public boolean copyFile(FileApp tmpFile, DirApp dirTo) {
+        FileApp file = new FileApp();
+        file.setName(tmpFile.getName());
+        file.setNameSystem(tmpFile.getNameSystem());
+        file.setSize(tmpFile.getSize());
+        file.setStrsize(tmpFile.getStrsize());
+        file.setTime(LocalTime.now().toString().split("\\.")[0]);
+        file.setDate(LocalDate.now().toString());
+        file.setDirApp(dirTo);
+        fileAppRepository.save(file);
+        return true;
+    }
+
+    @Transactional
+    @Override
     public List<FileApp> getAllFilesByDir(DirApp dirApp) {
         return fileAppRepository.findAllByDirApp(dirApp);
     }

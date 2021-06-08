@@ -58,6 +58,16 @@ public class DesktopServiceImpl implements DesktopService{
             case ("paste"):
                 msg = commandController.paste(query);
                 break;
+            case ("recycle"):
+                msg = commandController.recycle(query);
+                break;
+            case ("recycleClean"):
+                msg = commandController.recycleClean(query);
+                break;
+            case ("restore"):
+                msg = commandController.restore(query);
+                break;
+
 
 //            case ("copy"):
 //            case ("cut"):
@@ -77,12 +87,8 @@ public class DesktopServiceImpl implements DesktopService{
 //            case ("upload"):
 //                msg = commandController.upload(command);
 //                break;
-//            case ("recycleClean"):
-//                msg = commandController.recycleClean();
-//                break;
-//            case ("restore"):
-//                msg = commandController.restore();
-//                break;
+
+
 
             default:
                 System.out.println("Unknown command");

@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/recycle")
@@ -160,15 +163,15 @@ public class RecycleController {
                              @RequestParam(name = "login") String login,
                              Model model) {
         boolean flag = false;
+        Map<String, FileApp> toMove = new HashMap<>();
         DirApp recycle = dirAppService.getRootDir(login.concat("_recycle"));
         DirApp dirTo = dirAppService.getRootDir(login);
         List<FileApp> files = recycle.getFiles();
         for (int i = 0; i < files.size(); i++) {
             if (Utilities.checkingFileNameForDuplication(files.get(i).getName(), dirTo.getFiles())) {
                 flag = true;
-                continue;
             }
-            fileAppService.moveFile(files.get(i).getId(), dirTo);
+            toMove.put(files.get(i).getName(), files.get(i));
         }
         if (flag) {
             model.addAttribute("duplicate2", true);
@@ -184,19 +187,29 @@ public class RecycleController {
             model.addAttribute("role", role);
             model.addAttribute("users", users);
             return "page_views/recycle";
+        } else {
+            for (Map.Entry<String, FileApp> entry : toMove.entrySet()) {
+                fileAppService.moveFile(entry.getValue().getId(), dirTo);
+            }
         }
         return "redirect:/main";
     }
 
     @GetMapping("/restoreAllFile")
     public String restoreAllFile(@RequestParam(name = "login") String login) {
+        Map<String, FileApp> toMove = new HashMap<>();
         DirApp dir = dirAppService.getRootDir(login);
         DirApp recycle = dirAppService.getRootDir(login.concat("_recycle"));
-        List<FileApp> files = recycle.getFiles();
-        for (int i = 0; i < files.size(); i++) {
-            String name = files.get(i).getName();
+        List<FileApp> recycleFiles = fileAppService.getAllFilesByDir(recycle);
+        List<FileApp> files = fileAppService.getAllFilesByDir(dir);
+        for (int i = 0; i < recycleFiles.size(); i++) {
+            toMove.put(recycleFiles.get(i).getName(), recycleFiles.get(i));
+        }
+        recycleFiles = new ArrayList<>(toMove.values());
+        for (int i = 0; i < recycleFiles.size(); i++) {
+            String name = recycleFiles.get(i).getName();
             fileAppService.deleteByNameAndDirApp(name, dir);
-            fileAppService.moveFile(files.get(i).getId(), dir);
+            fileAppService.moveFile(recycleFiles.get(i).getId(), dir);
         }
         return "redirect:/main";
     }

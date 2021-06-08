@@ -12,7 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class CommandController {
@@ -109,7 +111,12 @@ public class CommandController {
         DirApp dir;
         if (dirName.equals("back")) {
             dir = dirAppService.getDirById(Long.valueOf(currentDir));
-            if (dir.getDirId() != null) currentDir = dir.getDirId().toString();
+            if (dir.getDirId() != null) {
+                currentDir = dir.getDirId().toString();
+            } else {
+                String login = dir.getUser().getUserName();
+                return "success ".concat(dirAppService.getRootDir(login).getId().toString());
+            }
         } else {
             dir = dirAppService.getDirByNameAndDirApp(dirName, Integer.valueOf(currentDir));
             if (dir == null) return "success ".concat(currentDir);
@@ -208,6 +215,46 @@ public class CommandController {
             return "pasteSuccess";
         }
         return "pasteFail";
+    }
+
+    public String recycle(String query) {
+        String login = query.split(" ")[1];
+        DirApp dirApp = dirAppService.getDirByNameAndDirApp(login.concat("_recycle"), null);
+        return dirApp.getId().toString();
+    }
+
+    public String recycleClean(String query) {
+        String login = query.split(" ")[1];
+        DirApp recycleBin = dirAppService.getDirByNameAndDirApp(login.concat("_recycle"), null);
+        List<FileApp> files = fileAppService.getAllFilesByDir(recycleBin);
+        fileAppService.removeAll(files);
+        return "recycleSuccess";
+    }
+
+    public String restore(String query) {
+        String login = query.split(" ")[1];
+        DirApp root = dirAppService.getRootDir(login);
+        DirApp recycleBin = dirAppService.getDirByNameAndDirApp(login.concat("_recycle"), null);
+        List<FileApp> restoreFiles = fileAppService.getAllFilesByDir(recycleBin);
+        List<FileApp> files = fileAppService.getAllFilesByDir(root);
+        Map<String, FileApp> toMove = new HashMap<>();
+        boolean flag;
+        for (int i = 0; i < restoreFiles.size(); i++) {
+            flag = false;
+            for (int j = 0; j < files.size(); j++) {
+                if(restoreFiles.get(i).getName().equals(files.get(j).getName())){
+                    flag = true;
+                    break;
+                }
+            }
+            if(!flag) {
+               toMove.put(restoreFiles.get(i).getName(), restoreFiles.get(i));
+            }
+        }
+        for (Map.Entry<String, FileApp> entry : toMove.entrySet()) {
+            fileAppService.moveFile(entry.getValue().getId(), root);
+        }
+        return "restoreSuccess";
     }
 
 //    public String copyOrCut(String query) {

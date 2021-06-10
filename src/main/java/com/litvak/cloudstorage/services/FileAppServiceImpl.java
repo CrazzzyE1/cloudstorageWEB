@@ -175,14 +175,14 @@ public class FileAppServiceImpl implements FileAppService {
         FileApp file = fileAppRepository.findById(fileId).get();
         String name = file.getName();
         DirApp dir = dirAppRepository.findDirAppsById(current).get();
-        if(Objects.equals(dir, file.getDirApp())) return;
+        if (Objects.equals(dir, file.getDirApp())) return;
         fileAppRepository.deleteByNameAndDirApp(name, dir);
-        if("cut".equals(copy)) {
+        if ("cut".equals(copy)) {
             file.setDirApp(dir);
             fileAppRepository.save(file);
             return;
         }
-        if("copy".equals(copy)) {
+        if ("copy".equals(copy)) {
             FileApp fileNew = new FileApp();
             fileNew.setName(name);
             fileNew.setNameSystem(file.getNameSystem());
@@ -197,6 +197,8 @@ public class FileAppServiceImpl implements FileAppService {
 
     @Override
     public FileApp getFileByNameAndDirApp(String name, DirApp dir) {
-       return fileAppRepository.findByNameAndAndDirApp(name, dir).get();
+        Optional<FileApp> op = fileAppRepository.findByNameAndAndDirApp(name, dir);
+        if (op.isPresent()) return op.get();
+        return null;
     }
 }

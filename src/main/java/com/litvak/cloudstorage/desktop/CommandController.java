@@ -10,11 +10,16 @@ import com.litvak.cloudstorage.utils.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.*;
 
 @Component
 public class CommandController {
@@ -137,7 +142,6 @@ public class CommandController {
         return "dirSuccess";
     }
 
-
     public String rm(String query) {
         String name = query.split(" ")[1].replace("??", " ");
         Long id = Long.valueOf(query.split(" ")[2]);
@@ -205,14 +209,14 @@ public class CommandController {
         FileApp file = fileAppService.getFileByNameAndDirApp(name, dir);
         if (file == null) return "pasteFail";
         dir = dirAppService.getDirById(dirTo);
-        if(Utilities.checkingFileNameForDuplication(name, dir.getFiles())) return "pasteFail";
-        if(command.equals("cut")) {
+        if (Utilities.checkingFileNameForDuplication(name, dir.getFiles())) return "pasteFail";
+        if (command.equals("cut")) {
             fileAppService.moveFile(file.getId(), dir);
             return "pasteSuccess";
         }
-        if(command.equals("copy")) {
-            if(fileAppService.copyFile(file, dir))
-            return "pasteSuccess";
+        if (command.equals("copy")) {
+            if (fileAppService.copyFile(file, dir))
+                return "pasteSuccess";
         }
         return "pasteFail";
     }
@@ -242,13 +246,13 @@ public class CommandController {
         for (int i = 0; i < restoreFiles.size(); i++) {
             flag = false;
             for (int j = 0; j < files.size(); j++) {
-                if(restoreFiles.get(i).getName().equals(files.get(j).getName())){
+                if (restoreFiles.get(i).getName().equals(files.get(j).getName())) {
                     flag = true;
                     break;
                 }
             }
-            if(!flag) {
-               toMove.put(restoreFiles.get(i).getName(), restoreFiles.get(i));
+            if (!flag) {
+                toMove.put(restoreFiles.get(i).getName(), restoreFiles.get(i));
             }
         }
         for (Map.Entry<String, FileApp> entry : toMove.entrySet()) {
@@ -257,10 +261,42 @@ public class CommandController {
         return "restoreSuccess";
     }
 
-//    public String copyOrCut(String query) {
-////        copy 12??12.mp4
-//        String command = query.split(" ")[0];
-//        String name = query.split(" ")[1].replace("??", " ");
-//        String oldPass = query.split(" ")[2];
-//    }
+    public byte[] getFile(String name, String dirId) {
+        DirApp dir = dirAppService.getDirById(Long.valueOf(dirId));
+        FileApp file = fileAppService.getFileByNameAndDirApp(name, dir);
+        if (file == null) return null;
+        String sysName = file.getNameSystem();
+        byte[] bytes = new byte[file.getSize().intValue()];
+        System.out.println(bytes.length);
+        try {
+            bytes = Files.readAllBytes(Path.of("users_files/" + sysName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bytes;
+    }
+
+    public boolean uploadFile(MultipartFile file, String name, String dir) {
+        DirApp dirApp = dirAppService.getDirById(Long.valueOf(dir));
+        FileApp tmp = fileAppService.getFileByNameAndDirApp(name, dirApp);
+        if(tmp != null) return false;
+        String sysName = Utilities.createSystemName(name);
+        Path path = Path.of("users_files/".concat(sysName));
+        if(Files.exists(path)) {
+            return false;
+        } else {
+            try {
+                Files.createFile(path);
+                Files.write(path, file.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        FileApp fileApp = new FileApp(null, name, sysName, file.getSize(),
+                Utilities.formatSize(file.getSize()), LocalTime.now().toString().split("\\.")[0],
+                LocalDate.now().toString(), dirApp);
+        fileAppService.saveFile(fileApp);
+        return true;
+    }
 }

@@ -3,6 +3,7 @@ package com.litvak.cloudstorage.services;
 import com.litvak.cloudstorage.desktop.CommandController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class DesktopServiceImpl implements DesktopService{
@@ -67,34 +68,21 @@ public class DesktopServiceImpl implements DesktopService{
             case ("restore"):
                 msg = commandController.restore(query);
                 break;
-
-
-//            case ("copy"):
-//            case ("cut"):
-//                msg = commandController.copyOrCut(query);
-//                break;
-//            case ("download"):
-//                msg = commandController.download(command);
-//                break;
-//            case ("waiting"):
-//                downloadFlag = true;
-//                break;
-//            case ("waitingUpload"):
-//                uploadFlag = true;
-//                System.out.println("UploadSize: " + command[1]);
-//                uploadFileSize = Long.parseLong(command[1]);
-//                break;
-//            case ("upload"):
-//                msg = commandController.upload(command);
-//                break;
-
-
-
             default:
                 System.out.println("Unknown command");
                 break;
         }
         return msg;
+    }
+
+    @Override
+    public byte[] getFile(String name, String dir) {
+        return commandController.getFile(name, dir);
+    }
+
+    @Override
+    public boolean uploadFile(MultipartFile file, String name, String dir) {
+        return commandController.uploadFile(file, name, dir);
     }
 }
 

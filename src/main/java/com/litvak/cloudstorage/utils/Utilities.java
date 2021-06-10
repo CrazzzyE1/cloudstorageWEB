@@ -243,4 +243,9 @@ public class Utilities {
     public static String getSelect(String name) {
         return selectMap.get(name);
     }
+
+    public static String createSystemName(String name) {
+        String nameSystem = UUID.randomUUID().toString();
+        return nameSystem = nameSystem.concat(".").concat(name);
+    }
 }

@@ -228,13 +228,13 @@ public class Utilities {
         return res;
     }
 
-    // TODO: 28.05.2021 FIX -1L 
-    public static Long getOldFile(String nameNewFile, List<FileApp> files) {
-        for (int i = 0; i < files.size(); i++) {
-            if (files.get(i).getName().equals(nameNewFile)) return files.get(i).getId();
-        }
-        return -1L;
-    }
+    // TODO: TEST it
+//    public static Long getOldFile(String nameNewFile, List<FileApp> files) {
+//        for (int i = 0; i < files.size(); i++) {
+//            if (files.get(i).getName().equals(nameNewFile)) return files.get(i).getId();
+//        }
+//        return -1L;
+//    }
 
     public static void saveSelect(String name, String login) {
         selectMap.put(name, login);

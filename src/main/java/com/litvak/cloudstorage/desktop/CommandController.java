@@ -12,11 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -132,7 +130,7 @@ public class CommandController {
 
     public String mkdir(String query) {
         String folderName = query.split(" ")[1].replace("??", " ");
-        Long id = Long.valueOf(query.split(" ")[2]);
+        long id = Long.parseLong(query.split(" ")[2]);
         if (Utilities.checkingFolderNameForDuplication(folderName,
                 dirAppService.getDirsByDirParentId(Math.toIntExact(id)))) {
             return "dirFail";
@@ -144,7 +142,7 @@ public class CommandController {
 
     public String rm(String query) {
         String name = query.split(" ")[1].replace("??", " ");
-        Long id = Long.valueOf(query.split(" ")[2]);
+        long id = Long.parseLong(query.split(" ")[2]);
         DirApp dir = dirAppService.getDirByNameAndDirApp(name, Math.toIntExact(id));
         if (dir == null) return "rmFail";
         dirAppService.removeDir(dir.getId());
@@ -232,6 +230,14 @@ public class CommandController {
         DirApp recycleBin = dirAppService.getDirByNameAndDirApp(login.concat("_recycle"), null);
         List<FileApp> files = fileAppService.getAllFilesByDir(recycleBin);
         fileAppService.removeAll(files);
+        // TODO: 10.06.2021 TEST IT
+        List<FileApp> tmp;
+        String nameTmp;
+        for (int i = 0; i < files.size(); i++) {
+            nameTmp = files.get(i).getNameSystem();
+            tmp = fileAppService.getAllFilesByNameSystem(nameTmp);
+            if (tmp.size() == 0) Utilities.removePhysicalFile(nameTmp);
+        }
         return "recycleSuccess";
     }
 
@@ -279,10 +285,10 @@ public class CommandController {
     public boolean uploadFile(MultipartFile file, String name, String dir) {
         DirApp dirApp = dirAppService.getDirById(Long.valueOf(dir));
         FileApp tmp = fileAppService.getFileByNameAndDirApp(name, dirApp);
-        if(tmp != null) return false;
+        if (tmp != null) return false;
         String sysName = Utilities.createSystemName(name);
         Path path = Path.of("users_files/".concat(sysName));
-        if(Files.exists(path)) {
+        if (Files.exists(path)) {
             return false;
         } else {
             try {

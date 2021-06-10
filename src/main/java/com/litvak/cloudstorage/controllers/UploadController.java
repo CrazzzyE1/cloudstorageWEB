@@ -52,7 +52,7 @@ public class UploadController {
                              Principal principal) {
         String name = file.getOriginalFilename();
         if (name == null || name.isEmpty()) return "redirect:/main/".concat(String.valueOf(id));
-        if(userService.getStorage(principal.getName()) - fileAppService.getFilesSpace(principal.getName()) - file.getSize() <= 0) {
+        if (userService.getStorage(principal.getName()) - fileAppService.getFilesSpace(principal.getName()) - file.getSize() <= 0) {
             return "redirect:/main/".concat(String.valueOf(id));
         }
         List<FileApp> files = fileAppService.getAllFilesByDir(dirAppService.getDirById(id));

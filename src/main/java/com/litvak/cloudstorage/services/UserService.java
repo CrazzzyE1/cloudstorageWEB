@@ -28,7 +28,10 @@ public interface UserService {
     List<User> getAllActiveUsers();
 
     List<User> getAllActiveAdmins();
+
     List<User> getAllRemovedAdmins();
+
     void upUser(Long id);
+
     void downAdmin(Long id);
 }

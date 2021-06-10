@@ -3,7 +3,6 @@ package com.litvak.cloudstorage.controllers;
 import com.litvak.cloudstorage.entities.User;
 import com.litvak.cloudstorage.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.embedded.undertow.UndertowWebServer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,10 +40,10 @@ public class SettingsController {
             Principal principal,
             Model model,
             @RequestParam(name = "password", required = false) String password) {
-        if(password.trim().isEmpty()) return "redirect:/settings";
+        if (password.trim().isEmpty()) return "redirect:/settings";
         User user = userService.getUserByUsername(principal.getName());
         String userPass = user.getPassword();
-        if(passwordEncoder.matches(password, userPass)) {
+        if (passwordEncoder.matches(password, userPass)) {
             userService.removeAccount(user);
             return "redirect:/logout";
         }
@@ -58,10 +57,10 @@ public class SettingsController {
             Principal principal,
             @RequestParam(name = "oldpassword") String oldPass,
             @RequestParam(name = "newpassword") String newPass) {
-        if(oldPass.trim().isEmpty() || newPass.trim().isEmpty()) return "redirect:/settings";
+        if (oldPass.trim().isEmpty() || newPass.trim().isEmpty()) return "redirect:/settings";
         User user = userService.getUserByUsername(principal.getName());
         String userPass = user.getPassword();
-        if(passwordEncoder.matches(oldPass, userPass)) {
+        if (passwordEncoder.matches(oldPass, userPass)) {
             userService.changePassword(passwordEncoder.encode(newPass), user);
             return "redirect:/main";
         }

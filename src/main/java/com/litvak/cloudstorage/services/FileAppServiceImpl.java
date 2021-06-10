@@ -70,16 +70,6 @@ public class FileAppServiceImpl implements FileAppService {
         return fileAppRepository.findById(id);
     }
 
-//    @Transactional
-//    @Override
-//    public void cutPasteFile(String login, Long current) {
-//        Long fileId = Utilities.getFileId(login);
-//        FileApp file = fileAppRepository.findById(fileId).get();
-//        DirApp dir = dirAppRepository.findDirAppsById(current).get();
-//        if (Utilities.checkingFileNameForDuplication(file.getName(), dir.getFiles())) return;
-//        file.setDirApp(dir);
-//    }
-
     @Transactional
     @Override
     public boolean cutPasteFile(String login, Long current) {
@@ -97,24 +87,6 @@ public class FileAppServiceImpl implements FileAppService {
         FileApp file = fileAppRepository.findById(fileId).get();
         file.setDirApp(dirTo);
     }
-
-//    @Transactional
-//    @Override
-//    public void copyPasteFile(String login, Long current) {
-//        Long fileId = Utilities.getFileId(login);
-//        FileApp tmpFile = fileAppRepository.findById(fileId).get();
-//        DirApp dirApp = dirAppRepository.findDirAppsById(current).get();
-//        FileApp file = new FileApp();
-//        if (Utilities.checkingFileNameForDuplication(tmpFile.getName(), dirApp.getFiles())) return;
-//        file.setName(tmpFile.getName());
-//        file.setNameSystem(tmpFile.getNameSystem());
-//        file.setSize(tmpFile.getSize());
-//        file.setStrsize(tmpFile.getStrsize());
-//        file.setTime(LocalTime.now().toString().split("\\.")[0]);
-//        file.setDate(LocalDate.now().toString());
-//        file.setDirApp(dirApp);
-//        fileAppRepository.save(file);
-//    }
 
     @Transactional
     @Override
@@ -197,8 +169,7 @@ public class FileAppServiceImpl implements FileAppService {
 
     @Override
     public FileApp getFileByNameAndDirApp(String name, DirApp dir) {
-        Optional<FileApp> op = fileAppRepository.findByNameAndAndDirApp(name, dir);
-        if (op.isPresent()) return op.get();
-        return null;
+        Optional<FileApp> op = fileAppRepository.findByNameAndDirApp(name, dir);
+        return op.orElse(null);
     }
 }

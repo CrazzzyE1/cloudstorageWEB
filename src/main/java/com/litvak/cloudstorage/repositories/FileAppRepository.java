@@ -29,7 +29,13 @@ public interface FileAppRepository extends JpaRepository<FileApp, Long> {
     Long findSpaceSize(String login);
 
     List<FileApp> findAllByDirApp(DirApp dirApp);
+
     List<FileApp> findAllByNameSystem(String nameSystem);
+
     void deleteByNameAndDirApp(String name, DirApp dir);
-    Optional<FileApp> findByNameAndAndDirApp(String name, DirApp dir);
+
+    Optional<FileApp> findByNameAndDirApp(String name, DirApp dir);
+    // TODO: 10.06.2021 Test it
+//    Optional<FileApp> findByNameAndAndDirApp(String name, DirApp dir);
 }
+

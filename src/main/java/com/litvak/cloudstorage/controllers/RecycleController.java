@@ -201,7 +201,7 @@ public class RecycleController {
         DirApp dir = dirAppService.getRootDir(login);
         DirApp recycle = dirAppService.getRootDir(login.concat("_recycle"));
         List<FileApp> recycleFiles = fileAppService.getAllFilesByDir(recycle);
-        List<FileApp> files = fileAppService.getAllFilesByDir(dir);
+//        List<FileApp> files = fileAppService.getAllFilesByDir(dir);
         for (int i = 0; i < recycleFiles.size(); i++) {
             toMove.put(recycleFiles.get(i).getName(), recycleFiles.get(i));
         }

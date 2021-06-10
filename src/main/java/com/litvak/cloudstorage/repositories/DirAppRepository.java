@@ -10,7 +10,10 @@ import java.util.Optional;
 @Repository
 public interface DirAppRepository extends JpaRepository<DirApp, Long> {
     Optional<DirApp> findDirAppByName(String name);
+
     List<DirApp> findAllByDirId(Integer dir_id);
+
     Optional<DirApp> findDirAppsById(Long id);
+
     Optional<DirApp> findByNameAndDirId(String name, Integer dirId);
 }

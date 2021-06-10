@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class DesktopServiceImpl implements DesktopService{
+public class DesktopServiceImpl implements DesktopService {
     String msg;
     CommandController commandController;
 

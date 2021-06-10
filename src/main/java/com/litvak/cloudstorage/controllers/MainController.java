@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/main")
@@ -170,10 +171,11 @@ public class MainController {
     public String renamef(@RequestParam(value = "name") String name,
                           @RequestParam(value = "id") Long id,
                           @RequestParam(value = "current_dir") Integer current_dir) {
-
         if (!name.isEmpty() && !Utilities.checkingFileNameForDuplication(name,
                 fileAppService.getAllFilesByDir(dirAppService.getDirById(current_dir.longValue())))) {
-            FileApp file = fileAppService.getFileById(id).get();
+            Optional<FileApp> op = fileAppService.getFileById(id);
+            if (op.isEmpty()) return "redirect:/main/".concat(current_dir.toString());
+            FileApp file = op.get();
             file.setName(name);
             fileAppService.saveFile(file);
         }

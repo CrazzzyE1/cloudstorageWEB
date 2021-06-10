@@ -33,7 +33,7 @@ public interface FileAppService {
 
     void deleteByNameAndDirApp(String name, DirApp dir);
 
-    FileApp getFileByNameAndDirApp(String name,DirApp dir);
+    FileApp getFileByNameAndDirApp(String name, DirApp dir);
 
     boolean copyFile(FileApp tmpFile, DirApp dirTo);
 }

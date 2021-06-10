@@ -34,17 +34,18 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registration(Model model, @Param("login") String login,
+    public String registration(Model model,
+                               @Param("login") String login,
                                @Param("password") String password,
                                @Param("matchingPassword") String matchingPassword) {
         login = login.trim();
         password = password.trim();
         matchingPassword = matchingPassword.trim();
-        if(password.isEmpty() || matchingPassword.isEmpty() || login.isEmpty()) {
+        if (password.isEmpty() || matchingPassword.isEmpty() || login.isEmpty()) {
             model.addAttribute("empty", true);
             return "page_views/registration";
         }
-        if(!Objects.equals(password, matchingPassword)) {
+        if (!Objects.equals(password, matchingPassword)) {
             model.addAttribute("notequals", true);
             return "page_views/registration";
         }

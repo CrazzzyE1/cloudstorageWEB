@@ -74,7 +74,6 @@ public class DirAppServiceImpl implements DirAppService {
     @Override
     public DirApp getDirByNameAndDirApp(String name, Integer dirId) {
         Optional<DirApp> dir = dirAppRepository.findByNameAndDirId(name, dirId);
-        if (dir.isPresent()) return dir.get();
-        return null;
+        return dir.orElse(null);
     }
 }

@@ -54,7 +54,7 @@
                             <th scope="row">[[${user.id}]]</th>
                             <td>[[${user.userName}]]</td>
                             <td>[[${user.enabled}]]</td>
-                            <td>[[${user.space}]]</td>
+                            <td>[[${#numbers.formatDecimal(user.space / 1048576,3,2)}]] MiB</td>
                             <td>
                                 <a class="cut but2" th:href="@{/admins/down(id = ${user.id})}">
                                     <i class="far fa-thumbs-down"></i></a>
@@ -90,7 +90,7 @@
                             <th scope="row">[[${user.id}]]</th>
                             <td>[[${user.userName}]]</td>
                             <td>[[${user.enabled}]]</td>
-                            <td>[[${user.space}]]</td>
+                            <td>[[${#numbers.formatDecimal(user.space / 1048576,3,2)}]] MiB</td>
                             <td>
                                 <a class="download but2" th:href="@{/admins/up(id = ${user.id})}">
                                     <i class="far fa-thumbs-up"></i></a>
@@ -126,7 +126,7 @@
                             <th scope="row">[[${user.id}]]</th>
                             <td>[[${user.userName}]]</td>
                             <td>[[${user.enabled}]]</td>
-                            <td>[[${user.space}]]</td>
+                            <td>[[${#numbers.formatDecimal(user.space / 1048576,3,2)}]] MiB</td>
                             <td>
                                 <a th:if="${user.isEnabled()}" class="delete but2"
                                     th:onclick="'javascript:deleteFile(\'' + ${user.id} +'\');'"><i
@@ -159,7 +159,7 @@
                             <th scope="row">[[${user.id}]]</th>
                             <td>[[${user.userName}]]</td>
                             <td>[[${user.enabled}]]</td>
-                            <td>[[${user.space}]]</td>
+                            <td>[[${#numbers.formatDecimal(user.space / 1048576,3,2)}]] MiB</td>
                             <td>
                                 <a th:if="${user.isEnabled()}" class="delete but2"
                                     th:onclick="'javascript:deleteFile(\'' + ${user.id} +'\');'"><i

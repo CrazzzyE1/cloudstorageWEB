@@ -1,4 +1,5 @@
 package com.litvak.cloudstorage.services;
+
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.Role;
 import com.litvak.cloudstorage.entities.User;
@@ -12,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
     private DirAppRepository dirAppRepository;
@@ -26,9 +27,10 @@ public class UserServiceImpl implements UserService{
     public void setDirAppRepository(DirAppRepository dirAppRepository) {
         this.dirAppRepository = dirAppRepository;
     }
+
     @Override
     public User getUserByUsername(String username) {
-        if(!userRepository.findUserByUserName(username).isPresent()) return null;
+        if (userRepository.findUserByUserName(username).isEmpty()) return null;
         return userRepository.findUserByUserName(username).get();
     }
 
@@ -78,7 +80,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Long getStorage(String username) {
-       return userRepository.findUserByUserName(username).get().getSpace();
+        return userRepository.findUserByUserName(username).get().getSpace();
     }
 
     @Override

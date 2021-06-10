@@ -97,8 +97,8 @@ public class AdminController {
 
     @PostMapping("/edit")
     public String edit(@RequestParam(name = "id") Long id,
-                       @RequestParam(name = "password") String password,
-                       @RequestParam(name = "space") Long space) {
+                       @RequestParam(name = "password", required = false) String password,
+                       @RequestParam(name = "space", required = false) Long space) {
         User user = userService.getUserById(id);
         if (!password.trim().isEmpty() && !passwordEncoder.matches(password, user.getPassword())) {
             userService.changePassword(passwordEncoder.encode(password), user);
@@ -133,11 +133,11 @@ public class AdminController {
         login = login.trim();
         password = password.trim();
         matchingPassword = matchingPassword.trim();
-        if(password.isEmpty() || matchingPassword.isEmpty() || login.isEmpty()) {
+        if (password.isEmpty() || matchingPassword.isEmpty() || login.isEmpty()) {
             model.addAttribute("emptyy", true);
             return "page_views/regForm";
         }
-        if(!Objects.equals(password, matchingPassword)) {
+        if (!Objects.equals(password, matchingPassword)) {
             model.addAttribute("notequals", true);
             return "page_views/regForm";
         }

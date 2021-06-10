@@ -35,18 +35,7 @@ public class RestControllerTest {
     public String upload(@Param("file") MultipartFile file,
                          @Param("name") String name,
                          @Param("dir") String dir) {
-        if(!desktopService.uploadFile(file, name, dir)) return "uploadFail";
-//        Path path = Path.of("users_files/".concat(name.replace("??", " ")));
-//        if(Files.exists(path)) {
-//            return "UploadFail";
-//        } else {
-//            try {
-//                Files.createFile(path);
-//                Files.write(path, file.getBytes());
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if (!desktopService.uploadFile(file, name, dir)) return "uploadFail";
         return "uploadSuccess";
     }
 }

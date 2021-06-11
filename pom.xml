@@ -58,19 +58,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>7.7.1</version>
-                <configuration>
-                    <url>jdbc:postgresql://localhost:5432/cloudstorage?currentSchema=public</url>
-                    <user>postgres</user>
-                    <password>Viking07</password>
-                    <schemas>
-                        <schema>public</schema>
-                    </schemas>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>

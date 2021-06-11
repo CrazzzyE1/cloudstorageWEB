@@ -35,7 +35,5 @@ public interface FileAppRepository extends JpaRepository<FileApp, Long> {
     void deleteByNameAndDirApp(String name, DirApp dir);
 
     Optional<FileApp> findByNameAndDirApp(String name, DirApp dir);
-    // TODO: 10.06.2021 Test it
-//    Optional<FileApp> findByNameAndAndDirApp(String name, DirApp dir);
 }
 

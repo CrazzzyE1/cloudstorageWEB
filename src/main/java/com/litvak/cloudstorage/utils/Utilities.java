@@ -209,10 +209,8 @@ public class Utilities {
                 response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
                 Files.copy(file, response.getOutputStream());
                 response.getOutputStream().flush();
-            } catch (UnsupportedEncodingException ex) {
+            } catch (IOException ex) {
                 ex.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -228,14 +226,6 @@ public class Utilities {
         return res;
     }
 
-    // TODO: TEST it
-//    public static Long getOldFile(String nameNewFile, List<FileApp> files) {
-//        for (int i = 0; i < files.size(); i++) {
-//            if (files.get(i).getName().equals(nameNewFile)) return files.get(i).getId();
-//        }
-//        return -1L;
-//    }
-
     public static void saveSelect(String name, String login) {
         selectMap.put(name, login);
     }
@@ -246,6 +236,6 @@ public class Utilities {
 
     public static String createSystemName(String name) {
         String nameSystem = UUID.randomUUID().toString();
-        return nameSystem = nameSystem.concat(".").concat(name);
+        return nameSystem.concat(".").concat(name);
     }
 }

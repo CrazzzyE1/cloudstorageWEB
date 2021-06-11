@@ -488,7 +488,6 @@
 .container2 {
     padding-top: 25vh;
     height: 100vh;
-    background-color: #e0e0e0;
     margin: 0 auto;
 }
 .bgimg {
@@ -505,5 +504,10 @@
     margin-top: 20px;
     margin-bottom: 20px;
     width: 400px;
+}
+
+.index_btn{
+    margin-top: 440px;
+    margin-left: 386px;
 }
 

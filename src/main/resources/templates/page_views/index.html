@@ -11,13 +11,9 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
 </head>
 
-<body>
+<body th:style="'background:url('+ @{/img/bgd_index.jpg} +');'">
     <div class="container2">
-        <div class="bgimg shadow">
-                <h3>Welcome to Cloud Storage</h3>
-                <img class="index_img" src="../../static/img/logo.png" th:src=@{../img/logo.png} alt="logo">
-                <a class="btn btn-outline-warning" href="/main">Go to Storage</a>
-        </div>
+        <a class="index_btn btn btn-lg btn btn-outline-secondary" href="/main">Go to Storage</a>
     </div>
 </body>
 

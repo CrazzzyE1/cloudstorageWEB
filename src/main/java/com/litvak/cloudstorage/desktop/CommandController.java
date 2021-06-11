@@ -47,13 +47,11 @@ public class CommandController {
     }
 
     public String auth(String query) {
-        System.out.println(query);
         String login = query.split(" ")[1];
         String password = query.split(" ")[2];
         User user = userService.getUserByUsername(login);
         if (user == null || !user.isEnabled()) return "authfail 0 0";
         String passwordMatch = user.getPassword();
-        System.out.println(passwordEncoder.matches(password, passwordMatch));
         if (!passwordEncoder.matches(password, passwordMatch)) {
             return "authfail 0 0";
         }
@@ -110,7 +108,6 @@ public class CommandController {
     public String cd(String query) {
         String dirName = query.split(" ")[1].replace("??", " ");
         String currentDir = query.split(" ")[2];
-        System.out.println("cur dir: " + dirName);
         DirApp dir;
         if (dirName.equals("back")) {
             dir = dirAppService.getDirById(Long.valueOf(currentDir));
@@ -202,7 +199,6 @@ public class CommandController {
         String name = query.split(" ")[2].replace("??", " ");
         Long currentDir = Long.valueOf(query.split(" ")[3]);
         Long dirTo = Long.valueOf(query.split(" ")[4]);
-        System.out.println(query);
         DirApp dir = dirAppService.getDirById(currentDir);
         FileApp file = fileAppService.getFileByNameAndDirApp(name, dir);
         if (file == null) return "pasteFail";
@@ -230,7 +226,6 @@ public class CommandController {
         DirApp recycleBin = dirAppService.getDirByNameAndDirApp(login.concat("_recycle"), null);
         List<FileApp> files = fileAppService.getAllFilesByDir(recycleBin);
         fileAppService.removeAll(files);
-        // TODO: 10.06.2021 TEST IT
         List<FileApp> tmp;
         String nameTmp;
         for (int i = 0; i < files.size(); i++) {

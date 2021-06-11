@@ -18,7 +18,6 @@ public class DesktopServiceImpl implements DesktopService {
     @Override
     public String getAnswer(String query) {
         String command = query.split(" ")[0];
-        System.out.println("Command: " + command);
         switch (command) {
             case ("ls"):
                 msg = commandController.ls(query.split(" ")[1]);

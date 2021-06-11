@@ -20,7 +20,6 @@ public class RestControllerTest {
 
     @GetMapping
     public String query(@RequestParam(name = "query") String query) {
-        System.out.println(query);
         return desktopService.getAnswer(query);
     }
 

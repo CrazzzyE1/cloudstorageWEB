@@ -29,7 +29,7 @@
 #### `Внимание! В системе создан Admin: Login - admin, Password - pass.`
 - Скачать https://github.com/CrazzzyE1/MyCloudCientWEB.git
 - RUN
-- 
+
 ### Что реализовано:
 - Авторизация пользователя
 - Регистрация пользователя

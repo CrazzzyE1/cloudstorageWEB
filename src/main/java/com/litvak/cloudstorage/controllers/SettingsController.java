@@ -36,14 +36,13 @@ public class SettingsController {
     }
 
     @PostMapping("/delete")
-    public String removeAccount(
-            Principal principal,
-            Model model,
-            @RequestParam(name = "password", required = false) String password) {
+    public String removeAccount(Principal principal,
+                                Model model,
+                                @RequestParam(name = "password", required = false) String password) {
         if (password.trim().isEmpty()) return "redirect:/settings";
         User user = userService.getUserByUsername(principal.getName());
-        String userPass = user.getPassword();
-        if (passwordEncoder.matches(password, userPass)) {
+//        String userPass = user.getPassword();
+        if (passwordEncoder.matches(password, user.getPassword())) {
             userService.removeAccount(user);
             return "redirect:/logout";
         }
@@ -52,15 +51,14 @@ public class SettingsController {
     }
 
     @PostMapping("/change")
-    public String changePassword(
-            Model model,
-            Principal principal,
-            @RequestParam(name = "oldpassword") String oldPass,
-            @RequestParam(name = "newpassword") String newPass) {
+    public String changePassword(Model model,
+                                 Principal principal,
+                                 @RequestParam(name = "oldpassword") String oldPass,
+                                 @RequestParam(name = "newpassword") String newPass) {
         if (oldPass.trim().isEmpty() || newPass.trim().isEmpty()) return "redirect:/settings";
         User user = userService.getUserByUsername(principal.getName());
-        String userPass = user.getPassword();
-        if (passwordEncoder.matches(oldPass, userPass)) {
+//        String userPass = user.getPassword();
+        if (passwordEncoder.matches(oldPass, user.getPassword())) {
             userService.changePassword(passwordEncoder.encode(newPass), user);
             return "redirect:/main";
         }

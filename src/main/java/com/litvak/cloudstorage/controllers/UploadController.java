@@ -41,7 +41,8 @@ public class UploadController {
     }
 
     @GetMapping
-    public String showUploadPage(@RequestParam(name = "current_dir_id") Long id, Model model) {
+    public String showUploadPage(@RequestParam(name = "current_dir_id") Long id,
+                                 Model model) {
         model.addAttribute("current_dir_id", id);
         return "page_views/upload";
     }

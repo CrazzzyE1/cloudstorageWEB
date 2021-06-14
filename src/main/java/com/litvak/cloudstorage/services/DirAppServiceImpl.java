@@ -33,19 +33,19 @@ public class DirAppServiceImpl implements DirAppService {
         return dirAppRepository.save(dir);
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public DirApp getRootDir(String login) {
         return dirAppRepository.findDirAppByName(login).get();
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public List<DirApp> getDirsByDirParentId(Integer id) {
         return dirAppRepository.findAllByDirId(id);
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public DirApp getDirById(Long id) {
         return dirAppRepository.findDirAppsById(id).get();
@@ -70,7 +70,7 @@ public class DirAppServiceImpl implements DirAppService {
         dirAppRepository.deleteById(id);
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public DirApp getDirByNameAndDirApp(String name, Integer dirId) {
         Optional<DirApp> dir = dirAppRepository.findByNameAndDirId(name, dirId);

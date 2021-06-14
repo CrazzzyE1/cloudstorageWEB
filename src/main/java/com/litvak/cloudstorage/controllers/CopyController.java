@@ -80,22 +80,23 @@ public class CopyController {
             return "redirect:/main/".concat(current.toString());
         }
         DirApp dir = dirAppService.getDirById(current);
-        List<FileApp> files = dir.getFiles();
-        List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(current));
-        List<DirApp> links = Utilities.getLinks(login, dir);
-        String cutOrCopy = Utilities.showCutOrCopy(login);
-        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+//        List<FileApp> files = dir.getFiles();
+//        List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(current));
+//        List<DirApp> links = Utilities.getLinks(login, dir);
+//        String cutOrCopy = Utilities.showCutOrCopy(login);
+//        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
         model.addAttribute("current_dir", dir);
-        model.addAttribute("directories", dirs);
-        model.addAttribute("files", files);
-        model.addAttribute("links", links);
-        model.addAttribute("copy", cutOrCopy);
+        model.addAttribute("directories", dirAppService.getDirsByDirParentId(Math.toIntExact(current)));
+        model.addAttribute("files", dir.getFiles());
+        model.addAttribute("links", Utilities.getLinks(login, dir));
+        model.addAttribute("copy", Utilities.showCutOrCopy(login));
         model.addAttribute("duplicate", true);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("login", login);
-        model.addAttribute("role", role);
+        model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles()
+                .stream().findFirst().get().getName());
         return "page_views/main";
     }
 

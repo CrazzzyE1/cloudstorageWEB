@@ -285,4 +285,11 @@ public class Utilities {
             fileAppService.moveFile(recycleFiles.get(i).getId(), dir);
         }
     }
+
+    public static String getNameIfDuplicate(String name, List<FileApp> files) {
+        while (Utilities.checkingFileNameForDuplication(name, files)) {
+            name = "COPY - ".concat(name);
+        }
+        return name;
+    }
 }

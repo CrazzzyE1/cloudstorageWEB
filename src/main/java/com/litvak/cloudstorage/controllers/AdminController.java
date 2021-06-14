@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -44,10 +43,6 @@ public class AdminController {
 
     @GetMapping()
     public String showUsers(Model model) {
-//        List<User> users = userService.getAllActiveUsers();
-//        List<User> admins = userService.getAllActiveAdmins();
-//        List<User> removedUsers = userService.getAllRemovedUsers();
-//        List<User> removedadmins = userService.getAllRemovedAdmins();
         model.addAttribute("users", userService.getAllActiveUsers());
         model.addAttribute("admins", userService.getAllActiveAdmins());
         model.addAttribute("removedadmins", userService.getAllRemovedAdmins());
@@ -58,12 +53,7 @@ public class AdminController {
     @GetMapping("/delete")
     public String deleteUser(Model model,
                              @RequestParam(name = "id") Long id) {
-//        User user = userService.getUserById(id);
         userService.removeAccount(userService.getUserById(id));
-//        List<User> users = userService.getAllActiveUsers();
-//        List<User> admins = userService.getAllActiveAdmins();
-//        List<User> removedUsers = userService.getAllRemovedUsers();
-//        List<User> removedadmins = userService.getAllRemovedAdmins();
         model.addAttribute("users", userService.getAllActiveUsers());
         model.addAttribute("admins", userService.getAllActiveAdmins());
         model.addAttribute("removedadmins", userService.getAllRemovedAdmins());
@@ -74,12 +64,7 @@ public class AdminController {
     @GetMapping("/activate")
     public String activateUser(Model model,
                                @RequestParam(name = "id") Long id) {
-//        User user = userService.getUserById(id);
         userService.activateAccount(userService.getUserById(id));
-//        List<User> users = userService.getAllActiveUsers();
-//        List<User> admins = userService.getAllActiveAdmins();
-//        List<User> removedadmins = userService.getAllRemovedAdmins();
-//        List<User> removedUsers = userService.getAllRemovedUsers();
         model.addAttribute("users", userService.getAllActiveUsers());
         model.addAttribute("admins", userService.getAllActiveAdmins());
         model.addAttribute("removedadmins", userService.getAllRemovedAdmins());
@@ -90,7 +75,6 @@ public class AdminController {
     @GetMapping("/edit")
     public String editUser(Model model,
                            @RequestParam(name = "id") Long id) {
-//        User user = userService.getUserById(id);
         model.addAttribute("user", userService.getUserById(id));
         return "page_views/editForm";
     }
@@ -145,10 +129,6 @@ public class AdminController {
         password = passwordEncoder.encode(password);
         try {
             userService.createNewUser(login, password);
-//            List<User> users = userService.getAllActiveUsers();
-//            List<User> admins = userService.getAllActiveAdmins();
-//            List<User> removedUsers = userService.getAllRemovedUsers();
-//            List<User> removedadmins = userService.getAllRemovedAdmins();
             model.addAttribute("users", userService.getAllActiveUsers());
             model.addAttribute("admins", userService.getAllActiveAdmins());
             model.addAttribute("removedadmins", userService.getAllRemovedAdmins());

@@ -1,4 +1,4 @@
-package com.litvak.cloudstorage.rest;
+package com.litvak.cloudstorage.desktop;
 
 import com.litvak.cloudstorage.services.DesktopServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api")
-public class RestControllerTest {
+public class DesktopControllerApi {
 
     DesktopServiceImpl desktopService;
 

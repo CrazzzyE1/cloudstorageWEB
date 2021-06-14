@@ -44,54 +44,54 @@ public class AdminController {
 
     @GetMapping()
     public String showUsers(Model model) {
-        List<User> users = userService.getAllActiveUsers();
-        List<User> admins = userService.getAllActiveAdmins();
-        List<User> removedUsers = userService.getAllRemovedUsers();
-        List<User> removedadmins = userService.getAllRemovedAdmins();
-        model.addAttribute("users", users);
-        model.addAttribute("admins", admins);
-        model.addAttribute("removedadmins", removedadmins);
-        model.addAttribute("removedusers", removedUsers);
+//        List<User> users = userService.getAllActiveUsers();
+//        List<User> admins = userService.getAllActiveAdmins();
+//        List<User> removedUsers = userService.getAllRemovedUsers();
+//        List<User> removedadmins = userService.getAllRemovedAdmins();
+        model.addAttribute("users", userService.getAllActiveUsers());
+        model.addAttribute("admins", userService.getAllActiveAdmins());
+        model.addAttribute("removedadmins", userService.getAllRemovedAdmins());
+        model.addAttribute("removedusers", userService.getAllRemovedUsers());
         return "page_views/admins";
     }
 
     @GetMapping("/delete")
     public String deleteUser(Model model,
                              @RequestParam(name = "id") Long id) {
-        User user = userService.getUserById(id);
-        userService.removeAccount(user);
-        List<User> users = userService.getAllActiveUsers();
-        List<User> admins = userService.getAllActiveAdmins();
-        List<User> removedUsers = userService.getAllRemovedUsers();
-        List<User> removedadmins = userService.getAllRemovedAdmins();
-        model.addAttribute("users", users);
-        model.addAttribute("admins", admins);
-        model.addAttribute("removedadmins", removedadmins);
-        model.addAttribute("removedusers", removedUsers);
+//        User user = userService.getUserById(id);
+        userService.removeAccount(userService.getUserById(id));
+//        List<User> users = userService.getAllActiveUsers();
+//        List<User> admins = userService.getAllActiveAdmins();
+//        List<User> removedUsers = userService.getAllRemovedUsers();
+//        List<User> removedadmins = userService.getAllRemovedAdmins();
+        model.addAttribute("users", userService.getAllActiveUsers());
+        model.addAttribute("admins", userService.getAllActiveAdmins());
+        model.addAttribute("removedadmins", userService.getAllRemovedAdmins());
+        model.addAttribute("removedusers", userService.getAllRemovedUsers());
         return "page_views/admins";
     }
 
     @GetMapping("/activate")
     public String activateUser(Model model,
                                @RequestParam(name = "id") Long id) {
-        User user = userService.getUserById(id);
-        userService.activateAccount(user);
-        List<User> users = userService.getAllActiveUsers();
-        List<User> admins = userService.getAllActiveAdmins();
-        List<User> removedadmins = userService.getAllRemovedAdmins();
-        List<User> removedUsers = userService.getAllRemovedUsers();
-        model.addAttribute("users", users);
-        model.addAttribute("admins", admins);
-        model.addAttribute("removedadmins", removedadmins);
-        model.addAttribute("removedusers", removedUsers);
+//        User user = userService.getUserById(id);
+        userService.activateAccount(userService.getUserById(id));
+//        List<User> users = userService.getAllActiveUsers();
+//        List<User> admins = userService.getAllActiveAdmins();
+//        List<User> removedadmins = userService.getAllRemovedAdmins();
+//        List<User> removedUsers = userService.getAllRemovedUsers();
+        model.addAttribute("users", userService.getAllActiveUsers());
+        model.addAttribute("admins", userService.getAllActiveAdmins());
+        model.addAttribute("removedadmins", userService.getAllRemovedAdmins());
+        model.addAttribute("removedusers", userService.getAllRemovedUsers());
         return "page_views/admins";
     }
 
     @GetMapping("/edit")
     public String editUser(Model model,
                            @RequestParam(name = "id") Long id) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
+//        User user = userService.getUserById(id);
+        model.addAttribute("user", userService.getUserById(id));
         return "page_views/editForm";
     }
 
@@ -127,7 +127,8 @@ public class AdminController {
     }
 
     @PostMapping("/reg")
-    public String regNewUser(Model model, @Param("login") String login,
+    public String regNewUser(Model model,
+                             @Param("login") String login,
                              @Param("password") String password,
                              @Param("matchingPassword") String matchingPassword) {
         login = login.trim();
@@ -141,18 +142,17 @@ public class AdminController {
             model.addAttribute("notequals", true);
             return "page_views/regForm";
         }
-
         password = passwordEncoder.encode(password);
         try {
             userService.createNewUser(login, password);
-            List<User> users = userService.getAllActiveUsers();
-            List<User> admins = userService.getAllActiveAdmins();
-            List<User> removedUsers = userService.getAllRemovedUsers();
-            List<User> removedadmins = userService.getAllRemovedAdmins();
-            model.addAttribute("users", users);
-            model.addAttribute("admins", admins);
-            model.addAttribute("removedadmins", removedadmins);
-            model.addAttribute("removedusers", removedUsers);
+//            List<User> users = userService.getAllActiveUsers();
+//            List<User> admins = userService.getAllActiveAdmins();
+//            List<User> removedUsers = userService.getAllRemovedUsers();
+//            List<User> removedadmins = userService.getAllRemovedAdmins();
+            model.addAttribute("users", userService.getAllActiveUsers());
+            model.addAttribute("admins", userService.getAllActiveAdmins());
+            model.addAttribute("removedadmins", userService.getAllRemovedAdmins());
+            model.addAttribute("removedusers", userService.getAllRemovedUsers());
             return "page_views/admins";
         } catch (Exception e) {
             model.addAttribute("error", true);

@@ -55,17 +55,18 @@ public class RecycleController {
             }
         }
         DirApp dirRoot = dirAppService.getRootDir(login.concat("_recycle"));
-        List<FileApp> files = dirRoot.getFiles();
-        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-        List<User> users = userService.getAllUsers();
+//        List<FileApp> files = dirRoot.getFiles();
+//        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+//        List<User> users = userService.getAllUsers();
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
-        model.addAttribute("files", files);
+        model.addAttribute("files", dirRoot.getFiles());
         model.addAttribute("login", login);
-        model.addAttribute("role", role);
-        model.addAttribute("users", users);
+        model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles()
+                .stream().findFirst().get().getName());
+        model.addAttribute("users", userService.getAllUsers());
         return "page_views/recycle";
     }
 
@@ -80,17 +81,18 @@ public class RecycleController {
             model.addAttribute("duplicate", true);
             model.addAttribute("id", id);
             DirApp dirRoot = dirAppService.getRootDir(login.concat("_recycle"));
-            List<FileApp> files = dirRoot.getFiles();
-            String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-            List<User> users = userService.getAllUsers();
+//            List<FileApp> files = dirRoot.getFiles();
+//            String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+//            List<User> users = userService.getAllUsers();
             model.addAttribute("current_dir", dirRoot);
             model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
             model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
             model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
-            model.addAttribute("files", files);
+            model.addAttribute("files", dirRoot.getFiles());
             model.addAttribute("login", login);
-            model.addAttribute("role", role);
-            model.addAttribute("users", users);
+            model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles()
+                    .stream().findFirst().get().getName());
+            model.addAttribute("users", userService.getAllUsers());
             return "page_views/recycle";
         }
         fileAppService.moveFile(id, dirTo);
@@ -115,17 +117,18 @@ public class RecycleController {
         model.addAttribute("delete", true);
         model.addAttribute("id", id);
         DirApp dirRoot = dirAppService.getRootDir(login.concat("_recycle"));
-        List<FileApp> files = dirRoot.getFiles();
-        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-        List<User> users = userService.getAllUsers();
+//        List<FileApp> files = dirRoot.getFiles();
+//        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+//        List<User> users = userService.getAllUsers();
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
-        model.addAttribute("files", files);
+        model.addAttribute("files", dirRoot.getFiles());
         model.addAttribute("login", login);
-        model.addAttribute("role", role);
-        model.addAttribute("users", users);
+        model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles()
+                .stream().findFirst().get().getName());
+        model.addAttribute("users", userService.getAllUsers());
         return "page_views/recycle";
     }
 
@@ -135,17 +138,18 @@ public class RecycleController {
                               @RequestParam(name = "login") String login) {
         model.addAttribute("deleteall", true);
         DirApp dirRoot = dirAppService.getRootDir(login.concat("_recycle"));
-        List<FileApp> files = dirRoot.getFiles();
-        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-        List<User> users = userService.getAllUsers();
+//        List<FileApp> files = dirRoot.getFiles();
+//        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
+//        List<User> users = userService.getAllUsers();
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
-        model.addAttribute("files", files);
+        model.addAttribute("files", dirRoot.getFiles());
         model.addAttribute("login", login);
-        model.addAttribute("role", role);
-        model.addAttribute("users", users);
+        model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles()
+                .stream().findFirst().get().getName());
+        model.addAttribute("users", userService.getAllUsers());
         return "page_views/recycle";
     }
 

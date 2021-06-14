@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -205,7 +206,7 @@ public class Utilities {
             response.setContentType("application/zip");
             response.setCharacterEncoding("UTF-8");
             try {
-                fileName = URLEncoder.encode(fileName, "UTF-8").replace("+", " ");
+                fileName = URLEncoder.encode(fileName, StandardCharsets.UTF_8).replace("+", " ");
                 response.addHeader("Content-Disposition", "attachment; filename=" + fileName);
                 Files.copy(file, response.getOutputStream());
                 response.getOutputStream().flush();
@@ -226,14 +227,23 @@ public class Utilities {
         return res;
     }
 
+    /**
+     * Сохранение выбранного пользователя в режиме ADMIN
+     */
     public static void saveSelect(String name, String login) {
         selectMap.put(name, login);
     }
 
+    /**
+     * Получение выбранного пользователя в режиме ADMIN
+     */
     public static String getSelect(String name) {
         return selectMap.get(name);
     }
 
+    /**
+     * Создание системного имени файла.
+     */
     public static String createSystemName(String name) {
         String nameSystem = UUID.randomUUID().toString();
         return nameSystem.concat(".").concat(name);

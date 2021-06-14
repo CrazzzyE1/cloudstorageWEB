@@ -38,7 +38,7 @@ public class FileAppServiceImpl implements FileAppService {
         return fileAppRepository.findAllByUserIdAndSearchLine(search.toLowerCase(Locale.ROOT), userId);
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public Long getFilesSpace(String login) {
         Long size = fileAppRepository.findSpaceSize(login);
@@ -64,7 +64,7 @@ public class FileAppServiceImpl implements FileAppService {
         fileAppRepository.save(fileApp);
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public Optional<FileApp> getFileById(Long id) {
         return fileAppRepository.findById(id);
@@ -122,13 +122,13 @@ public class FileAppServiceImpl implements FileAppService {
         return true;
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public List<FileApp> getAllFilesByDir(DirApp dirApp) {
         return fileAppRepository.findAllByDirApp(dirApp);
     }
 
-    @Transactional
+//    @Transactional
     @Override
     public List<FileApp> getAllFilesByNameSystem(String nameSystem) {
         return fileAppRepository.findAllByNameSystem(nameSystem);

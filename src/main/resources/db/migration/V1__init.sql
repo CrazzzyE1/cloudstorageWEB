@@ -1,3 +1,4 @@
+-- Таблица с пользователями и администраторами
 DROP TABLE IF EXISTS users;
 CREATE TABLE users
 (
@@ -8,6 +9,8 @@ CREATE TABLE users
     space    BIGINT
 );
 
+-- Таблица, которой хранятся все виртуальные директории облачного хранилища,
+-- с привязкой к пользователю и к родительской директории.
 DROP TABLE IF EXISTS directories;
 CREATE TABLE directories
 (
@@ -18,6 +21,7 @@ CREATE TABLE directories
     FOREIGN KEY (user_id) references users (id)
 );
 
+-- Таблица с файлами с привязкой кдиректории расположения и указанием системного имени файла на диске.
 DROP TABLE IF EXISTS files;
 CREATE TABLE files
 (
@@ -32,6 +36,7 @@ CREATE TABLE files
     FOREIGN KEY (dir_id) references directories (id)
 );
 
+-- Таблица ролей для пользователей.
 DROP TABLE IF EXISTS roles;
 CREATE TABLE roles
 (
@@ -39,6 +44,7 @@ CREATE TABLE roles
     name VARCHAR(50) NOT NULL
 );
 
+-- Таблица с привязкой ролей и пользователей.
 DROP TABLE IF EXISTS users_roles;
 CREATE TABLE users_roles
 (

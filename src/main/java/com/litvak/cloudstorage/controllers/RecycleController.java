@@ -2,7 +2,6 @@ package com.litvak.cloudstorage.controllers;
 
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
-import com.litvak.cloudstorage.entities.User;
 import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;
 import com.litvak.cloudstorage.services.UserService;
@@ -55,9 +54,6 @@ public class RecycleController {
             }
         }
         DirApp dirRoot = dirAppService.getRootDir(login.concat("_recycle"));
-//        List<FileApp> files = dirRoot.getFiles();
-//        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-//        List<User> users = userService.getAllUsers();
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
@@ -81,9 +77,6 @@ public class RecycleController {
             model.addAttribute("duplicate", true);
             model.addAttribute("id", id);
             DirApp dirRoot = dirAppService.getRootDir(login.concat("_recycle"));
-//            List<FileApp> files = dirRoot.getFiles();
-//            String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-//            List<User> users = userService.getAllUsers();
             model.addAttribute("current_dir", dirRoot);
             model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
             model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
@@ -117,9 +110,6 @@ public class RecycleController {
         model.addAttribute("delete", true);
         model.addAttribute("id", id);
         DirApp dirRoot = dirAppService.getRootDir(login.concat("_recycle"));
-//        List<FileApp> files = dirRoot.getFiles();
-//        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-//        List<User> users = userService.getAllUsers();
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
@@ -138,9 +128,6 @@ public class RecycleController {
                               @RequestParam(name = "login") String login) {
         model.addAttribute("deleteall", true);
         DirApp dirRoot = dirAppService.getRootDir(login.concat("_recycle"));
-//        List<FileApp> files = dirRoot.getFiles();
-//        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-//        List<User> users = userService.getAllUsers();
         model.addAttribute("current_dir", dirRoot);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
@@ -171,25 +158,19 @@ public class RecycleController {
         DirApp recycle = dirAppService.getRootDir(login.concat("_recycle"));
         DirApp dirTo = dirAppService.getRootDir(login);
         List<FileApp> files = recycle.getFiles();
-        for (int i = 0; i < files.size(); i++) {
-            if (Utilities.checkingFileNameForDuplication(files.get(i).getName(), dirTo.getFiles())) {
-                flag = true;
-            }
-            toMove.put(files.get(i).getName(), files.get(i));
-        }
+        flag = Utilities.checkNameAndSaveRestoreFiles(flag, files, dirTo, toMove);
         if (flag) {
             model.addAttribute("duplicate2", true);
             files = recycle.getFiles();
-            String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-            List<User> users = userService.getAllUsers();
             model.addAttribute("current_dir", recycle);
             model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
             model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
             model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
             model.addAttribute("files", files);
             model.addAttribute("login", login);
-            model.addAttribute("role", role);
-            model.addAttribute("users", users);
+            model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles()
+                    .stream().findFirst().get().getName());
+            model.addAttribute("users", userService.getAllUsers());
             return "page_views/recycle";
         } else {
             for (Map.Entry<String, FileApp> entry : toMove.entrySet()) {
@@ -205,31 +186,17 @@ public class RecycleController {
         DirApp dir = dirAppService.getRootDir(login);
         DirApp recycle = dirAppService.getRootDir(login.concat("_recycle"));
         List<FileApp> recycleFiles = fileAppService.getAllFilesByDir(recycle);
-//        List<FileApp> files = fileAppService.getAllFilesByDir(dir);
-        for (int i = 0; i < recycleFiles.size(); i++) {
-            toMove.put(recycleFiles.get(i).getName(), recycleFiles.get(i));
-        }
+        Utilities.saveRestoreFilesToMap(toMove, recycleFiles);
         recycleFiles = new ArrayList<>(toMove.values());
-        for (int i = 0; i < recycleFiles.size(); i++) {
-            String name = recycleFiles.get(i).getName();
-            fileAppService.deleteByNameAndDirApp(name, dir);
-            fileAppService.moveFile(recycleFiles.get(i).getId(), dir);
-        }
+        Utilities.restoreFilesWithReplace(recycleFiles, fileAppService, dir);
         return "redirect:/main";
     }
 
     @GetMapping("/deleteall")
     public String deleteAll(@RequestParam(name = "login") String login) {
-        DirApp recycle = dirAppService.getRootDir(login.concat("_recycle"));
-        List<FileApp> files = fileAppService.getAllFilesByDir(recycle);
+        List<FileApp> files = fileAppService.getAllFilesByDir(dirAppService.getRootDir(login.concat("_recycle")));
         fileAppService.removeAll(files);
-        List<FileApp> tmp;
-        String nameTmp;
-        for (int i = 0; i < files.size(); i++) {
-            nameTmp = files.get(i).getNameSystem();
-            tmp = fileAppService.getAllFilesByNameSystem(nameTmp);
-            if (tmp.size() == 0) Utilities.removePhysicalFile(nameTmp);
-        }
+        Utilities.checkAndDeletePhysicalFiles(files, fileAppService);
         return "redirect:/main";
     }
 }

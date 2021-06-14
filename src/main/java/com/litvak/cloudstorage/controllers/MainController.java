@@ -2,7 +2,6 @@ package com.litvak.cloudstorage.controllers;
 
 import com.litvak.cloudstorage.entities.DirApp;
 import com.litvak.cloudstorage.entities.FileApp;
-import com.litvak.cloudstorage.entities.User;
 import com.litvak.cloudstorage.services.DirAppService;
 import com.litvak.cloudstorage.services.FileAppService;
 import com.litvak.cloudstorage.services.UserService;
@@ -13,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -53,22 +51,17 @@ public class MainController {
         Utilities.saveSelect(principal.getName(), login);
         Utilities.clearLinks(login);
         DirApp dirRoot = dirAppService.getRootDir(login);
-        Long id = dirRoot.getId();
-        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-        List<FileApp> files = dirRoot.getFiles();
-        List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(id));
         String cutOrCopy = Utilities.showCutOrCopy(login);
-        List<User> users = userService.getAllUsers();
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
         model.addAttribute("current_dir", dirRoot);
-        model.addAttribute("directories", dirs);
-        model.addAttribute("files", files);
+        model.addAttribute("directories", dirAppService.getDirsByDirParentId(Math.toIntExact(dirRoot.getId())));
+        model.addAttribute("files", dirRoot.getFiles());
         model.addAttribute("copy", cutOrCopy);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
-        model.addAttribute("role", role);
+        model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName());
         model.addAttribute("login", login);
-        model.addAttribute("users", users);
+        model.addAttribute("users", userService.getAllUsers());
         return "page_views/main";
     }
 
@@ -86,23 +79,18 @@ public class MainController {
         }
         Utilities.saveSelect(principal.getName(), login);
         DirApp dir = dirAppService.getDirById(id);
-        List<FileApp> files = dir.getFiles();
-        List<DirApp> dirs = dirAppService.getDirsByDirParentId(Math.toIntExact(id));
-        List<DirApp> links = Utilities.getLinks(login, dir);
         String cutOrCopy = Utilities.showCutOrCopy(login);
-        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-        List<User> users = userService.getAllUsers();
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
         model.addAttribute("current_dir", dir);
-        model.addAttribute("directories", dirs);
-        model.addAttribute("files", files);
-        model.addAttribute("links", links);
+        model.addAttribute("directories", dirAppService.getDirsByDirParentId(Math.toIntExact(id)));
+        model.addAttribute("files", dir.getFiles());
+        model.addAttribute("links", Utilities.getLinks(login, dir));
         model.addAttribute("copy", cutOrCopy);
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("login", login);
-        model.addAttribute("role", role);
-        model.addAttribute("users", users);
+        model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName());
+        model.addAttribute("users", userService.getAllUsers());
         return "page_views/main";
     }
 
@@ -111,8 +99,7 @@ public class MainController {
                                @RequestParam(value = "parent_id") Integer parent_id,
                                @RequestParam(value = "id") Integer id) {
         if (name.trim().isEmpty()) return "redirect:".concat(parent_id.toString());
-        name = name.trim();
-        dirAppService.createNewDir(name, parent_id, id);
+        dirAppService.createNewDir(name.trim(), parent_id, id);
         return "redirect:".concat(parent_id.toString());
     }
 
@@ -139,17 +126,14 @@ public class MainController {
                          @RequestParam(value = "login") String login,
                          Principal principal) {
         DirApp dir = dirAppService.getRootDir(login);
-        List<FileApp> files = fileAppService.getFilesByParams(dir.getUser().getId(), filename);
-        String role = userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName();
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("files", files);
+        model.addAttribute("files", fileAppService.getFilesByParams(dir.getUser().getId(), filename));
         model.addAttribute("percent", Utilities.getPercentForProgressBar(fileAppService, userService, login));
         model.addAttribute("space", Utilities.formatSize(fileAppService.getFilesSpace(login)));
         model.addAttribute("storage", Utilities.formatSize(userService.getStorage(login)));
         model.addAttribute("current_dir", dir);
-        model.addAttribute("role", role);
+        model.addAttribute("role", userService.getUserByUsername(principal.getName()).getRoles().stream().findFirst().get().getName());
         model.addAttribute("login", login);
-        model.addAttribute("users", users);
+        model.addAttribute("users", userService.getAllUsers());
         return "page_views/main";
     }
 

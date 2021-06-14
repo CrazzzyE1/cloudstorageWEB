@@ -57,9 +57,7 @@ public class UploadController {
             return "redirect:/main/".concat(String.valueOf(id));
         }
         List<FileApp> files = fileAppService.getAllFilesByDir(dirAppService.getDirById(id));
-        while (Utilities.checkingFileNameForDuplication(name, files)) {
-            name = "COPY - ".concat(name);
-        }
+        name = Utilities.getNameIfDuplicate(name, files);
         String nameSystem = Utilities.uploadFile(file, name);
         if (nameSystem == null) return "redirect:/main/".concat(String.valueOf(id));
         Long size = file.getSize();

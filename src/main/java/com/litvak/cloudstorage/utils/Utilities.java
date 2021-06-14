@@ -248,4 +248,48 @@ public class Utilities {
         String nameSystem = UUID.randomUUID().toString();
         return nameSystem.concat(".").concat(name);
     }
+
+    /**
+     * Поиск дубликатов имени при востановлении файлов из корзины
+     * */
+    public static boolean checkNameAndSaveRestoreFiles(boolean flag, List<FileApp> files, DirApp dirTo, Map<String, FileApp> toMove) {
+        for (int i = 0; i < files.size(); i++) {
+            if (Utilities.checkingFileNameForDuplication(files.get(i).getName(), dirTo.getFiles())) {
+                flag = true;
+            }
+            toMove.put(files.get(i).getName(), files.get(i));
+        }
+        return flag;
+    }
+
+    public static void saveRestoreFilesToMap(Map<String, FileApp> toMove, List<FileApp> recycleFiles) {
+        for (int i = 0; i < recycleFiles.size(); i++) {
+            toMove.put(recycleFiles.get(i).getName(), recycleFiles.get(i));
+        }
+    }
+
+    public static void checkAndDeletePhysicalFiles(List<FileApp> files, FileAppService fileAppService) {
+        List<FileApp> tmp;
+        String nameTmp;
+        for (int i = 0; i < files.size(); i++) {
+            nameTmp = files.get(i).getNameSystem();
+            tmp = fileAppService.getAllFilesByNameSystem(nameTmp);
+            if (tmp.size() == 0) Utilities.removePhysicalFile(nameTmp);
+        }
+    }
+
+    public static void restoreFilesWithReplace(List<FileApp> recycleFiles, FileAppService fileAppService, DirApp dir) {
+        for (int i = 0; i < recycleFiles.size(); i++) {
+            String name = recycleFiles.get(i).getName();
+            fileAppService.deleteByNameAndDirApp(name, dir);
+            fileAppService.moveFile(recycleFiles.get(i).getId(), dir);
+        }
+    }
+
+    public static String getNameIfDuplicate(String name, List<FileApp> files) {
+        while (Utilities.checkingFileNameForDuplication(name, files)) {
+            name = "COPY - ".concat(name);
+        }
+        return name;
+    }
 }

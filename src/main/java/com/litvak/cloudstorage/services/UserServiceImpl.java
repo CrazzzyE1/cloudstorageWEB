@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -118,7 +118,6 @@ public class UserServiceImpl implements UserService {
     public void upUser(Long id) {
         User user = userRepository.findById(id).get();
         user.setRoles(Collections.singleton(new Role(2L, "ROLE_ADMIN")));
-
     }
 
     @Transactional

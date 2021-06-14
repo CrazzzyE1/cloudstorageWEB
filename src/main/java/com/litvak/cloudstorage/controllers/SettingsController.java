@@ -41,7 +41,6 @@ public class SettingsController {
                                 @RequestParam(name = "password", required = false) String password) {
         if (password.trim().isEmpty()) return "redirect:/settings";
         User user = userService.getUserByUsername(principal.getName());
-//        String userPass = user.getPassword();
         if (passwordEncoder.matches(password, user.getPassword())) {
             userService.removeAccount(user);
             return "redirect:/logout";
@@ -57,7 +56,6 @@ public class SettingsController {
                                  @RequestParam(name = "newpassword") String newPass) {
         if (oldPass.trim().isEmpty() || newPass.trim().isEmpty()) return "redirect:/settings";
         User user = userService.getUserByUsername(principal.getName());
-//        String userPass = user.getPassword();
         if (passwordEncoder.matches(oldPass, user.getPassword())) {
             userService.changePassword(passwordEncoder.encode(newPass), user);
             return "redirect:/main";

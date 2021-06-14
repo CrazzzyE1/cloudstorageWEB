@@ -268,7 +268,6 @@ public class CommandController {
         if (file == null) return null;
         String sysName = file.getNameSystem();
         byte[] bytes = new byte[file.getSize().intValue()];
-        System.out.println(bytes.length);
         try {
             bytes = Files.readAllBytes(Path.of("users_files/" + sysName));
         } catch (IOException e) {
